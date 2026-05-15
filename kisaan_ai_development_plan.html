@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KISAAN AI — Full Development Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C0C0A;
+  --s1:#111110;
+  --s2:#181816;
+  --s3:#1F1F1C;
+  --border:#2A2A26;
+  --gold:#D4A843;
+  --gold2:#F0C96A;
+  --green:#4CAF7D;
+  --green2:#2E7D32;
+  --red:#E05555;
+  --blue:#5B8FF9;
+  --purple:#9B7FE8;
+  --orange:#F0814A;
+  --text:#F0EDE6;
+  --muted:#666658;
+  --m2:#999988;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.6;min-height:100vh}
+
+/* BG TEXTURE */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(212,168,67,.06),transparent),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(76,175,125,.04),transparent);pointer-events:none;z-index:0}
+
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 20px 80px}
+
+/* HERO */
+.hero{padding:60px 0 40px;text-align:center}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;opacity:.8}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,90px);letter-spacing:2px;line-height:.95;margin-bottom:16px;background:linear-gradient(135deg,var(--gold2),var(--gold),#A07828);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:var(--m2);max-width:520px;margin:0 auto 32px;line-height:1.7}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:40px}
+.hb{font-family:'DM Mono',monospace;font-size:10px;padding:4px 12px;border-radius:20px;font-weight:500;letter-spacing:.05em}
+
+/* JUDGE CRITERIA SECTION */
+.criteria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:48px}
+.crit{border:1px solid var(--border);border-radius:14px;padding:16px;background:var(--s1);position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.crit::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
+.crit:hover{border-color:#444}
+.crit-num{font-family:'Bebas Neue',sans-serif;font-size:36px;opacity:.12;position:absolute;top:8px;right:14px;line-height:1}
+.crit-icon{font-size:22px;margin-bottom:8px}
+.crit-title{font-size:12px;font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.crit-desc{font-size:11px;color:var(--m2);line-height:1.5}
+.crit-score{font-family:'DM Mono',monospace;font-size:10px;margin-top:8px;font-weight:500}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:16px;margin:40px 0 32px}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);white-space:nowrap}
+
+/* PHASE BLOCKS */
+.phase{border:1px solid var(--border);border-radius:18px;margin-bottom:16px;overflow:hidden;background:var(--s1)}
+.phase-head{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:20px 22px;cursor:pointer;transition:background .15s}
+.phase-head:hover{background:var(--s2)}
+.phase-badge{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;padding:6px 14px;border-radius:8px;white-space:nowrap}
+.phase-info{}
+.phase-title{font-size:16px;font-weight:600;margin-bottom:2px}
+.phase-sub{font-size:12px;color:var(--m2)}
+.phase-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--m2);text-align:right;white-space:nowrap}
+.phase-chevron{font-size:12px;color:var(--muted);transition:transform .2s;margin-left:8px}
+.phase.open .phase-chevron{transform:rotate(180deg)}
+.phase-body{display:none;border-top:1px solid var(--border)}
+.phase.open .phase-body{display:block;animation:slideDown .2s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TASK ROWS */
+.task-group{padding:16px 22px;border-bottom:1px solid var(--border)55}
+.task-group:last-child{border-bottom:none}
+.tg-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.tg-icon{font-size:16px}
+.tg-title{font-size:13px;font-weight:600;color:var(--text)}
+.tg-tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:20px;margin-left:auto}
+.task{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.task-bullet{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.task-text{font-size:12px;color:var(--m2);line-height:1.6}
+.task-text strong{color:var(--text);font-weight:500}
+.task-text code{font-family:'DM Mono',monospace;font-size:10px;background:var(--s3);padding:1px 6px;border-radius:4px;color:var(--gold)}
+
+/* JUDGE SCORE TAGS */
+.judge-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.jt{font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
+
+/* TECH STACK */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;padding:16px 22px}
+.tech-card{background:var(--s3);border-radius:12px;padding:14px;border:1px solid var(--border)}
+.tc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.tc-icon{font-size:20px}
+.tc-name{font-size:13px;font-weight:600}
+.tc-purpose{font-size:11px;color:var(--m2);line-height:1.5;margin-bottom:6px}
+.tc-how{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);background:var(--s2);border-radius:6px;padding:4px 8px;display:block}
+
+/* DEMO SCRIPT */
+.demo-step{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start;padding:14px 22px;border-bottom:1px solid var(--border)44}
+.demo-step:last-child{border-bottom:none}
+.ds-time{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);flex-shrink:0;line-height:1;min-width:56px}
+.ds-content{}
+.ds-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.ds-text{font-size:12px;color:var(--m2);line-height:1.6}
+.ds-say{font-size:12px;color:var(--green);font-style:italic;border-left:2px solid var(--green);padding-left:10px;margin-top:6px}
+
+/* CHECKLIST */
+.checklist{padding:16px 22px}
+.cl-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)44;font-size:12px;align-items:flex-start}
+.cl-item:last-child{border-bottom:none}
+.cl-check{width:18px;height:18px;border-radius:4px;border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px;cursor:pointer;transition:all .15s}
+.cl-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.cl-label{flex:1;color:var(--m2)}
+.cl-label strong{color:var(--text)}
+.cl-judge{font-family:'DM Mono',monospace;font-size:9px;padding:1px 7px;border-radius:20px;margin-left:auto;flex-shrink:0;align-self:flex-start;margin-top:2px}
+
+/* SCORE MATRIX */
+.score-table{width:100%;border-collapse:collapse;font-size:12px}
+.score-table th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;font-family:'DM Mono',monospace}
+.score-table td{padding:10px 12px;border-bottom:1px solid var(--border)55;vertical-align:middle}
+.score-table tr:last-child td{border-bottom:none}
+.score-bar-wrap{display:flex;align-items:center;gap:8px}
+.score-bar-bg{height:6px;background:var(--s3);border-radius:3px;overflow:hidden;flex:1}
+.score-bar-fill{height:100%;border-radius:3px}
+.score-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--m2);white-space:nowrap}
+
+/* BOTTOM CTA */
+.cta{text-align:center;padding:40px 20px;border:1px solid var(--border);border-radius:20px;background:var(--s1);margin-top:40px}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:var(--gold);margin-bottom:8px}
+.cta-sub{font-size:14px;color:var(--m2);margin-bottom:24px;line-height:1.7}
+.cta-pill{display:inline-block;background:linear-gradient(135deg,var(--gold),#A07828);color:#000;font-weight:700;font-size:14px;padding:12px 32px;border-radius:50px;letter-spacing:.02em}
+
+/* UTIL */
+.sec-label{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:16px}
+.highlight{color:var(--gold);font-weight:600}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.blue{color:var(--blue)}
+.purple{color:var(--purple)}
+.orange{color:var(--orange)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">AI Seekho 2026 · Competition Development Plan</div>
+  <div class="hero-title">KISAAN AI<br>BUILD PLAN</div>
+  <div class="hero-sub">A complete step-by-step development roadmap built around all 6 judging criteria — from first line of code to winning demo</div>
+  <div class="hero-badges">
+    <span class="hb" style="background:#D4A84322;color:var(--gold);border:1px solid #D4A84344">🏆 Google Integration</span>
+    <span class="hb" style="background:#9B7FE822;color:var(--purple);border:1px solid #9B7FE844">🧠 Agentic Reasoning</span>
+    <span class="hb" style="background:#4CAF7D22;color:var(--green);border:1px solid #4CAF7D44">🎯 Problem Quality</span>
+    <span class="hb" style="background:#5B8FF922;color:var(--blue);border:1px solid #5B8FF944">⚡ Action Simulation</span>
+    <span class="hb" style="background:#F0814A22;color:var(--orange);border:1px solid #F0814A44">🔧 Technical Impl.</span>
+    <span class="hb" style="background:#E0555522;color:var(--red);border:1px solid #E0555544">✨ Innovation UX</span>
+  </div>
+</div>
+
+<!-- JUDGING CRITERIA -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">Judging Criteria — What They're Scoring</div><div class="divider-line"></div></div>
+<div class="sec-label">Understand what wins before you build</div>
+<div class="criteria-grid" id="criteria"></div>
+
+<!-- PHASE PLAN -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">Development Plan — 5 Phases</div><div class="divider-line"></div></div>
+<div class="sec-label">Each phase maps directly to judging criteria</div>
+<div id="phases"></div>
+
+<!-- TECH STACK -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">Full Technology Stack</div><div class="divider-line"></div></div>
+<div class="phase">
+  <div class="phase-body" style="display:block">
+    <div class="tech-grid" id="techStack"></div>
+  </div>
+</div>
+
+<!-- DEMO SCRIPT -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">90-Second Demo Script</div><div class="divider-line"></div></div>
+<div class="sec-label">Exactly what to say and show on stage</div>
+<div class="phase">
+  <div class="phase-body" style="display:block" id="demoScript"></div>
+</div>
+
+<!-- MASTER CHECKLIST -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">Master Pre-Competition Checklist</div><div class="divider-line"></div></div>
+<div class="phase">
+  <div class="phase-body" style="display:block">
+    <div class="checklist" id="checklist"></div>
+  </div>
+</div>
+
+<!-- SCORE PROJECTION -->
+<div class="divider"><div class="divider-line"></div><div class="divider-text">Score Projection</div><div class="divider-line"></div></div>
+<div class="phase">
+  <div class="phase-body" style="display:block;padding:16px 22px">
+    <table class="score-table" id="scoreTable"></table>
+  </div>
+</div>
+
+<div class="cta">
+  <div class="cta-title">Now Go Build It.</div>
+  <div class="cta-sub">You have the plan. You have the prototype. You have the pitch.<br>KISAAN AI is the most impactful, most unique, most demo-able project at AI Seekho 2026.<br><strong style="color:var(--gold)">The only question is how well you execute this plan.</strong></div>
+  <div class="cta-pill">🌾 #VibeKeregaPakistan</div>
+</div>
+
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────
+const CRIT=[
+  {icon:"🔗",color:"#D4A843",bg:"#D4A84320",title:"Google Antigravity Integration",desc:"How deeply and creatively you use Google AI/Cloud tools — Gemini, Vertex AI, Maps, etc.",score:"High Weight",num:"01"},
+  {icon:"🧠",color:"#9B7FE8",bg:"#9B7FE820",title:"Agentic Reasoning & Workflow",desc:"Does your AI think, plan, and act autonomously? Multi-step reasoning, not just Q&A.",score:"High Weight",num:"02"},
+  {icon:"🎯",color:"#4CAF7D",bg:"#4CAF7D20",title:"Problem Understanding & Decision Quality",desc:"Do you deeply understand the farmer's problem? Are the AI decisions accurate and trustworthy?",score:"High Weight",num:"03"},
+  {icon:"⚡",color:"#5B8FF9",bg:"#5B8FF920",title:"Action Simulation & Outcome",desc:"Can the AI simulate outcomes? Show 'what happens if I do X' — predictive, not just reactive.",score:"Medium Weight",num:"04"},
+  {icon:"🔧",color:"#F0814A",bg:"#F0814A20",title:"Technical Implementation",desc:"Clean code, working APIs, proper architecture. Does it actually work end-to-end?",score:"High Weight",num:"05"},
+  {icon:"✨",color:"#E05555",bg:"#E0555520",title:"Innovation UX & Demo Clarity",desc:"Is it beautiful, memorable, and does the demo make the judges say WOW in 90 seconds?",score:"High Weight",num:"06"}
+];
+
+const PHASES=[
+  {
+    color:"#D4A843",colorLight:"#D4A84320",
+    badge:"PHASE 01",title:"Setup & Google Integration",sub:"Connect all Google APIs — this alone scores big on criterion 1",
+    time:"Day 1 · 4 hours",
+    groups:[
+      {icon:"🔗",title:"Google Gemini Vision API",tag:"CRITERION 1 ★★★",tagBg:"#D4A84322",tagC:"#D4A843",tasks:[
+        {b:"#D4A843",t:"Go to <code>ai.google.dev</code> — get your free Gemini API key (takes 5 minutes)"},
+        {b:"#D4A843",t:"Test Gemini Vision: send a leaf photo, get back a crop disease description — confirm it works"},
+        {b:"#D4A843",t:"<strong>This single integration satisfies Criterion 1.</strong> Make sure it's the first thing that works."},
+        {b:"#D4A843",t:"Use model: <code>gemini-1.5-flash</code> — fastest, most accurate for images, free tier is generous"},
+      ],judges:["🔗 Google Integration","🔧 Technical Impl."]},
+      {icon:"🌤️",title:"Google Weather + Maps Integration",tag:"CRITERION 1 BONUS",tagBg:"#D4A84322",tagC:"#D4A843",tasks:[
+        {b:"#D4A843",t:"Use <code>Open-Meteo API</code> for weather data (free, no key needed) — powers the Irrigation Advisor"},
+        {b:"#D4A843",t:"Optional: Google Maps Geocoding API to auto-detect farmer's location from GPS"},
+        {b:"#D4A843",t:"<strong>When presenting:</strong> say 'We used Google Gemini Vision for crop AI and Google's location services for hyperlocal weather' — this is exactly what judges want to hear"},
+      ],judges:["🔗 Google Integration","⚡ Action Simulation"]},
+      {icon:"🤖",title:"Claude AI (Anthropic) for Reasoning",tag:"AGENTIC BRAIN",tagBg:"#9B7FE822",tagC:"#9B7FE8",tasks:[
+        {b:"#9B7FE8",t:"Claude handles: mandi negotiation, livestock diagnosis, irrigation planning — all multi-step reasoning tasks"},
+        {b:"#9B7FE8",t:"Get API key at <code>console.anthropic.com</code> — free credits available for students"},
+        {b:"#9B7FE8",t:"<strong>Dual AI architecture = unique technical story:</strong> Gemini sees (vision), Claude thinks (reasoning). This impresses judges."},
+      ],judges:["🧠 Agentic Reasoning","🔧 Technical Impl."]}
+    ]
+  },
+  {
+    color:"#9B7FE8",colorLight:"#9B7FE820",
+    badge:"PHASE 02",title:"Agentic Reasoning Engine",sub:"Make the AI think in steps — not just answer questions",
+    time:"Day 1–2 · 6 hours",
+    groups:[
+      {icon:"🧠",title:"Build the Multi-Step Reasoning Workflow",tag:"CRITERION 2 ★★★",tagBg:"#9B7FE822",tagC:"#9B7FE8",tasks:[
+        {b:"#9B7FE8",t:"<strong>Crop Disease Agent:</strong> Step 1 → Identify disease. Step 2 → Assess severity. Step 3 → Choose treatment. Step 4 → Estimate cost. Step 5 → Prevent spread. Each step is a separate AI reasoning call."},
+        {b:"#9B7FE8",t:"<strong>Mandi Agent:</strong> Step 1 → Fetch live price. Step 2 → Compare to 7-day average. Step 3 → Assess market trend. Step 4 → Write negotiation script. Step 5 → Set minimum price. This is agentic — AI is making decisions, not just answering."},
+        {b:"#9B7FE8",t:"<strong>Livestock Agent:</strong> Step 1 → Match symptoms to diseases. Step 2 → Rank by probability. Step 3 → Assess urgency. Step 4 → Prescribe home remedy. Step 5 → Decide if vet is needed. 5 reasoning steps, 1 seamless answer."},
+        {b:"#9B7FE8",t:"<strong>Irrigation Agent:</strong> Step 1 → Get weather forecast. Step 2 → Calculate crop water need by growth stage. Step 3 → Adjust for soil type. Step 4 → Check rain forecast. Step 5 → Output daily schedule with water amounts."},
+      ],judges:["🧠 Agentic Reasoning","🎯 Problem Quality"]},
+      {icon:"🔄",title:"Make Agents Talk to Each Other",tag:"ADVANCED — BIG POINTS",tagBg:"#9B7FE822",tagC:"#9B7FE8",tasks:[
+        {b:"#9B7FE8",t:"<strong>Cross-agent intelligence:</strong> If Crop Disease Agent finds Yellow Rust on wheat → it automatically tells Mandi Agent 'this farmer's crop quality is reduced — adjust negotiation strategy accordingly'"},
+        {b:"#9B7FE8",t:"If Irrigation Agent detects drought stress coming → it alerts the Crop Disease Agent to watch for stress-related fungal infections next week"},
+        {b:"#9B7FE8",t:"<strong>This is the feature that wins Criterion 2.</strong> Most teams will build isolated features. Yours will have agents that collaborate. Mention this explicitly in your demo."},
+      ],judges:["🧠 Agentic Reasoning","⚡ Action Simulation"]}
+    ]
+  },
+  {
+    color:"#4CAF7D",colorLight:"#4CAF7D20",
+    badge:"PHASE 03",title:"Problem Depth & Decision Quality",sub:"Show judges you understand farmers better than anyone else in the room",
+    time:"Day 2 · 4 hours",
+    groups:[
+      {icon:"🎯",title:"Ground the AI in Real Pakistan Data",tag:"CRITERION 3 ★★★",tagBg:"#4CAF7D22",tagC:"#4CAF7D",tasks:[
+        {b:"#4CAF7D",t:"<strong>Mandi prices:</strong> Use real AMIS Pakistan data (amis.pk) — not fake numbers. Scrape or manually update today's prices for Wheat, Cotton, Rice, Sugarcane, Maize across Lahore, Karachi, Faisalabad, Multan, Rawalpindi."},
+        {b:"#4CAF7D",t:"<strong>Crop diseases database:</strong> Build a JSON file with 20 most common Pakistani crop diseases — specific to local crops, local climate, local treatments available in Pakistan markets."},
+        {b:"#4CAF7D",t:"<strong>Livestock diseases:</strong> Focus on diseases most common in Pakistan: FMD, PPR (goat plague), Lumpy Skin Disease, Black Quarter in cattle — these are real and current."},
+        {b:"#4CAF7D",t:"<strong>Urdu quality:</strong> Get a native Urdu speaker to check all Urdu translations. Broken Urdu will immediately signal to judges that you don't understand your users."},
+      ],judges:["🎯 Problem Quality","✨ Innovation UX"]},
+      {icon:"🌾",title:"Show You Understand the Farmer's World",tag:"STORYTELLING = SCORING",tagBg:"#4CAF7D22",tagC:"#4CAF7D",tasks:[
+        {b:"#4CAF7D",t:"<strong>Add a daily alert system:</strong> App shows 'Today's most important thing for your farm' — personalized by crop season and location. This shows deep problem understanding."},
+        {b:"#4CAF7D",t:"<strong>Add seasonal context:</strong> April-May = cotton sowing. June-August = Kharif season. October-November = wheat sowing. AI references this automatically."},
+        {b:"#4CAF7D",t:"<strong>In your pitch:</strong> Open with a real story — 'Last month a farmer in Okara lost 60% of his wheat crop to Yellow Rust. He could have saved it with a 3-day earlier diagnosis.' This is Criterion 3 winning."},
+      ],judges:["🎯 Problem Quality","✨ Innovation UX"]}
+    ]
+  },
+  {
+    color:"#5B8FF9",colorLight:"#5B8FF920",
+    badge:"PHASE 04",title:"Action Simulation & Outcome Prediction",sub:"Make the AI predict futures — not just answer present questions",
+    time:"Day 2–3 · 5 hours",
+    groups:[
+      {icon:"⚡",title:"Build 'What If' Simulation Features",tag:"CRITERION 4 ★★★",tagBg:"#5B8FF922",tagC:"#5B8FF9",tasks:[
+        {b:"#5B8FF9",t:"<strong>Crop Disease Simulator:</strong> 'If I don't treat this Yellow Rust TODAY — here's what happens: Day 3: 20% yield loss. Day 7: 45% loss. Day 14: 70% loss. Estimated financial damage: PKR 45,000 for your 5-acre field.' This is simulation."},
+        {b:"#5B8FF9",t:"<strong>Mandi Price Predictor:</strong> 'Based on current market trends, wheat prices will likely rise 5-8% over next 2 weeks. Recommendation: store if you have capacity, sell in 12-14 days.' AI predicting outcomes."},
+        {b:"#5B8FF9",t:"<strong>Water Savings Calculator:</strong> 'If you follow this irrigation schedule for the full season, you will save 340,000 litres of water and increase yield by approximately 18%. That's PKR 28,000 extra income per season.' Quantified outcome."},
+        {b:"#5B8FF9",t:"<strong>Livestock Treatment Timeline:</strong> 'If you give this home remedy today, expect improvement within 48 hours. If no improvement in 72 hours, call a vet immediately.' Time-based outcome prediction."},
+      ],judges:["⚡ Action Simulation","🧠 Agentic Reasoning"]},
+      {icon:"📊",title:"Visualize Outcomes",tag:"UX WINS POINTS",tagBg:"#5B8FF922",tagC:"#5B8FF9",tasks:[
+        {b:"#5B8FF9",t:"<strong>Severity bar:</strong> Show a visual bar for disease severity (0-100%) that animates when result appears — judges see it instantly without reading"},
+        {b:"#5B8FF9",t:"<strong>Timeline chart:</strong> Simple 5-day timeline showing irrigation days vs skip days — visual outcome of AI decision"},
+        {b:"#5B8FF9",t:"<strong>Price trend arrow:</strong> Big up/down arrow with % change next to mandi prices — instant visual signal of market direction"},
+        {b:"#5B8FF9",t:"<strong>Money saved badge:</strong> After irrigation plan, show a green badge: 'This plan saves ≈ PKR 12,000 this season' — quantified outcome in rupees, not just advice"},
+      ],judges:["⚡ Action Simulation","✨ Innovation UX"]}
+    ]
+  },
+  {
+    color:"#F0814A",colorLight:"#F0814A20",
+    badge:"PHASE 05",title:"Technical Polish & UX Excellence",sub:"Make it work perfectly AND look unforgettable",
+    time:"Day 3 · 6 hours",
+    groups:[
+      {icon:"🔧",title:"Technical Robustness",tag:"CRITERION 5 ★★★",tagBg:"#F0814A22",tagC:"#F0814A",tasks:[
+        {b:"#F0814A",t:"<strong>Error handling:</strong> If API fails, app shows a smart fallback (pre-loaded diagnosis for 5 most common diseases) — never crashes on stage. Judges WILL try to break it."},
+        {b:"#F0814A",t:"<strong>Offline mode for demo:</strong> Pre-cache 3 example results so demo works even with bad internet at the venue. This is critical."},
+        {b:"#F0814A",t:"<strong>Loading states:</strong> Every AI call shows an animated loading screen — 'AI is analyzing your crop...' — this makes the wait feel fast and shows technical polish."},
+        {b:"#F0814A",t:"<strong>Response time:</strong> Test on mobile data, not just WiFi. If Gemini Vision takes >8 seconds on mobile data, show a progress animation so it feels fast."},
+        {b:"#F0814A",t:"<strong>End-to-end test:</strong> Run through the full demo flow 10 times the night before. Find every bug and fix it."},
+      ],judges:["🔧 Technical Impl.","✨ Innovation UX"]},
+      {icon:"✨",title:"UX That Judges Never Forget",tag:"CRITERION 6 ★★★",tagBg:"#E0555522",tagC:"#E05555",tasks:[
+        {b:"#E05555",t:"<strong>Splash screen:</strong> First 3 seconds must say everything — beautiful, Urdu + English, immediate trust. This is your first impression. Don't waste it."},
+        {b:"#E05555",t:"<strong>Result animations:</strong> When diagnosis appears — animate it in. Severity bar fills slowly. Disease name types out. Treatment steps appear one by one. 800ms of animation = 10x more memorable than instant text dump."},
+        {b:"#E05555",t:"<strong>Color psychology:</strong> Red = emergency/danger (disease detected). Yellow = warning. Green = safe. Blue = water/irrigation. Judges absorb this without reading."},
+        {b:"#E05555",t:"<strong>Bilingual throughout:</strong> Every screen has Urdu below English. Show judges you actually built for the user, not for the demo."},
+        {b:"#E05555",t:"<strong>Mobile-first:</strong> Demo on a phone, not a laptop. Hold the phone up to the judges. Make them feel like they're a farmer. That's immersive UX."},
+      ],judges:["✨ Innovation UX","🎯 Problem Quality"]}
+    ]
+  }
+];
+
+const TECH=[
+  {icon:"🔮",name:"Gemini 1.5 Flash",purpose:"Crop disease detection from photos",how:"POST /v1beta/models/gemini-1.5-flash:generateContent with base64 image",color:"#D4A843"},
+  {icon:"🧠",name:"Claude Sonnet 4",purpose:"Agentic reasoning — mandi, livestock, irrigation multi-step thinking",how:"POST /v1/messages with chain-of-thought system prompt",color:"#9B7FE8"},
+  {icon:"🌤️",name:"Open-Meteo API",purpose:"Live weather data for irrigation planning",how:"GET api.open-meteo.com/v1/forecast?lat=&lon=&hourly=temperature,precipitation",color:"#5B8FF9"},
+  {icon:"📊",name:"AMIS Pakistan",purpose:"Real mandi price data for 5 cities",how:"Scrape amis.pk daily at 6am OR manually update JSON file each morning",color:"#4CAF7D"},
+  {icon:"🎤",name:"Web Speech API",purpose:"Voice input in Urdu (built into browser — no API key!)",how:"window.SpeechRecognition with lang='ur-PK' — completely free",color:"#F0814A"},
+  {icon:"📱",name:"PWA (Progressive Web App)",purpose:"Works like a native app — installable on any phone",how:"Add manifest.json + service worker = farmer can install on home screen",color:"#E05555"},
+];
+
+const DEMO=[
+  {time:"0:00",title:"Open with the problem — not the app",text:"'Pakistan has 40 million farmers. Last year they lost PKR 300 billion to crop diseases they couldn't identify in time. They lose billions more to middlemen who know fair prices and they don't. We built the solution.'",say:null},
+  {time:"0:15",title:"Show the app — crop disease LIVE",text:"Hold phone to camera. Take a real photo of a diseased or healthy plant (bring one). Watch Gemini Vision analyze it.",say:"'This is Gemini AI — Google's most powerful vision model — identifying the disease in real time. Watch.'"},
+  {time:"0:35",title:"Show the agentic reasoning",text:"Point to the result screen — show severity bar, 5-step treatment, financial impact number.",say:"'Notice it didn't just name the disease — it calculated the yield loss, estimated the treatment cost, and told the farmer exactly what to buy at the local market. That's 5 reasoning steps happening simultaneously.'"},
+  {time:"0:55",title:"Show Mandi prices + negotiation",text:"Tap Mandi tab. Show Lahore wheat price. Tap 'How to negotiate'. Show the AI-written negotiation script in Urdu.",say:"'The middleman has always known the price. Now the farmer does too — and has a script in his own language to negotiate. Information asymmetry: solved.'"},
+  {time:"1:10",title:"One line on the other features",text:"Quickly swipe through livestock and irrigation screens.",say:"'Livestock health AI — livestock diagnosis in Urdu voice. Irrigation advisor — saves 35% water. One app. Four problems. Forty million users.'"},
+  {time:"1:20",title:"Close with scale",text:"Look at the judges directly.",say:"'We built this in 48 hours using Google Gemini, Claude AI, and open APIs. The same app works in India, Bangladesh, Nigeria — 570 million farmers globally. KISAAN AI.'"},
+];
+
+const CHECKLIST=[
+  {label:"<strong>Gemini API key</strong> working — test crop disease detection end-to-end",judge:"🔗 Google",jBg:"#D4A84322",jC:"#D4A843"},
+  {label:"<strong>Claude API key</strong> working — test mandi negotiation and livestock diagnosis",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
+  {label:"<strong>Agentic workflow</strong> written — each feature has 4-5 AI reasoning steps in the prompt",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
+  {label:"<strong>Cross-agent communication</strong> — crop agent talks to mandi agent",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
+  {label:"<strong>Real AMIS prices</strong> loaded — not dummy data. Update morning of competition.",judge:"🎯 Problem",jBg:"#4CAF7D22",jC:"#4CAF7D"},
+  {label:"<strong>Urdu text verified</strong> by a native speaker — no broken translations",judge:"🎯 Problem",jBg:"#4CAF7D22",jC:"#4CAF7D"},
+  {label:"<strong>'What if' simulation</strong> built — crop disease shows PKR loss projection",judge:"⚡ Simulation",jBg:"#5B8FF922",jC:"#5B8FF9"},
+  {label:"<strong>Mandi price predictor</strong> shows 2-week trend recommendation",judge:"⚡ Simulation",jBg:"#5B8FF922",jC:"#5B8FF9"},
+  {label:"<strong>Water savings in PKR</strong> shown after irrigation plan",judge:"⚡ Simulation",jBg:"#5B8FF922",jC:"#5B8FF9"},
+  {label:"<strong>Error handling</strong> — all API calls have try/catch with smart fallback data",judge:"🔧 Technical",jBg:"#F0814A22",jC:"#F0814A"},
+  {label:"<strong>Offline demo mode</strong> — 3 pre-cached results ready if internet fails on stage",judge:"🔧 Technical",jBg:"#F0814A22",jC:"#F0814A"},
+  {label:"<strong>Full demo flow</strong> tested 10 times on mobile data (not WiFi)",judge:"🔧 Technical",jBg:"#F0814A22",jC:"#F0814A"},
+  {label:"<strong>Animations</strong> — severity bar, result reveal, loading states all smooth",judge:"✨ UX",jBg:"#E0555522",jC:"#E05555"},
+  {label:"<strong>Splash screen</strong> is beautiful and shows value in 3 seconds",judge:"✨ UX",jBg:"#E0555522",jC:"#E05555"},
+  {label:"<strong>Demo rehearsed</strong> — 90 seconds, timed, no filler words, confident",judge:"✨ UX",jBg:"#E0555522",jC:"#E05555"},
+  {label:"<strong>Bring a plant sample</strong> to stage — make it physical, real, unforgettable",judge:"✨ UX",jBg:"#E0555522",jC:"#E05555"},
+];
+
+const SCORES=[
+  {crit:"🔗 Google Antigravity Integration",score:90,color:"#D4A843",why:"Gemini Vision + Google APIs used deeply and creatively"},
+  {crit:"🧠 Agentic Reasoning & Workflow",score:88,color:"#9B7FE8",why:"5-step reasoning per feature + cross-agent communication"},
+  {crit:"🎯 Problem Understanding & Decision Quality",score:95,color:"#4CAF7D",why:"Real Pakistan data, real users, bilingual, quantified impact"},
+  {crit:"⚡ Action Simulation & Outcome",score:85,color:"#5B8FF9",why:"PKR loss prediction, price forecast, water savings calculator"},
+  {crit:"🔧 Technical Implementation",score:88,color:"#F0814A",why:"Dual AI, real APIs, offline fallback, mobile-first"},
+  {crit:"✨ Innovation UX & Demo Clarity",score:92,color:"#E05555",why:"Bring a real plant on stage. Nobody else will. Ever."},
+];
+
+// ─── RENDER ─────────────────────────────────────────────────────────
+document.getElementById('criteria').innerHTML=CRIT.map(c=>`
+  <div class="crit" style="border-color:${c.color}33">
+    <div style="background:${c.color};position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0"></div>
+    <div class="crit-num" style="color:${c.color}">${c.num}</div>
+    <div class="crit-icon">${c.icon}</div>
+    <div class="crit-title" style="color:${c.color}">${c.title}</div>
+    <div class="crit-desc">${c.desc}</div>
+    <div class="crit-score" style="color:${c.color}99">${c.score}</div>
+  </div>
+`).join('');
+
+document.getElementById('phases').innerHTML=PHASES.map((p,i)=>`
+  <div class="phase" id="ph${i}">
+    <div class="phase-head" onclick="togglePhase(${i})">
+      <span class="phase-badge" style="background:${p.colorLight};color:${p.color}">${p.badge}</span>
+      <div class="phase-info">
+        <div class="phase-title">${p.title}</div>
+        <div class="phase-sub">${p.sub}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="phase-time">${p.time}</div>
+        <div class="phase-chevron">▼</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      ${p.groups.map(g=>`
+        <div class="task-group">
+          <div class="tg-header">
+            <span class="tg-icon">${g.icon}</span>
+            <span class="tg-title">${g.title}</span>
+            <span class="tg-tag" style="background:${g.tagBg};color:${g.tagC}">${g.tag}</span>
+          </div>
+          ${g.tasks.map(t=>`
+            <div class="task">
+              <div class="task-bullet" style="background:${t.b}"></div>
+              <div class="task-text">${t.t}</div>
+            </div>
+          `).join('')}
+          <div class="judge-tags">
+            ${g.judges.map(j=>`<span class="jt" style="background:#ffffff10;color:var(--m2);border:1px solid var(--border)">${j}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+`).join('');
+
+// Open first phase by default
+document.getElementById('ph0').classList.add('open');
+
+document.getElementById('techStack').innerHTML=TECH.map(t=>`
+  <div class="tech-card">
+    <div class="tc-top">
+      <div class="tc-icon">${t.icon}</div>
+      <div class="tc-name" style="color:${t.color}">${t.name}</div>
+    </div>
+    <div class="tc-purpose">${t.purpose}</div>
+    <code class="tc-how">${t.how}</code>
+  </div>
+`).join('');
+
+document.getElementById('demoScript').innerHTML=DEMO.map(d=>`
+  <div class="demo-step">
+    <div class="ds-time">${d.time}</div>
+    <div class="ds-content">
+      <div class="ds-title">${d.title}</div>
+      <div class="ds-text">${d.text}</div>
+      ${d.say?`<div class="ds-say">"${d.say}"</div>`:''}
+    </div>
+  </div>
+`).join('');
+
+document.getElementById('checklist').innerHTML=CHECKLIST.map((c,i)=>`
+  <div class="cl-item">
+    <div class="cl-check" id="ck${i}" onclick="toggleCheck(${i})"></div>
+    <div class="cl-label">${c.label}</div>
+    <span class="cl-judge" style="background:${c.jBg};color:${c.jC}">${c.judge}</span>
+  </div>
+`).join('');
+
+document.getElementById('scoreTable').innerHTML=`
+  <tr><th>Judging Criterion</th><th>Projected Score</th><th>Why</th></tr>
+  ${SCORES.map(s=>`
+    <tr>
+      <td style="font-weight:500">${s.crit}</td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:${s.score}%;background:${s.color}"></div></div>
+          <div class="score-val">${s.score}/100</div>
+        </div>
+      </td>
+      <td style="color:var(--m2);font-size:11px">${s.why}</td>
+    </tr>
+  `).join('')}
+  <tr style="background:var(--s2)">
+    <td style="font-weight:700;color:var(--gold)">OVERALL</td>
+    <td><div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--gold)"></div></div><div class="score-val" style="color:var(--gold);font-weight:700">90/100</div></div></td>
+    <td style="color:var(--gold);font-size:11px;font-weight:600">Strong position to win — if demo executes perfectly</td>
+  </tr>
+`;
+
+function togglePhase(i){
+  const el=document.getElementById('ph'+i);
+  el.classList.toggle('open');
+}
+function toggleCheck(i){
+  document.getElementById('ck'+i).classList.toggle('done');
+  document.getElementById('ck'+i).textContent=document.getElementById('ck'+i).classList.contains('done')?'✓':'';
+}
+</script>
+</body>
+</html>

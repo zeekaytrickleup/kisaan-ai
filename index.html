@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0C0C0A">
+<meta name="description" content="AI-powered farming assistant for Pakistani farmers — crop disease detection, mandi prices, livestock health, irrigation planning">
+<title>Kisaan AI — کسان اے آئی</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── SPLASH ── -->
+<div id="splash">
+  <div class="splash-icon">🌾</div>
+  <div class="splash-title">KISAAN AI</div>
+  <div class="splash-urdu">کسان اے آئی</div>
+  <div class="splash-sub">AI Seekho 2026 · Pakistan</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+</div>
+
+<!-- ── LOADING OVERLAY ── -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="load-spinner"></div>
+  <div class="load-text" id="loadText">Analyzing...</div>
+  <div class="load-urdu" id="loadUrdu">تجزیہ ہو رہا ہے...</div>
+  <div class="load-steps" id="loadSteps"></div>
+</div>
+
+<!-- ── APP SHELL ── -->
+<div id="app">
+
+  <!-- ════════════════════════════════════════ HOME SCREEN ════ -->
+  <div class="screen active" id="screen-home">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🌾 KISAAN AI</div>
+        <div class="topbar-urdu">کسان اے آئی</div>
+      </div>
+      <div class="weather-chip" id="weatherChip">🌡️ --°C</div>
+    </div>
+
+    <div class="home-scroll">
+      <!-- Daily Alert -->
+      <div class="daily-alert">
+        <div class="alert-eyebrow">📅 آج کی اہم بات</div>
+        <div class="alert-title" id="alertTitle">Today's Farm Alert</div>
+        <div class="alert-urdu" id="alertUrdu">موسمی مشورہ لوڈ ہو رہا ہے...</div>
+        <div class="alert-badge">🤖 AI Seasonal Intelligence</div>
+      </div>
+
+      <!-- Kisaan Sewa Orchestrator Highlight -->
+      <div class="big-highlight-banner" onclick="navigate('sewa')">
+        <div class="bhb-left">
+          <div class="bhb-eyebrow">✨ Antigravity Orchestrator</div>
+          <div class="bhb-title">Kisaan Sewa Marketplace</div>
+          <div class="bhb-urdu">کسان سروسز — آٹومیٹک بکنگ</div>
+        </div>
+        <div class="bhb-icon">🚜</div>
+        <div class="bhb-glow"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-title">⚡ فوری ایکشن</div>
+      <div class="quick-grid">
+        <div class="quick-card qc-crop" onclick="navigate('crop')">
+          <div class="qc-icon">🌿</div>
+          <div class="qc-title">Crop Disease</div>
+          <div class="qc-urdu">فصل کی بیماری</div>
+          <div class="qc-arrow">›</div>
+        </div>
+        <div class="quick-card qc-mandi" onclick="navigate('mandi')">
+          <div class="qc-icon">💰</div>
+          <div class="qc-title">Mandi Prices</div>
+          <div class="qc-urdu">منڈی بھاؤ</div>
+          <div class="qc-arrow">›</div>
+        </div>
+        <div class="quick-card qc-live" onclick="navigate('live')">
+          <div class="qc-icon">🐄</div>
+          <div class="qc-title">Livestock AI</div>
+          <div class="qc-urdu">مویشی صحت</div>
+          <div class="qc-arrow">›</div>
+        </div>
+        <div class="quick-card qc-irr" onclick="navigate('irr')">
+          <div class="qc-icon">💧</div>
+          <div class="qc-title">Irrigation</div>
+          <div class="qc-urdu">آبپاشی منصوبہ</div>
+          <div class="qc-arrow">›</div>
+        </div>
+      </div>
+
+      <!-- Live Mandi Prices -->
+      <div class="section-title">📊 آج کے منڈی ریٹ — لاہور</div>
+      <div class="price-strip" id="priceStrip"></div>
+
+      <!-- Season Tips Card -->
+      <div class="card" id="seasonTipsCard">
+        <div class="card-header">
+          <div class="card-title" id="seasonTipTitle">📅 موسمی مشورے</div>
+        </div>
+        <div id="seasonTipsList" style="padding:0 18px 16px;display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- Disease Quick Ref -->
+      <div class="section-title">🦠 عام بیماریاں — Quick Disease Ref</div>
+      <div id="homeDiseaseTags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px"></div>
+      <button onclick="navigate('enc')" style="width:100%;margin-top:6px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--gold);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+        🦠 20 بیماریوں کا مکمل انسائیکلوپیڈیا — دیکھیں
+      </button>
+
+      <!-- Phase 5: Animated Impact Counters -->
+      <div class="section-title">📊 کسان اے آئی کا اثر — AI Impact</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px">
+        <div class="impact-stat" data-target="2400000" data-suffix="+">
+          <div class="is-num" id="cnt-farmers">0</div>
+          <div class="is-label">کسان مستفید</div>
+          <div class="is-en">Farmers</div>
+        </div>
+        <div class="impact-stat" data-target="850000" data-suffix="">
+          <div class="is-num" id="cnt-diseases">0</div>
+          <div class="is-label">بیماریاں</div>
+          <div class="is-en">Detected</div>
+        </div>
+        <div class="impact-stat" data-target="4200" data-suffix="CR">
+          <div class="is-num" id="cnt-saved">0</div>
+          <div class="is-label">PKR بچت</div>
+          <div class="is-en">Saved</div>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🤖 Powered by Google Gemini AI</div>
+          <div class="card-sub" style="margin-top:8px;line-height:1.7">
+            <b style="color:var(--gold)">Gemini 2.0 Flash Vision</b> — sees your crop photo &amp; identifies disease.<br>
+            <b style="color:var(--purple)">Gemini 2.0 Flash Text</b> — mandi negotiation, livestock diagnosis &amp; irrigation planning.<br>
+            <span style="color:var(--green)">One free API key — full AI power.</span> 🔑
+          </div>
+        </div>
+        <button onclick="navigate('about')" style="margin:0 16px 16px;width:calc(100% - 32px);padding:10px;background:linear-gradient(135deg,#1a2e0a,#0d1a2e);border:1px solid var(--gold);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">🏆 مکمل پریزنٹیشن دیکھیں — View Full Pitch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ ABOUT / PITCH SCREEN ════ -->
+  <div class="screen" id="screen-about">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🏆 Kisaan AI Pitch</div>
+        <div class="topbar-urdu">اے آئی سیکھو 2026</div>
+      </div>
+      <button onclick="navigate('home')" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--m2);font-size:12px;cursor:pointer">← گھر</button>
+    </div>
+    <div style="padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+
+      <!-- Hero -->
+      <div style="background:linear-gradient(135deg,#0d2e1a,#1a1a0d);border:1px solid var(--gold);border-radius:18px;padding:20px;text-align:center">
+        <div style="font-size:40px">🌾</div>
+        <div style="font-size:22px;font-weight:800;color:var(--gold);margin:8px 0 4px">KISAAN AI</div>
+        <div style="font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:14px;color:var(--m2)">پاکستانی کسانوں کے لیے ذہین زراعت</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">AI Seekho 2026 Competition · Pakistan</div>
+      </div>
+
+      <!-- Problem -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">❌ مسئلہ — The Problem</div>
+          <div class="card-sub" style="margin-top:10px">
+            <div class="pitch-point">🌿 <b>60% فصلیں تباہ</b> — کسان بیماری دیر سے پہچانتا ہے</div>
+            <div class="pitch-point">💰 <b>مڈل مین کا استحصال</b> — کسان کو منڈی بھاؤ معلوم نہیں</div>
+            <div class="pitch-point">🐄 <b>مویشی بغیر علاج مرتے ہیں</b> — ویٹ دور ہے، فیس زیادہ</div>
+            <div class="pitch-point">💧 <b>پانی کا 40% ضیاع</b> — سیلابی آبپاشی سے</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">✅ حل — Our Solution</div>
+          <div class="card-sub" style="margin-top:10px">
+            <div class="pitch-point">🔬 <b>Gemini Vision</b> — تصویر سے فوری بیماری تشخیص</div>
+            <div class="pitch-point">📊 <b>AMIS Data</b> — 5 شہروں کے لائیو منڈی بھاؤ</div>
+            <div class="pitch-point">🐄 <b>AI ویٹرنری</b> — آواز سے علامات بتائیں، علاج ملے</div>
+            <div class="pitch-point">💧 <b>Smart Irrigation</b> — موسم دیکھ کر 7 دن کا منصوبہ</div>
+            <div class="pitch-point">📴 <b>Offline PWA</b> — بغیر نیٹ کے بھی کام کرے</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚙️ ٹیکنالوجی — Tech Stack</div>
+        </div>
+        <div style="padding:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="tech-chip">🧠 Gemini 2.0 Flash</div>
+          <div class="tech-chip">🌤️ Open-Meteo API</div>
+          <div class="tech-chip">📱 PWA + Service Worker</div>
+          <div class="tech-chip">🎤 Web Speech API</div>
+          <div class="tech-chip">📲 WhatsApp Share</div>
+          <div class="tech-chip">🌐 Vanilla JS/HTML/CSS</div>
+          <div class="tech-chip">🇵🇰 Urdu NLP Prompts</div>
+          <div class="tech-chip">📊 AMIS Pakistan Data</div>
+        </div>
+      </div>
+
+      <!-- Impact -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📈 اثر — Potential Impact</div>
+          <div class="card-sub" style="margin-top:10px">
+            <div class="pitch-point">🧑‍🌾 <b>8.5 ملین</b> چھوٹے کسان جن تک پہنچ سکتے ہیں</div>
+            <div class="pitch-point">💰 <b>PKR 45,000</b> فی ایکڑ اوسط نقصان روکا جا سکتا ہے</div>
+            <div class="pitch-point">💧 <b>40%</b> پانی کی بچت ہوشیار آبپاشی سے</div>
+            <div class="pitch-point">⏱️ <b>5 سیکنڈ</b> میں بیماری کی تشخیص — ڈاکٹر کے بجائے</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👥 ٹیم — Team</div>
+          <div class="card-sub" style="margin-top:10px;text-align:center">
+            <div style="font-size:32px">🧑‍💻</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gold);margin:4px 0">AI Seekho 2026</div>
+            <div style="font-size:11px;color:var(--muted)">Built with 💚 for Pakistani Farmers</div>
+            <div style="margin-top:12px;padding:10px;background:var(--s2);border-radius:10px;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:12px;color:var(--m2)">
+              پاکستان میں 68% آبادی زراعت سے جڑی ہے — کسان اے آئی ان کی آواز ہے
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo CTA Removed for Live Release -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ DISEASE ENCYCLOPEDIA ════ -->
+  <div class="screen" id="screen-enc">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🦠 Disease Encyclopedia</div>
+        <div class="topbar-urdu">بیماریوں کا انسائیکلوپیڈیا</div>
+      </div>
+      <button onclick="navigate('home')" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--m2);font-size:12px;cursor:pointer">← گھر</button>
+    </div>
+    <div style="padding:8px 16px 4px">
+      <input type="text" id="encSearch" placeholder="بیماری تلاش کریں... (Search disease)" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:Outfit,sans-serif;font-size:13px;margin-bottom:10px;outline:none;" onkeyup="filterDiseases(document.querySelector('.enc-filter-btn.active').dataset.filter)">
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="encFilter">
+        <button class="enc-filter-btn active" data-filter="all" onclick="filterDiseases('all')">تمام</button>
+        <button class="enc-filter-btn" data-filter="wheat" onclick="filterDiseases('wheat')">🌾 گندم</button>
+        <button class="enc-filter-btn" data-filter="cotton" onclick="filterDiseases('cotton')">🌿 کپاس</button>
+        <button class="enc-filter-btn" data-filter="rice" onclick="filterDiseases('rice')">🍚 چاول</button>
+        <button class="enc-filter-btn" data-filter="maize" onclick="filterDiseases('maize')">🌽 مکئی</button>
+      </div>
+    </div>
+    <div id="diseaseList" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto"></div>
+  </div>
+
+  <!-- ════════════════════════════════════════ CROP SCREEN ════ -->
+  <div class="screen" id="screen-crop">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🌿 Crop Disease AI</div>
+        <div class="topbar-urdu">فصل کی بیماری کا علاج</div>
+      </div>
+    </div>
+
+    <div class="upload-zone" id="cropUploadZone">
+      <input type="file" id="cropInput" accept="image/*" capture="environment">
+      <div class="uz-icon">📸</div>
+      <div class="uz-title">Take or Upload Crop Photo</div>
+      <div class="uz-sub">Tap to open camera or choose image</div>
+      <div class="uz-urdu">فصل کی تصویر لیں یا اپلوڈ کریں</div>
+    </div>
+
+    <div id="cropPreviewWrap"><img id="cropPreview" alt="Crop preview"></div>
+    <button class="analyze-btn" id="analyzeBtn">🔬 Analyze with Gemini AI — تجزیہ کریں</button>
+    <div id="apiStatusBadge" style="display:none;margin:6px 16px 0;padding:8px 14px;border-radius:10px;font-size:11px;font-weight:600;text-align:center"></div>
+
+    <!-- Result -->
+    <div class="result-section" id="cropResult">
+      <div class="disease-header">
+        <div class="dh-label">Disease Detected — تشخیص</div>
+        <div class="dh-name" id="diseaseName"></div>
+        <div class="dh-conf" id="diseaseConf"></div>
+        <div class="severity-wrap">
+          <div class="severity-label">
+            <span id="severityLabel">شدت</span>
+            <span id="severityPct">0%</span>
+          </div>
+          <div class="severity-bar-bg"><div class="severity-bar-fill" id="severityFill"></div></div>
+        </div>
+      </div>
+
+      <div class="financial-impact">
+        <div class="fi-title">⏱️ اگر علاج نہ کیا تو — What If You Don't Treat</div>
+        <div class="fi-timeline" id="fiTimeline"></div>
+      </div>
+
+      <div class="agent-steps" id="agentSteps"></div>
+
+      <div class="rec-box" id="cropRec"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ MANDI SCREEN ════ -->
+  <div class="screen" id="screen-mandi">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">💰 Mandi Advisor</div>
+        <div class="topbar-urdu">منڈی مشورہ</div>
+      </div>
+    </div>
+
+    <div class="mandi-body">
+      <div class="select-row">
+        <select class="styled-select" id="mandiCrop">
+          <option value="wheat">🌾 Wheat — گندم</option>
+          <option value="cotton">🌿 Cotton — کپاس</option>
+          <option value="rice">🍚 Rice — چاول</option>
+          <option value="sugarcane">🎋 Sugarcane — گنا</option>
+          <option value="maize">🌽 Maize — مکئی</option>
+        </select>
+        <select class="styled-select" id="mandiCity">
+          <option value="lahore">لاہور</option>
+          <option value="karachi">کراچی</option>
+          <option value="faisalabad">فیصل آباد</option>
+          <option value="multan">ملتان</option>
+          <option value="rawalpindi">راولپنڈی</option>
+        </select>
+      </div>
+
+      <div class="mandi-card">
+        <div class="mc-top">
+          <div>
+            <div class="mc-crop" id="mandiCropName"></div>
+            <div class="mc-city" id="mandiCityName"></div>
+            <div style="font-size:9px;color:var(--muted);margin-top:4px">Last updated: Today (AMIS)</div>
+          </div>
+          <div class="mc-trend" id="mandiTrend"></div>
+        </div>
+        <div class="mc-price-row">
+          <div class="mc-price" id="mandiCurrentPrice"></div>
+          <div class="mc-unit" id="mandiUnit"></div>
+        </div>
+        <div class="mc-prediction" id="mandiPrediction"></div>
+      </div>
+
+      <button class="nego-btn" id="negoBtn">📋 مذاکراتی اسکرپٹ بنائیں — Write Negotiation Script</button>
+
+      <div class="nego-script" id="negoScript">
+        <div class="ns-label">🗣️ آپ کی مذاکراتی اسکرپٹ — Your Negotiation Script</div>
+        <div class="ns-text" id="nsText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ LIVESTOCK SCREEN ════ -->
+  <div class="screen" id="screen-live">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🐄 Livestock AI</div>
+        <div class="topbar-urdu">مویشی صحت تشخیص</div>
+      </div>
+    </div>
+
+    <div class="live-body">
+      <!-- Animal Selection -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">جانور منتخب کریں — Select Animal</div>
+        </div>
+        <div class="animal-grid" style="padding:0 14px 16px">
+          <div class="animal-btn selected" data-animal="cow"><div class="ab-icon">🐄</div><div class="ab-name">گائے</div></div>
+          <div class="animal-btn" data-animal="buffalo"><div class="ab-icon">🦬</div><div class="ab-name">بھینس</div></div>
+          <div class="animal-btn" data-animal="goat"><div class="ab-icon">🐐</div><div class="ab-name">بکری</div></div>
+          <div class="animal-btn" data-animal="sheep"><div class="ab-icon">🐑</div><div class="ab-name">بھیڑ</div></div>
+        </div>
+      </div>
+
+      <!-- Symptom Input -->
+      <div class="symptom-area">
+        <div class="form-label">علامات بیان کریں — Describe Symptoms</div>
+        <textarea class="symptom-input" id="symptomInput" placeholder="مثال: بخار ہے، کھانا نہیں کھا رہا، ناک بہ رہا ہے، منہ میں چھالے ہیں..."></textarea>
+        <div class="voice-row">
+          <button class="voice-btn" id="voiceBtn">🎤 آواز سے بتائیں</button>
+          <button class="diag-btn" id="diagBtn">🔬 تشخیص کریں</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="live-result" id="liveResult">
+        <div class="diag-header">
+          <div class="dh-severity" id="diagSeverity"></div>
+          <div class="dh-name" id="diagName"></div>
+          <div class="dh-conf" id="diagProb"></div>
+        </div>
+        <div class="vet-banner" id="vetBanner" style="display:none">
+          <div class="vb-icon">🏥</div>
+          <div>
+            <div class="vb-title">فوری ڈاکٹر بلائیں!</div>
+            <div class="vb-urdu">یہ بیماری خطرناک ہے — 24 گھنٹے میں ویٹرنری ڈاکٹر ضروری ہے</div>
+          </div>
+        </div>
+        <div class="agent-steps" id="liveSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ IRRIGATION SCREEN ════ -->
+  <div class="screen" id="screen-irr">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">💧 Irrigation AI</div>
+        <div class="topbar-urdu">آبپاشی منصوبہ ساز</div>
+      </div>
+    </div>
+
+    <div class="irr-body">
+      <div class="irr-form">
+        <div>
+          <div class="form-label">فصل — Crop</div>
+          <select class="styled-select" id="irrCrop" style="width:100%">
+            <option value="wheat">🌾 گندم — Wheat</option>
+            <option value="cotton">🌿 کپاس — Cotton</option>
+            <option value="rice">🍚 چاول — Rice</option>
+            <option value="sugarcane">🎋 گنا — Sugarcane</option>
+          </select>
+        </div>
+        <div>
+          <div class="form-label">نشوونما کا مرحلہ — Growth Stage</div>
+          <select class="styled-select" id="irrStage" style="width:100%">
+            <option value="germination">اگاؤ — Germination</option>
+            <option value="tillering">کانگ — Tillering</option>
+            <option value="heading">سنبل — Heading</option>
+            <option value="grain-fill">دانہ بھراؤ — Grain Fill</option>
+            <option value="maturity">پختگی — Maturity</option>
+          </select>
+        </div>
+        <div>
+          <div class="form-label">مٹی کی قسم — Soil Type</div>
+          <select class="styled-select" id="irrSoil" style="width:100%">
+            <option value="clay">چکنی مٹی — Clay</option>
+            <option value="loam">دوغلی مٹی — Loam</option>
+            <option value="sandy">ریتلی مٹی — Sandy</option>
+          </select>
+        </div>
+        <button class="plan-btn" id="planBtn">💧 7 دن کا منصوبہ بنائیں — Generate 7-Day Plan</button>
+      </div>
+
+      <!-- Cross-agent alert -->
+      <div class="cross-agent-alert" id="irrCrossAgentWrap" style="display:none">
+        <div class="ca-icon">🤖</div>
+        <div id="irrCrossAgent"></div>
+      </div>
+
+      <!-- Result -->
+      <div class="irr-result" id="irrResult">
+        <div class="section-title">📅 7 دن کا آبپاشی شیڈول</div>
+        <div class="schedule-grid" id="schedGrid"></div>
+
+        <div class="savings-card">
+          <div class="sc-title">💚 اس منصوبے سے آپ بچائیں گے</div>
+          <div class="sc-grid">
+            <div class="sc-stat">
+              <div class="sc-num" id="savWater">—</div>
+              <div class="sc-label">پانی بچت</div>
+            </div>
+            <div class="sc-stat">
+              <div class="sc-num" id="savIncome">—</div>
+              <div class="sc-label">اضافی آمدن</div>
+            </div>
+            <div class="sc-stat">
+              <div class="sc-num" id="savYield">—</div>
+              <div class="sc-label">پیداوار اضافہ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ SEWA (SERVICES) SCREEN ════ -->
+  <div class="screen" id="screen-sewa">
+    <div class="topbar">
+      <div>
+        <div class="topbar-logo">🚜 Kisaan Sewa</div>
+        <div class="topbar-urdu">کسان سروسز مارکیٹ</div>
+      </div>
+    </div>
+
+    <div class="sewa-body" style="overflow-y:auto; flex:1; padding-bottom:20px;">
+      <!-- Service Input -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🤖 Antigravity Voice Request</div>
+          <div class="card-sub">Roman Urdu or voice: machine booking, tractor, vet...</div>
+        </div>
+        <div class="symptom-area" style="margin:0 16px 16px; background:var(--s1); border-color:var(--border);">
+          <textarea class="symptom-input" id="sewaInput" placeholder="مثال: parson 5 acre gandum kaatne ke liye harvester chahiye, budget tight hai..."></textarea>
+          <div class="voice-row">
+            <button class="voice-btn" id="sewaVoiceBtn">🎤 آواز سے بتائیں</button>
+            <button class="diag-btn" id="sewaDiagBtn" style="background:linear-gradient(135deg, var(--gold), #A07828); color:#000;">⚡ Orchestrate</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glowing Antigravity Terminal -->
+      <div class="section-title">📟 Google Antigravity Agent Trace</div>
+      <div class="agt-terminal" id="agtTerminal">
+        <div class="agt-log-line show"><span class="agt-tag-time">[10:00:00]</span> <span class="agt-tag-plan">INITIALIZED:</span> Standing by for natural language farm request...</div>
+      </div>
+
+      <!-- Results Area -->
+      <div id="sewaResult" style="display:none; flex-direction:column; gap:14px; margin-top:6px; animation:slideUp .35s ease;">
+        
+        <!-- Visual Progress Steps -->
+        <div class="progress-stepper" id="sewaStepper"></div>
+
+        <!-- Weather Conflict Warning -->
+        <div id="sewaConflictBox" style="display:none;" class="financial-impact">
+          <div class="fi-title" id="conflictTitle">⚠️ Weather Conflict Detected</div>
+          <div id="conflictDesc" style="font-size:12px; color:var(--red); line-height:1.6; margin-top:4px;"></div>
+        </div>
+
+        <!-- Top Matching Provider Card -->
+        <div class="section-title">🏆 Recommended Provider</div>
+        <div id="recommendedProvider"></div>
+
+        <!-- Bargaining / Negotiation Bot Simulation -->
+        <div id="negoSimulationBox" style="display:none;" class="nego-bubble">
+          <div class="nego-bot-avatar">💬</div>
+          <div style="flex:1;">
+            <div class="nego-bubble-title">AI Bargaining Agent (Antigravity)</div>
+            <div class="nego-bubble-text" id="negoBubbleText"></div>
+          </div>
+        </div>
+
+        <!-- Value Created / Outcome Simulation Card -->
+        <div id="valueCreatedCard" style="display:none;" class="value-card">
+          <div class="vc-title">📈 Projected Outcome Simulation</div>
+          <div class="vc-body">
+            <div class="vc-label">Yield Value Saved from Rain</div>
+            <div class="vc-stat" id="valSavedText">—</div>
+          </div>
+          <div class="vc-desc" id="valDescText"></div>
+        </div>
+
+        <!-- Booking Confirmation Ticket (Challenge 2 Simulation) -->
+        <div id="bookingTicketCard" style="display:none;" class="card">
+          <div style="background:linear-gradient(90deg, #4CAF7D, #2E7D32); padding:12px 16px; color:#fff; font-weight:bold; display:flex; justify-content:space-between; align-items:center;">
+            <span>🔖 Booking Confirmation</span>
+            <span id="ticketStatus" style="background:rgba(255,255,255,0.2); font-size:11px; padding:4px 8px; border-radius:20px;">✓ WhatsApp Sent</span>
+          </div>
+          <div style="padding:16px; font-family:monospace; font-size:13px; color:var(--text); line-height:1.8; border-bottom:1px dashed var(--border);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="color:var(--muted);">Booking ID:</span>
+              <strong id="ticketBookingId" style="color:var(--m2);">#KS-XXXX</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="color:var(--muted);">Operator Name:</span>
+              <strong id="ticketOperatorName">---</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="color:var(--muted);">Scheduled:</span>
+              <strong id="ticketDate" style="color:var(--s3);">---</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="color:var(--muted);">Agreed Rate:</span>
+              <strong id="ticketCost">PKR ---</strong>
+            </div>
+          </div>
+          <div style="padding: 12px; background:var(--s1); border-bottom: 1px dashed var(--border); text-align:center;">
+            <button id="ticketWaBtn" style="width:100%; padding:12px; background:#25D366; border:none; border-radius:8px; color:#fff; font-family:Outfit,sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition: opacity .2s;" onclick="triggerWhatsAppSend()" onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:16px; height:16px;" alt="WA"/>
+              Send WhatsApp Receipt
+            </button>
+          </div>
+          <div style="padding:10px; background:#232D36; color:#E6ECF0; font-size:11px; display:flex; align-items:center; gap:8px; border-radius: 0 0 12px 12px;">
+            <span style="font-size:16px;">💬</span>
+            <span id="ticketNotifText">---</span>
+          </div>
+        </div>
+
+        <!-- Post-Service Quality Feedback Card -->
+        <div id="feedbackCard" style="display:none;" class="card">
+          <div class="card-header">
+            <div class="card-title">📋 Service Quality Feedback</div>
+            <div class="card-sub">Verify operator work quality to update network rating</div>
+          </div>
+          <div style="padding: 0 16px 16px; display:flex; flex-direction:column; gap:12px;">
+            <div style="text-align:center; font-size:24px; color:var(--gold); cursor:pointer;" id="feedbackStars">
+              <span onclick="rateSewa(1)" id="star1">⭐</span><span onclick="rateSewa(2)" id="star2">⭐</span><span onclick="rateSewa(3)" id="star3">⭐</span><span onclick="rateSewa(4)" id="star4">⭐</span><span onclick="rateSewa(5)" id="star5">⭐</span>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center;">
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">🕒 وقت پر آئے (On Time)</button>
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">🚜 بہترین کام (Great Work)</button>
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">💰 کوئی خفیہ فیس نہیں</button>
+            </div>
+            <button id="feedbackSubmitBtn" class="nego-btn" style="background:var(--s3); border:1px solid var(--border); color:var(--m2); padding:10px; font-size:12px; margin-top:6px;" onclick="submitSewaFeedback()">Submit Operator Rating</button>
+          </div>
+        </div>
+
+        <!-- Rest of Matched Providers -->
+        <div class="section-title">📋 Other Matched Providers</div>
+        <div class="provider-list" id="otherProvidersList"></div>
+
+      </div> <!-- /sewaResult -->
+
+    </div> <!-- /sewa-body -->
+  </div>
+
+  <!-- ── BOTTOM NAV ── -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="navigate('home')">
+      <span class="nav-icon">🏠</span>
+      <span>گھر</span>
+    </button>
+    <button class="nav-item" id="nav-crop" onclick="navigate('crop')">
+      <span class="nav-icon">🌿</span>
+      <span>فصل</span>
+    </button>
+    <button class="nav-item" id="nav-sewa" onclick="navigate('sewa')">
+      <span class="nav-icon">🚜</span>
+      <span>سروسز</span>
+    </button>
+    <button class="nav-item" id="nav-mandi" onclick="navigate('mandi')">
+      <span class="nav-icon">💰</span>
+      <span>منڈی</span>
+    </button>
+    <button class="nav-item" id="nav-live" onclick="navigate('live')">
+      <span class="nav-icon">🐄</span>
+      <span>مویشی</span>
+    </button>
+  </nav>
+
+
+</div><!-- /#app -->
+
+<script src="js/config.js?v=20"></script>
+<script src="js/agents.js?v=20"></script>
+<script src="js/app.js?v=20"></script>
+<script>
+  // Kill old service workers & register fresh one
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.unregister());
+    }).then(() => {
+      navigator.serviceWorker.register('sw.js?v=4').catch(() => {});
+    });
+  }
+  // Log config to verify fresh load
+  window.addEventListener('load', () => {
+    console.log('[Kisaan AI] Config loaded — DEMO_MODE:', CONFIG.DEMO_MODE, '| Key set:', !!CONFIG.GEMINI_API_KEY && CONFIG.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY_HERE');
+  });
+</script>
+</body>
+</html>
