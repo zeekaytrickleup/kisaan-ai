@@ -2,10 +2,10 @@
   "name": "Kisaan AI — کسان اے آئی",
   "short_name": "Kisaan AI",
   "description": "AI-powered farming assistant for Pakistani farmers",
-  "start_url": "/KISAANAPP/",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0C0C0A",
-  "theme_color": "#D4A843",
+  "background_color": "#F9FBF7",
+  "theme_color": "#0A5C36",
   "orientation": "portrait",
   "icons": [
     {
