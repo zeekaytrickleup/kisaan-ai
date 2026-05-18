@@ -119,7 +119,7 @@ body {
   background: radial-gradient(circle, rgba(30, 175, 113, 0.1), transparent 70%);
   border-radius: 50%;
 }
-.alert-eyebrow { font-size: 10px; color: var(--gold); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 8px; opacity: .8; }
+.alert-eyebrow { font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px; opacity: .9; }
 .alert-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
 .alert-urdu { font-family: 'Noto Nastaliq Urdu', serif; font-size: 13px; color: var(--m2); direction: rtl; line-height: 1.8; }
 .alert-badge {
@@ -622,7 +622,7 @@ body {
 }
 .big-highlight-banner:active { transform: scale(.98); }
 .bhb-left { flex: 1; }
-.bhb-eyebrow { font-size: 9px; color: var(--gold); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
+.bhb-eyebrow { font-size: 11.5px; color: var(--gold); font-weight: 700; letter-spacing: .05em; margin-bottom: 4px; text-transform: uppercase; }
 .bhb-title { font-size: 16.5px; font-weight: 700; }
 .bhb-urdu { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 13.5px; color: var(--green); margin-top: 4px; font-weight: bold; }
 .bhb-icon { font-size: 42px; opacity: 0.85; }
@@ -661,6 +661,7 @@ body.lang-ur .qc-urdu { font-size: 15px; font-weight: 700; color: var(--green); 
 body.lang-ur .section-title { font-size: 16px; font-weight: 800; }
 body.lang-ur .alert-title { font-size: 18px; font-weight: 700; }
 body.lang-ur .alert-urdu { font-size: 15px; font-weight: 600; }
+body.lang-ur .alert-eyebrow { font-size: 15px; font-weight: bold; }
 body.lang-ur .step-title { font-size: 16px; }
 body.lang-ur .step-title-urdu { font-size: 16.5px; }
 body.lang-ur .step-text { font-size: 14.5px; line-height: 1.8; }
