@@ -978,7 +978,92 @@ function updateSeasonalAlertUI() {
   const titleEl = document.getElementById('alertTitle');
   const urduEl = document.getElementById('alertUrdu');
   if (titleEl && urduEl) {
-    titleEl.textContent = '🌾 ' + alert.en;
-    urduEl.textContent = alert.ur;
+    let weatherWarningEn = "";
+    let weatherWarningUr = "";
+
+    // Parse weather forecast parameters for crop-health context
+    if (STATE.weather) {
+      const temp = Math.round(STATE.weather.temperature_2m_max[0]);
+      const rain = STATE.weather.precipitation_probability_max[0];
+      if (rain >= 50) {
+        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:10px;font-size:12px;color:#C53030;font-weight:700;">⚠️ Weather Alert: ${rain}% rain forecast—delay sprays & irrigation!</div>`;
+        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:10px;font-size:12.5px;color:#C53030;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">⚠️ موسم کی وارننگ: بارش کا امکان ${rain}% ہے — سپرے اور پانی روکیں!</div>`;
+      } else if (temp >= 40) {
+        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(214,158,46,0.1);border:1px solid rgba(214,158,46,0.3);border-radius:10px;font-size:12px;color:#9B6A15;font-weight:700;">🔥 Heat Alert: Extreme ${temp}°C forecast—avoid noon chemical sprays!</div>`;
+        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(214,158,46,0.1);border:1px solid rgba(214,158,46,0.3);border-radius:10px;font-size:12.5px;color:#9B6A15;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">🔥 گرمی کی وارننگ: شدید درجہ حرارت (${temp}°C) متوقع ہے — دوپہر میں سپرے نہ کریں!</div>`;
+      }
+    }
+
+    titleEl.innerHTML = '🌾 ' + alert.en + weatherWarningEn;
+    urduEl.innerHTML = alert.ur + weatherWarningUr;
+  }
+}
+
+let currentUtterance = null;
+
+function speakSeasonalAlert() {
+  if ('speechSynthesis' in window) {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      document.getElementById('alertAudioBtn').textContent = '🔊';
+      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
+      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
+      return;
+    }
+
+    const alert = getSeasonalAlert();
+    let weatherWarningEn = "";
+    let weatherWarningUr = "";
+
+    if (STATE.weather) {
+      const temp = Math.round(STATE.weather.temperature_2m_max[0]);
+      const rain = STATE.weather.precipitation_probability_max[0];
+      if (rain >= 50) {
+        weatherWarningEn = `. Caution: ${rain}% rain probability expected. Please delay pesticide sprays and field irrigation.`;
+        weatherWarningUr = `۔ تنبیہ: بارش کا امکان ${rain}% ہے۔ مہربانی کر کے فصل پر سپرے اور پانی لگانا روک دیں۔`;
+      } else if (temp >= 40) {
+        weatherWarningEn = `. Warning: Extreme heat of ${temp}°C expected. Avoid midday chemical sprays and apply light early-morning irrigation.`;
+        weatherWarningUr = `۔ تنبیہ: شدید گرمی (${temp}°C) متوقع ہے۔ دوپہر میں سپرے نہ کریں، اور صبح سویرے ہلکا پانی لگائیں۔`;
+      }
+    }
+
+    const textToSpeak = currentLanguage === 'ur' 
+      ? (alert.ur + weatherWarningUr) 
+      : (alert.en + weatherWarningEn);
+      
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = currentLanguage === 'ur' ? 'ur-PK' : 'en-US';
+    
+    const voices = window.speechSynthesis.getVoices();
+    if (currentLanguage === 'ur') {
+      const urVoice = voices.find(v => v.lang.startsWith('ur') || v.lang.startsWith('pa'));
+      if (urVoice) utterance.voice = urVoice;
+    } else {
+      const enVoice = voices.find(v => v.lang.startsWith('en'));
+      if (enVoice) utterance.voice = enVoice;
+    }
+    
+    utterance.onstart = () => {
+      document.getElementById('alertAudioBtn').textContent = '⏹️';
+      document.getElementById('alertAudioBtn').style.background = 'var(--red)';
+      document.getElementById('alertAudioBtn').style.color = '#fff';
+    };
+    
+    utterance.onend = () => {
+      document.getElementById('alertAudioBtn').textContent = '🔊';
+      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
+      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
+    };
+    
+    utterance.onerror = () => {
+      document.getElementById('alertAudioBtn').textContent = '🔊';
+      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
+      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
+    };
+    
+    window.speechSynthesis.speak(utterance);
+    currentUtterance = utterance;
+  } else {
+    alert('Voice synthesis not supported on this browser.');
   }
 }

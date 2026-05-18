@@ -93,13 +93,16 @@
 
     <div class="home-scroll">
       <!-- Daily Alert -->
-      <div class="daily-alert">
-        <div class="alert-eyebrow">
+      <div class="daily-alert" style="position: relative;">
+        <!-- Audio Read Out Button -->
+        <button class="alert-audio-btn" id="alertAudioBtn" onclick="speakSeasonalAlert()" title="آواز سے سنیں — Listen Voice" style="position: absolute; top: 14px; right: 14px; background: var(--s1); border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.15s, background 0.2s;">🔊</button>
+        
+        <div class="alert-eyebrow" style="padding-right: 40px;">
           <span class="lang-en-text">📅 Today's Seasonal Advisory</span>
           <span class="lang-ur-text">📅 آج کی اہم بات</span>
         </div>
-        <div class="alert-title lang-en-text" id="alertTitle">Today's Farm Alert</div>
-        <div class="alert-urdu lang-ur-text" id="alertUrdu">موسمی مشورہ لوڈ ہو رہا ہے...</div>
+        <div class="alert-title lang-en-text" id="alertTitle" style="padding-right: 40px;">Today's Farm Alert</div>
+        <div class="alert-urdu lang-ur-text" id="alertUrdu" style="padding-right: 40px;">موسمی مشورہ لوڈ ہو رہا ہے...</div>
         <div class="alert-badge">🤖 AI Seasonal Intelligence</div>
       </div>
 
