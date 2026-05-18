@@ -10,14 +10,45 @@ const DEMO_CACHE = {
     severity: 72,
     confidence: 94,
     steps: [
-      { step: 1, title: 'بیماری کی شناخت', titleEn: 'Disease Identified', text: 'Yellow Rust (Puccinia striiformis) — زرد زنگ پھپھوندی — پتوں پر زرد دھاریاں نظر آ رہی ہیں', emoji: '🔍' },
-      { step: 2, title: 'شدت کا اندازہ', titleEn: 'Severity Assessment', text: '72% متاثر — ابھی علاج ممکن ہے مگر فوری اقدام ضروری ہے', emoji: '⚠️' },
-      { step: 3, title: 'علاج', titleEn: 'Treatment', text: 'Tilt 25EC (Propiconazole) 0.5ml/liter پانی میں ملا کر سپرے کریں — 7 دن بعد دہرائیں', emoji: '💊' },
-      { step: 4, title: 'لاگت کا تخمینہ', titleEn: 'Cost Estimate', text: 'علاج کی کل لاگت: PKR 1,200–1,500 فی ایکڑ — آج خریدیں: Tilt 25EC یا Folicur', emoji: '💰' },
-      { step: 5, title: 'بچاؤ', titleEn: 'Prevention', text: 'اگلی فصل: زنگ مزاحم گندم کا بیج استعمال کریں — Inquilab-91 یا Galaxy-2013', emoji: '🛡️' },
+      { 
+        step: 1, 
+        titleEn: 'Disease Identified', titleUr: 'بیماری کی شناخت', 
+        textEn: 'Yellow Rust (Puccinia striiformis) — Yellow rust fungus — Yellow stripes visible on leaves', 
+        textUr: 'زرد زنگ (Puccinia striiformis) — زرد زنگ پھپھوندی — پتوں پر زرد دھاریاں نظر آ رہی ہیں', 
+        emoji: '🔍' 
+      },
+      { 
+        step: 2, 
+        titleEn: 'Severity Assessment', titleUr: 'شدت کا اندازہ', 
+        textEn: '72% Affected — Treatment is possible but immediate action is required', 
+        textUr: '72% متاثر — ابھی علاج ممکن ہے مگر فوری اقدام ضروری ہے', 
+        emoji: '⚠️' 
+      },
+      { 
+        step: 3, 
+        titleEn: 'Treatment', titleUr: 'علاج', 
+        textEn: 'Spray Tilt 25EC (Propiconazole) at 0.5ml/liter of water — Repeat after 7 days', 
+        textUr: 'Tilt 25EC (Propiconazole) 0.5ml/liter پانی میں ملا کر سپرے کریں — 7 دن بعد دہرائیں', 
+        emoji: '💊' 
+      },
+      { 
+        step: 4, 
+        titleEn: 'Cost Estimate', titleUr: 'لاگت کا تخمینہ', 
+        textEn: 'Total treatment cost: PKR 1,200–1,500 per acre — Purchase today: Tilt 25EC or Folicur', 
+        textUr: 'علاج کی کل لاگت: PKR 1,200–1,500 فی ایکڑ — آج خریدیں: Tilt 25EC یا Folicur', 
+        emoji: '💰' 
+      },
+      { 
+        step: 5, 
+        titleEn: 'Prevention', titleUr: 'بچاؤ', 
+        textEn: 'Next season: Use rust-resistant wheat seed varieties — Inquilab-91 or Galaxy-2013', 
+        textUr: 'اگلی فصل: زنگ مزاحم گندم کا بیج استعمال کریں — Inquilab-91 یا Galaxy-2013', 
+        emoji: '🛡️' 
+      },
     ],
     financial: { yieldLoss: [20, 45, 70], days: [3, 7, 14], damage: 45000, acres: 5 },
-    recommendation: 'فوری علاج کریں — ہر دن کی تاخیر آپ کی فصل کا 3% نقصان بڑھاتی ہے',
+    recommendationEn: 'Treat immediately — each day of delay increases crop damage by 3%.',
+    recommendationUr: 'فوری علاج کریں — ہر دن کی تاخیر آپ کی فصل کا 3% نقصان بڑھاتی ہے',
   },
 
   mandi: {
@@ -29,7 +60,7 @@ const DEMO_CACHE = {
     trendPct: 2.3,
     prediction: 'اگلے 2 ہفتوں میں 5-8% اضافہ متوقع',
     minPrice: 3700,
-    negotiationScript: `آداب! میں ایک پیشہ ور کسان ہوں اور میری گندم اعلیٰ معیار کی ہے۔\n\nلاہور منڈی میں آج کا بھاؤ PKR 3,850 فی من ہے — یہ میں نے خود AMIS پاکستان پر چیک کیا ہے۔\n\nمیری کم از کم قیمت PKR 3,700 فی من ہے — اس سے کم میں نہیں بیچوں گا۔\n\nاگر آپ آج پوری مقدار خریدیں تو PKR 3,800 پر سودا کریں گے۔`,
+    negotiationScript: `آداب! میں ایک پیشہ ور کسان ہوں اور میری گندم اعلیٰ معیار کی ہے۔\n\nلاہور منڈی میں آج کا بھاؤ PKR 3,850 فی من ہے — یہ میں نے خود AMIS پاکستان پر چیک کیا ہے۔\n\nमेरी کم از کم قیمت PKR 3,700 فی من ہے — اس سے کم میں نہیں بیچوں گا۔\n\nاگر آپ آج پوری مقدار خریدیں تو PKR 3,800 پر سودا کریں گے۔`,
   },
 
   livestock: {
@@ -39,11 +70,41 @@ const DEMO_CACHE = {
     severity: 'critical',
     probability: 87,
     steps: [
-      { step: 1, title: 'تشخیص', text: 'PPR وائرس — بکریوں اور بھیڑوں میں سب سے خطرناک بیماری', emoji: '🔬', urgency: 'high' },
-      { step: 2, title: 'فوری اقدام', text: 'بیمار جانور کو فوراً الگ کریں — یہ بیماری بہت تیزی سے پھیلتی ہے', emoji: '⛔', urgency: 'critical' },
-      { step: 3, title: 'گھریلو علاج', text: 'Electral powder پانی میں ملا کر پلائیں — Paracetamol 10mg/kg بخار کے لیے', emoji: '💊', urgency: 'medium' },
-      { step: 4, title: 'ویٹرنری', text: '24 گھنٹے میں ڈاکٹر بلائیں — PPR vaccine + Oxytetracycline injection ضروری ہے', emoji: '🏥', urgency: 'critical' },
-      { step: 5, title: 'ٹائم لائن', text: '48 گھنٹے میں بہتری نہ ہو تو فوری ویٹ بلائیں — بغیر علاج 70% اموات ممکن', emoji: '⏰', urgency: 'high' },
+      { 
+        step: 1, 
+        titleEn: 'Diagnosis', titleUr: 'تشخیص',
+        textEn: 'PPR Virus — The most critical disease in sheep and goats', 
+        textUr: 'PPR وائرس — بکریوں اور بھیڑوں میں سب سے خطرناک بیماری', 
+        emoji: '🔬', urgency: 'high' 
+      },
+      { 
+        step: 2, 
+        titleEn: 'Immediate Isolation', titleUr: 'فوری اقدام',
+        textEn: 'Isolate sick animals immediately — this disease spreads rapidly', 
+        textUr: 'بیمار جانور کو فوراً الگ کریں — یہ بیماری بہت تیزی سے پھیلتی ہے', 
+        emoji: '⛔', urgency: 'critical' 
+      },
+      { 
+        step: 3, 
+        titleEn: 'Home Treatment', titleUr: 'گھریلو علاج',
+        textEn: 'Mix Electral powder in water — Paracetamol 10mg/kg for fever control', 
+        textUr: 'Electral powder پانی میں ملا کر پلائیں — Paracetamol 10mg/kg بخار کے لیے', 
+        emoji: '💊', urgency: 'medium' 
+      },
+      { 
+        step: 4, 
+        titleEn: 'Veterinary Support', titleUr: 'ویٹرنری اقدام',
+        textEn: 'Call vet within 24 hours — PPR vaccine + Oxytetracycline injection is required', 
+        textUr: '24 گھنٹے میں ڈاکٹر بلائیں — PPR vaccine + Oxytetracycline injection ضروری ہے', 
+        emoji: '🏥', urgency: 'critical' 
+      },
+      { 
+        step: 5, 
+        titleEn: 'Timeline Action', titleUr: 'ٹائم لائن اقدام',
+        textEn: 'If no improvement in 48 hours, consult vet immediately — 70% mortality without treatment', 
+        textUr: '48 گھنٹے میں بہتری نہ ہو تو فوری ویٹ بلائیں — بغیر علاج 70% اموات ممکن', 
+        emoji: '⏰', urgency: 'high' 
+      },
     ],
     vetRequired: true,
   },

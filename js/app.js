@@ -380,7 +380,10 @@ function renderCropResult(r) {
   sec.classList.add('visible');
 
   document.getElementById('diseaseName').textContent = r.disease;
-  document.getElementById('diseaseConf').textContent = `Confidence: ${r.confidence}%`;
+  document.getElementById('diseaseConf').innerHTML = `
+    <span class="lang-en-text">Confidence: ${r.confidence}%</span>
+    <span class="lang-ur-text">یقینی حد: ${r.confidence}%</span>
+  `;
 
   // Severity bar with color
   const fill = document.getElementById('severityFill');
@@ -388,21 +391,40 @@ function renderCropResult(r) {
   fill.style.background = color;
   setTimeout(() => { fill.style.width = r.severity + '%'; }, 200);
   document.getElementById('severityPct').textContent = r.severity + '%';
-  document.getElementById('severityLabel').textContent = r.severity > 70 ? 'خطرناک' : r.severity > 40 ? 'متوسط' : 'قابو میں';
+  
+  const sevStrUr = r.severity > 70 ? 'خطرناک' : r.severity > 40 ? 'متوسط' : 'قابو میں';
+  const sevStrEn = r.severity > 70 ? 'Critical' : r.severity > 40 ? 'Medium' : 'Controlled';
+  document.getElementById('severityLabel').innerHTML = `
+    <span class="lang-en-text">Severity: ${sevStrEn}</span>
+    <span class="lang-ur-text">شدت: ${sevStrUr}</span>
+  `;
 
   // Financial impact timeline
   const fi = r.financial;
   document.getElementById('fiTimeline').innerHTML = fi.days.map((day, i) => `
     <div class="fi-day">
       <div class="fi-day-num">D${day}</div>
-      <div class="fi-day-label">دن ${day}</div>
-      <div class="fi-day-loss">${fi.yieldLoss[i]}% نقصان</div>
+      <div class="fi-day-label">
+        <span class="lang-en-text">Day ${day}</span>
+        <span class="lang-ur-text">دن ${day}</span>
+      </div>
+      <div class="fi-day-loss">
+        <span class="lang-en-text">Loss ${fi.yieldLoss[i]}%</span>
+        <span class="lang-ur-text">نقصان ${fi.yieldLoss[i]}%</span>
+      </div>
     </div>
-  `).join('') + `<div class="fi-day">
-    <div class="fi-day-num" style="color:var(--red);font-size:13px">PKR</div>
-    <div class="fi-day-label">کل نقصان</div>
-    <div class="fi-day-loss">${fi.damage.toLocaleString()}</div>
-  </div>`;
+  `).join('') + `
+    <div class="fi-day">
+      <div class="fi-day-num" style="color:var(--red);font-size:13px">PKR</div>
+      <div class="fi-day-label">
+        <span class="lang-en-text">Total Loss</span>
+        <span class="lang-ur-text">کل نقصان</span>
+      </div>
+      <div class="fi-day-loss">
+        ${fi.damage.toLocaleString()}
+      </div>
+    </div>
+  `;
 
   // Agent steps with staggered animation
   document.getElementById('agentSteps').innerHTML = r.steps.map((s, i) => `
@@ -410,16 +432,23 @@ function renderCropResult(r) {
       <div class="step-emoji">${s.emoji}</div>
       <div class="step-body">
         <div class="step-num">Step ${s.step} of ${r.steps.length}</div>
-        <div class="step-title-urdu">${s.title}</div>
-        <div class="step-title" style="color:var(--m2)">${s.titleEn}</div>
-        <div class="step-text">${s.text}</div>
+        <div class="step-title-urdu">
+          <span class="lang-en-text">${s.titleEn}</span>
+          <span class="lang-ur-text">${s.titleUr}</span>
+        </div>
+        <div class="step-text">
+          <span class="lang-en-text">${s.textEn}</span>
+          <span class="lang-ur-text">${s.textUr}</span>
+        </div>
       </div>
     </div>
   `).join('');
   setTimeout(() => document.querySelectorAll('.agent-step').forEach(el => el.classList.add('show')), 100);
 
-  document.getElementById('cropRec').innerHTML =
-    (r.recommendation || '').replace(/\n/g, '<br>');
+  document.getElementById('cropRec').innerHTML = `
+    <span class="lang-en-text">${(r.recommendationEn || '').replace(/\n/g, '<br>')}</span>
+    <span class="lang-ur-text">${(r.recommendationUr || '').replace(/\n/g, '<br>')}</span>
+  `;
 
   // Add reset button
   let resetBtn = document.getElementById('cropResetBtn');
@@ -568,18 +597,34 @@ function renderLivestockResult(r) {
 
   const sevClass = { critical: 'sev-critical', high: 'sev-high', medium: 'sev-medium', low: 'sev-low' };
   const sevUrdu = { critical: 'انتہائی خطرناک', high: 'خطرناک', medium: 'متوسط', low: 'ہلکا' };
+  const sevEnglish = { critical: 'Critically Dangerous', high: 'High Danger', medium: 'Medium', low: 'Mild' };
+  
   document.getElementById('diagSeverity').className = 'dh-severity ' + (sevClass[r.severity] || 'sev-medium');
-  document.getElementById('diagSeverity').textContent = '⚠️ ' + (sevUrdu[r.severity] || r.severity);
+  document.getElementById('diagSeverity').innerHTML = `
+    <span class="lang-en-text">⚠️ ${sevEnglish[r.severity] || r.severity}</span>
+    <span class="lang-ur-text">⚠️ ${sevUrdu[r.severity] || r.severity}</span>
+  `;
   document.getElementById('diagName').textContent = r.diagnosis;
-  document.getElementById('diagProb').textContent = `Confidence: ${r.probability}% | Animal: ${r.animal}`;
+  
+  const animalUr = r.animal === 'cow' ? 'گائے' : r.animal === 'goat' ? 'بکری' : r.animal === 'sheep' ? 'بھیڑ' : 'بھینس';
+  document.getElementById('diagProb').innerHTML = `
+    <span class="lang-en-text">Confidence: ${r.probability}% | Animal: ${r.animal.toUpperCase()}</span>
+    <span class="lang-ur-text">یقینی حد: ${r.probability}% | جانور: ${animalUr}</span>
+  `;
 
   document.getElementById('liveSteps').innerHTML = r.steps.map((s, i) => `
     <div class="agent-step" style="transition-delay:${i * 0.12}s">
       <div class="step-emoji">${s.emoji}</div>
       <div class="step-body">
         <div class="step-num">Step ${s.step}</div>
-        <div class="step-title-urdu">${s.title}</div>
-        <div class="step-text">${s.text}</div>
+        <div class="step-title-urdu">
+          <span class="lang-en-text">${s.titleEn}</span>
+          <span class="lang-ur-text">${s.titleUr}</span>
+        </div>
+        <div class="step-text">
+          <span class="lang-en-text">${s.textEn}</span>
+          <span class="lang-ur-text">${s.textUr}</span>
+        </div>
       </div>
     </div>
   `).join('');
@@ -707,15 +752,35 @@ function addVoiceButton(containerId, textToSpeak) {
   if (existing) existing.remove();
   const btn = document.createElement('button');
   btn.className = 'voice-read-btn';
-  btn.innerHTML = '🔊 آواز میں سنیں';
+  btn.innerHTML = `
+    <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
+    <span class="lang-ur-text">🔊 آواز میں سنیں</span>
+  `;
   btn.style.cssText = 'margin:10px 0 0;padding:8px 16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;width:100%';
   btn.onclick = () => {
     const isPlaying = btn.dataset.playing === 'true';
-    if (isPlaying) { window.speechSynthesis.cancel(); btn.innerHTML = '🔊 آواز میں سنیں'; btn.dataset.playing = 'false'; return; }
-    btn.innerHTML = '⏹️ آواز بند کریں';
+    if (isPlaying) { 
+      window.speechSynthesis.cancel(); 
+      btn.innerHTML = `
+        <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
+        <span class="lang-ur-text">🔊 آواز میں سنیں</span>
+      `;
+      btn.dataset.playing = 'false'; 
+      return; 
+    }
+    btn.innerHTML = `
+      <span class="lang-en-text">⏹️ Stop Audio</span>
+      <span class="lang-ur-text">⏹️ آواز بند کریں</span>
+    `;
     btn.dataset.playing = 'true';
     speakUrdu(textToSpeak);
-    window.speechSynthesis.onend = () => { btn.innerHTML = '🔊 آواز میں سنیں'; btn.dataset.playing = 'false'; };
+    window.speechSynthesis.onend = () => { 
+      btn.innerHTML = `
+        <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
+        <span class="lang-ur-text">🔊 آواز میں سنیں</span>
+      `;
+      btn.dataset.playing = 'false'; 
+    };
   };
   container.appendChild(btn);
 }
@@ -734,7 +799,11 @@ function addShareButton(containerId, title, body) {
   if (existing) existing.remove();
   const btn = document.createElement('button');
   btn.className = 'whatsapp-btn';
-  btn.innerHTML = '<span style="font-size:16px">📲</span> WhatsApp پر شیئر کریں';
+  btn.innerHTML = `
+    <span style="font-size:16px">📲</span> 
+    <span class="lang-en-text">Share on WhatsApp</span>
+    <span class="lang-ur-text">WhatsApp پر شیئر کریں</span>
+  `;
   btn.style.cssText = 'margin:8px 0 0;padding:10px 16px;background:#075E54;border:none;border-radius:10px;color:#fff;font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;justify-content:center';
   btn.onclick = () => shareOnWhatsApp(title, body);
   container.appendChild(btn);
@@ -771,9 +840,13 @@ function showIOSInstallBanner() {
   banner.innerHTML = `
     <span style="font-size:24px">🍏</span>
     <div style="flex:1">
-      <div style="font-size:14px;font-weight:700;color:var(--green)">iPhone پر انسٹال کریں (Install)</div>
+      <div style="font-size:14px;font-weight:700;color:var(--green)">
+        <span class="lang-en-text">Install on iPhone</span>
+        <span class="lang-ur-text">iPhone پر انسٹال کریں</span>
+      </div>
       <div style="font-size:12px;color:var(--text);line-height:1.5;">
-        نیچے <strong>Share (شیئر 📥)</strong> بٹن پر کلک کریں اور پھر <strong>'Add to Home Screen'</strong> منتخب کریں۔
+        <span class="lang-en-text">Tap the <strong>Share</strong> button below and select <strong>'Add to Home Screen'</strong>.</span>
+        <span class="lang-ur-text">نیچے <strong>Share (شیئر 📥)</strong> بٹن پر کلک کریں اور پھر <strong>'Add to Home Screen'</strong> منتخب کریں۔</span>
       </div>
     </div>
     <button onclick="document.getElementById('installBanner').remove()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px">×</button>
@@ -791,10 +864,19 @@ function showInstallBanner() {
   banner.innerHTML = `
     <span style="font-size:24px">📱</span>
     <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--green)">Kisaan AI انسٹال کریں</div>
-      <div style="font-size:10px;color:var(--text)">بغیر انٹرنیٹ کے بھی چلائیں — Install as App</div>
+      <div style="font-size:13px;font-weight:600;color:var(--green)">
+        <span class="lang-en-text">Install Kisaan AI</span>
+        <span class="lang-ur-text">Kisaan AI انسٹال کریں</span>
+      </div>
+      <div style="font-size:10px;color:var(--text)">
+        <span class="lang-en-text">Run offline without internet — Install as App</span>
+        <span class="lang-ur-text">بغیر انٹرنیٹ کے بھی چلائیں — Install as App</span>
+      </div>
     </div>
-    <button onclick="installPWA()" style="background:var(--gold);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-weight:700;font-size:12px;cursor:pointer">انسٹال</button>
+    <button onclick="installPWA()" style="background:var(--gold);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-weight:700;font-size:12px;cursor:pointer">
+      <span class="lang-en-text">Install</span>
+      <span class="lang-ur-text">انسٹال</span>
+    </button>
     <button onclick="document.getElementById('installBanner').remove()" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px">×</button>
   `;
   document.body.appendChild(banner);
