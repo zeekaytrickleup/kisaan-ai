@@ -36,8 +36,8 @@
   <div class="screen active" id="screen-home">
     <div class="topbar">
       <div>
-        <div class="topbar-logo">🌾 KISAAN AI</div>
-        <div class="topbar-urdu">کسان اے آئی</div>
+        <div class="topbar-logo lang-en-text">🌾 KISAAN AI</div>
+        <div class="topbar-urdu lang-ur-text">کسان اے آئی</div>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">English (EN)</button>
@@ -48,9 +48,12 @@
     <div class="home-scroll">
       <!-- Daily Alert -->
       <div class="daily-alert">
-        <div class="alert-eyebrow">📅 آج کی اہم بات</div>
-        <div class="alert-title" id="alertTitle">Today's Farm Alert</div>
-        <div class="alert-urdu" id="alertUrdu">موسمی مشورہ لوڈ ہو رہا ہے...</div>
+        <div class="alert-eyebrow">
+          <span class="lang-en-text">📅 Today's Seasonal Advisory</span>
+          <span class="lang-ur-text">📅 آج کی اہم بات</span>
+        </div>
+        <div class="alert-title lang-en-text" id="alertTitle">Today's Farm Alert</div>
+        <div class="alert-urdu lang-ur-text" id="alertUrdu">موسمی مشورہ لوڈ ہو رہا ہے...</div>
         <div class="alert-badge">🤖 AI Seasonal Intelligence</div>
       </div>
 
@@ -58,38 +61,41 @@
       <div class="big-highlight-banner" onclick="navigate('sewa')">
         <div class="bhb-left">
           <div class="bhb-eyebrow">✨ Antigravity Orchestrator</div>
-          <div class="bhb-title">Kisaan Sewa Marketplace</div>
-          <div class="bhb-urdu">کسان سروسز — آٹومیٹک بکنگ</div>
+          <div class="bhb-title lang-en-text">Kisaan Sewa Marketplace</div>
+          <div class="bhb-urdu lang-ur-text">کسان سروسز — آٹومیٹک بکنگ</div>
         </div>
         <div class="bhb-icon">🚜</div>
         <div class="bhb-glow"></div>
       </div>
 
       <!-- Quick Actions -->
-      <div class="section-title">⚡ فوری ایکشن</div>
+      <div class="section-title">
+        <span class="lang-en-text">⚡ Quick Actions</span>
+        <span class="lang-ur-text">⚡ فوری ایکشن</span>
+      </div>
       <div class="quick-grid">
         <div class="quick-card qc-crop" onclick="navigate('crop')">
           <div class="qc-icon">🌿</div>
-          <div class="qc-title">Crop Disease</div>
-          <div class="qc-urdu">فصل کی بیماری</div>
+          <div class="qc-title lang-en-text">Crop Disease</div>
+          <div class="qc-urdu lang-ur-text">فصل کی بیماری</div>
           <div class="qc-arrow">›</div>
         </div>
         <div class="quick-card qc-mandi" onclick="navigate('mandi')">
           <div class="qc-icon">💰</div>
-          <div class="qc-title">Mandi Prices</div>
-          <div class="qc-urdu">منڈی بھاؤ</div>
+          <div class="qc-title lang-en-text">Mandi Prices</div>
+          <div class="qc-urdu lang-ur-text">منڈی بھاؤ</div>
           <div class="qc-arrow">›</div>
         </div>
         <div class="quick-card qc-live" onclick="navigate('live')">
           <div class="qc-icon">🐄</div>
-          <div class="qc-title">Livestock AI</div>
-          <div class="qc-urdu">مویشی صحت</div>
+          <div class="qc-title lang-en-text">Livestock AI</div>
+          <div class="qc-urdu lang-ur-text">مویشی صحت</div>
           <div class="qc-arrow">›</div>
         </div>
         <div class="quick-card qc-irr" onclick="navigate('irr')">
           <div class="qc-icon">💧</div>
-          <div class="qc-title">Irrigation</div>
-          <div class="qc-urdu">آبپاشی منصوبہ</div>
+          <div class="qc-title lang-en-text">Irrigation</div>
+          <div class="qc-urdu lang-ur-text">آبپاشی منصوبہ</div>
           <div class="qc-arrow">›</div>
         </div>
       </div>
@@ -623,23 +629,28 @@
   <nav class="bottom-nav">
     <button class="nav-item active" id="nav-home" onclick="navigate('home')">
       <span class="nav-icon">🏠</span>
-      <span>گھر</span>
+      <span class="lang-en-text">Home</span>
+      <span class="lang-ur-text">گھر</span>
     </button>
     <button class="nav-item" id="nav-crop" onclick="navigate('crop')">
       <span class="nav-icon">🌿</span>
-      <span>فصل</span>
+      <span class="lang-en-text">Crop AI</span>
+      <span class="lang-ur-text">فصل</span>
     </button>
     <button class="nav-item" id="nav-sewa" onclick="navigate('sewa')">
       <span class="nav-icon">🚜</span>
-      <span>سروسز</span>
+      <span class="lang-en-text">Sewa</span>
+      <span class="lang-ur-text">سروسز</span>
     </button>
     <button class="nav-item" id="nav-mandi" onclick="navigate('mandi')">
       <span class="nav-icon">💰</span>
-      <span>منڈی</span>
+      <span class="lang-en-text">Mandi</span>
+      <span class="lang-ur-text">منڈی</span>
     </button>
     <button class="nav-item" id="nav-live" onclick="navigate('live')">
       <span class="nav-icon">🐄</span>
-      <span>مویشی</span>
+      <span class="lang-en-text">Livestock</span>
+      <span class="lang-ur-text">مویشی</span>
     </button>
   </nav>
 

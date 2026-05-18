@@ -646,6 +646,10 @@ input, textarea, select {
   font-size: 14.5px !important;
 }
 
+/* Dual Language Visibility Rules */
+body.lang-en .lang-ur-text { display: none !important; }
+body.lang-ur .lang-en-text { display: none !important; }
+
 /* Urdu Language Scale-Up & Alignment Rules */
 body.lang-ur {
   font-size: 16px;

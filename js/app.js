@@ -967,26 +967,7 @@ function updateSeasonalAlertUI() {
   const titleEl = document.getElementById('alertTitle');
   const urduEl = document.getElementById('alertUrdu');
   if (titleEl && urduEl) {
-    if (currentLanguage === 'ur') {
-      titleEl.textContent = '🌾 ' + alert.ur;
-      titleEl.style.fontFamily = "'Noto Nastaliq Urdu', serif";
-      titleEl.style.fontSize = "18px";
-      titleEl.style.direction = "rtl";
-      
-      urduEl.textContent = alert.en;
-      urduEl.style.fontFamily = "'Outfit', sans-serif";
-      urduEl.style.fontSize = "13px";
-      urduEl.style.direction = "ltr";
-    } else {
-      titleEl.textContent = '🌾 ' + alert.en;
-      titleEl.style.fontFamily = "'Outfit', sans-serif";
-      titleEl.style.fontSize = "16px";
-      titleEl.style.direction = "ltr";
-      
-      urduEl.textContent = alert.ur;
-      urduEl.style.fontFamily = "'Noto Nastaliq Urdu', serif";
-      urduEl.style.fontSize = "14px";
-      urduEl.style.direction = "rtl";
-    }
+    titleEl.textContent = '🌾 ' + alert.en;
+    urduEl.textContent = alert.ur;
   }
 }
