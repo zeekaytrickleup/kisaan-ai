@@ -75,14 +75,14 @@ async function analyzeCropDisease(imageBase64) {
   if (badge) {
     badge.style.display = 'block';
     if (hasKey) {
-      badge.style.background = '#0d2e1a';
-      badge.style.color = '#4CAF50';
-      badge.style.border = '1px solid #4CAF5033';
+      badge.style.background = '#E6F4EA';
+      badge.style.color = 'var(--green)';
+      badge.style.border = '1px solid #0A5C3633';
       badge.textContent = '✅ LIVE AI — Real Gemini 2.0 Flash Vision';
     } else {
-      badge.style.background = '#2e1a0d';
-      badge.style.color = '#FFA500';
-      badge.style.border = '1px solid #FFA50033';
+      badge.style.background = '#FFF9E6';
+      badge.style.color = 'var(--gold)';
+      badge.style.border = '1px solid #FF9F1C33';
       badge.textContent = '⚠️ DEMO MODE — Add API key for real analysis';
     }
   }
@@ -123,9 +123,9 @@ Respond ONLY with a single valid JSON object, no markdown fences, no explanation
     if (response.status === 429) {
       console.warn('[Kisaan AI] ⏳ Rate limited (429) — waiting 60s then retrying...');
       if (badge) {
-        badge.style.background = '#1a1a2e';
-        badge.style.color = '#8888ff';
-        badge.style.border = '1px solid #8888ff44';
+        badge.style.background = '#F3E8FD';
+        badge.style.color = 'var(--purple)';
+        badge.style.border = '1px solid #6B46C133';
       }
 
       // Show countdown
@@ -711,7 +711,7 @@ async function runAntigravityOrchestrator(inputString) {
         </div>
       </div>
       <div class="prov-factors">
-        <span class="factor-badge" style="color: ${p.isAvail ? 'var(--green)' : 'var(--red)'}; border-color: ${p.isAvail ? '#4CAF7D33' : '#E0555533'};">${p.isAvail ? `✅ Available ${backupDateStr}` : '❌ Unavailable'}</span>
+        <span class="factor-badge" style="color: ${p.isAvail ? 'var(--green)' : 'var(--red)'}; border-color: ${p.isAvail ? 'rgba(10,92,54,0.2)' : 'rgba(211,84,0,0.2)'};">${p.isAvail ? `✅ Available ${backupDateStr}` : '❌ Unavailable'}</span>
         <span class="factor-badge">⚙️ ${p.machine}</span>
       </div>
     </div>
@@ -777,7 +777,7 @@ function submitSewaFeedback() {
   
   setTimeout(() => {
     addTerminalLog(`SUCCESS: Database updated! Operator Zahid rated ${sewaCurrentRating}/5. Metrics cached for next matchmaking run.`, 'action');
-    btn.style.background = 'linear-gradient(135deg, var(--green), #2e7d32)';
+    btn.style.background = 'linear-gradient(135deg, var(--green), #063c22)';
     btn.style.color = '#fff';
     btn.style.border = 'none';
     btn.textContent = '✅ Operator Rating Submitted!';

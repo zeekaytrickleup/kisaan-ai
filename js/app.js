@@ -649,15 +649,15 @@ function showInstallBanner() {
   const banner = document.createElement('div');
   banner.id = 'installBanner';
   banner.style.cssText = `position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:480px;
-    background:linear-gradient(135deg,#1a2e1a,#0d2e1a);border:1px solid var(--gold);border-radius:14px;
-    padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 32px #00000060;animation:slideUpBanner .3s ease`;
+    background:linear-gradient(135deg,#FFF9E6,#FAF7ED);border:2px solid var(--green);border-radius:14px;
+    padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.15);animation:slideUpBanner .3s ease`;
   banner.innerHTML = `
     <span style="font-size:24px">📱</span>
     <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--gold)">Kisaan AI انسٹال کریں</div>
-      <div style="font-size:10px;color:var(--m2)">بغیر انٹرنیٹ کے بھی چلائیں — Install as App</div>
+      <div style="font-size:13px;font-weight:600;color:var(--green)">Kisaan AI انسٹال کریں</div>
+      <div style="font-size:10px;color:var(--text)">بغیر انٹرنیٹ کے بھی چلائیں — Install as App</div>
     </div>
-    <button onclick="installPWA()" style="background:var(--gold);border:none;border-radius:8px;padding:6px 14px;color:#000;font-weight:700;font-size:12px;cursor:pointer">انسٹال</button>
+    <button onclick="installPWA()" style="background:var(--gold);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-weight:700;font-size:12px;cursor:pointer">انسٹال</button>
     <button onclick="document.getElementById('installBanner').remove()" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px">×</button>
   `;
   document.body.appendChild(banner);
@@ -727,7 +727,7 @@ async function runAutoDemo() {
 
   const banner = document.createElement('div');
   banner.id = 'demoBanner';
-  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#1a3a0a,#0d1a2e);padding:10px 16px;z-index:9998;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gold)';
+  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,var(--green),#063c22);padding:10px 16px;z-index:9998;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gold)';
   banner.innerHTML = `<span style="color:var(--gold);font-size:12px;font-weight:700" id="demoMsg">🎬 AUTO DEMO MODE</span><button onclick="endDemo()" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--m2);padding:4px 10px;font-size:11px;cursor:pointer">Exit</button>`;
   document.body.appendChild(banner);
 
@@ -751,7 +751,7 @@ function addDemoButton() {
   const btn = document.createElement('button');
   btn.id = 'demoBtnHome';
   btn.onclick = runAutoDemo;
-  btn.style.cssText = 'position:fixed;bottom:80px;right:16px;background:linear-gradient(135deg,#D4A53C,#b8860b);border:none;border-radius:50%;width:52px;height:52px;font-size:20px;cursor:pointer;box-shadow:0 4px 20px #D4A53C66;z-index:999;animation:pulse 2s infinite';
+  btn.style.cssText = 'position:fixed;bottom:80px;right:16px;background:linear-gradient(135deg,var(--gold),#E68A00);border:none;border-radius:50%;width:52px;height:52px;font-size:20px;cursor:pointer;box-shadow:0 4px 20px #FF9F1C66;z-index:999;animation:pulse 2s infinite';
   btn.title = 'Auto Demo Mode';
   btn.textContent = '🎬';
   document.body.appendChild(btn);
