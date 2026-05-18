@@ -341,7 +341,7 @@ function renderCropResult(r) {
   if (!cropSewaBtn) {
     cropSewaBtn = document.createElement('button');
     cropSewaBtn.id = 'cropSewaBtn';
-    cropSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--m2), var(--s3));border:none;border-radius:12px;color:var(--bg);font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+    cropSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
     cropSewaBtn.innerHTML = `🚜 Book Pesticide Sprayer via Kisaan Sewa`;
     document.getElementById('cropResult').insertBefore(cropSewaBtn, resetBtn);
   }
@@ -488,7 +488,7 @@ function renderLivestockResult(r) {
   if (!liveSewaBtn) {
     liveSewaBtn = document.createElement('button');
     liveSewaBtn.id = 'liveSewaBtn';
-    liveSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--m2), var(--s3));border:none;border-radius:12px;color:var(--bg);font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+    liveSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
     liveSewaBtn.innerHTML = `🏥 Book Emergency Vet Doctor via Sewa`;
     document.getElementById('liveResult').appendChild(liveSewaBtn);
   }
@@ -555,7 +555,7 @@ function renderIrrigationResult(r) {
   if (!irrSewaBtn) {
     irrSewaBtn = document.createElement('button');
     irrSewaBtn.id = 'irrSewaBtn';
-    irrSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--m2), var(--s3));border:none;border-radius:12px;color:var(--bg);font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:16px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+    irrSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:16px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
     irrSewaBtn.innerHTML = `🔧 Book Tubewell Setup or Diesel Delivery`;
     document.getElementById('irrResult').appendChild(irrSewaBtn);
   }
@@ -644,12 +644,45 @@ window.addEventListener('beforeinstallprompt', e => {
   showInstallBanner();
 });
 
+// Auto-detect iOS/Safari and show custom install instructions on launch
+window.addEventListener('DOMContentLoaded', () => {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.platform) || 
+                (navigator.userAgent.includes("Mac") && "ontouchend" in document) ||
+                (/iPad|iPhone|iPod/.test(navigator.userAgent));
+  const isStandalone = window.navigator.standalone === true || 
+                       window.matchMedia('(display-mode: standalone)').matches;
+  
+  if (isIOS && !isStandalone) {
+    setTimeout(showIOSInstallBanner, 2000); // Prompts 2 seconds after page load
+  }
+});
+
+function showIOSInstallBanner() {
+  if (document.getElementById('installBanner')) return;
+  const banner = document.createElement('div');
+  banner.id = 'installBanner';
+  banner.style.cssText = `position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:480px;
+    background:linear-gradient(135deg,#EBF5EE,#FAFDFB);border:2px solid var(--green);border-radius:14px;
+    padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.15);animation:slideUpBanner .3s ease`;
+  banner.innerHTML = `
+    <span style="font-size:24px">🍏</span>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:700;color:var(--green)">iPhone پر انسٹال کریں (Install)</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.5;">
+        نیچے <strong>Share (شیئر 📥)</strong> بٹن پر کلک کریں اور پھر <strong>'Add to Home Screen'</strong> منتخب کریں۔
+      </div>
+    </div>
+    <button onclick="document.getElementById('installBanner').remove()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px">×</button>
+  `;
+  document.body.appendChild(banner);
+}
+
 function showInstallBanner() {
   if (document.getElementById('installBanner')) return;
   const banner = document.createElement('div');
   banner.id = 'installBanner';
   banner.style.cssText = `position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:480px;
-    background:linear-gradient(135deg,#FFF9E6,#FAF7ED);border:2px solid var(--green);border-radius:14px;
+    background:linear-gradient(135deg,#EBF5EE,#FAFDFB);border:2px solid var(--green);border-radius:14px;
     padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.15);animation:slideUpBanner .3s ease`;
   banner.innerHTML = `
     <span style="font-size:24px">📱</span>
@@ -879,7 +912,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('online', () => {
     const banner = document.getElementById('offlineBanner');
     if (banner) {
-      banner.style.background = '#4CAF50';
+      banner.style.background = '#0A5C36';
       banner.textContent = '✅ انٹرنیٹ بحال ہو گیا — Back online';
       setTimeout(() => banner.style.display = 'none', 3000);
     }

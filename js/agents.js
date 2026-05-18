@@ -80,9 +80,9 @@ async function analyzeCropDisease(imageBase64) {
       badge.style.border = '1px solid #0A5C3633';
       badge.textContent = '✅ LIVE AI — Real Gemini 2.0 Flash Vision';
     } else {
-      badge.style.background = '#FFF9E6';
+      badge.style.background = '#EBF5EE';
       badge.style.color = 'var(--gold)';
-      badge.style.border = '1px solid #FF9F1C33';
+      badge.style.border = '1px solid rgba(30,175,113,0.3)';
       badge.textContent = '⚠️ DEMO MODE — Add API key for real analysis';
     }
   }
@@ -153,7 +153,7 @@ Respond ONLY with a single valid JSON object, no markdown fences, no explanation
       const retryJson = retryText.replace(/```json|```/g, '').trim().match(/\{[\s\S]*\}/);
       if (retryJson) {
         const result = JSON.parse(retryJson[0]);
-        if (badge) { badge.style.color = '#4CAF50'; badge.textContent = `✅ LIVE AI — ${result.disease}`; }
+        if (badge) { badge.style.color = '#0A5C36'; badge.textContent = `✅ LIVE AI — ${result.disease}`; }
         return result;
       }
       return { ...DEMO_CACHE.cropDisease, disease: '[DEMO] ' + DEMO_CACHE.cropDisease.disease };
@@ -183,7 +183,7 @@ Respond ONLY with a single valid JSON object, no markdown fences, no explanation
     if (jsonMatch) {
       const result = JSON.parse(jsonMatch[0]);
       console.log('[Kisaan AI] ✅ Parsed result:', result.disease);
-      if (badge) { badge.style.color = '#4CAF50'; badge.textContent = `✅ LIVE AI — ${result.disease}`; }
+      if (badge) { badge.style.color = '#0A5C36'; badge.textContent = `✅ LIVE AI — ${result.disease}`; }
       return result;
     }
 
