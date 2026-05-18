@@ -222,7 +222,7 @@ function renderHomeDiseaseTags() {
   const tags = DISEASE_DB.slice(0, 10);
   document.getElementById('homeDiseaseTags').innerHTML = tags.map(d =>
     `<span onclick="navigate('enc')" style="cursor:pointer;background:var(--s2);border:1px solid ${sevColor[d.severity]}33;
-     border-radius:20px;padding:4px 10px;font-size:10px;color:${sevColor[d.severity]};display:inline-flex;gap:4px;align-items:center">
+     border-radius:20px;padding:4px 10px;font-size:16px;color:${sevColor[d.severity]};display:inline-flex;gap:4px;align-items:center">
       <span style="width:5px;height:5px;background:${sevColor[d.severity]};border-radius:50%;display:inline-block"></span>
       <span class="lang-en-text">${d.name}</span>
       <span class="lang-ur-text">${d.urdu}</span>

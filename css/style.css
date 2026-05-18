@@ -472,7 +472,7 @@ body {
 .dc-row { display: flex; gap: 8px; margin-top: 10px; align-items: flex-start; }
 .dc-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 .dc-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2px; }
-.dc-val { font-size: 12px; color: var(--m2); line-height: 1.5; }
+.dc-val { font-size: 16px; color: var(--m2); line-height: 1.5; }
 .dc-cost { font-size: 12px; font-weight: 700; color: var(--gold); }
 .dc-markets { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 .dc-market-tag { font-size: 9px; background: var(--s3); padding: 2px 8px; border-radius: 20px; color: var(--m2); }
