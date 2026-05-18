@@ -751,24 +751,47 @@ function hideLoading() {
   document.getElementById('loadingOverlay').classList.remove('active');
 }
 
-// ── Phase 4: Urdu Text-to-Speech ────────────────────────
-function speakUrdu(text) {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
+// ── Phase 4: High-Quality Text-to-Speech ──────────────────
+let currentGTS = null;
+
+function playHighQualityTTS(text, lang, onStart, onEnd) {
+  if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+  if (currentGTS) { currentGTS.pause(); currentGTS = null; }
+
+  // Use Google Translate TTS for reliable Urdu audio on all devices
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&client=tw-ob&q=${encodeURIComponent(text.substring(0, 200))}`;
+  currentGTS = new Audio(url);
+  if (onStart) currentGTS.onplay = onStart;
+  currentGTS.onended = () => { currentGTS = null; if (onEnd) onEnd(); };
+  currentGTS.onerror = () => {
+    currentGTS = null;
+    playNativeTTS(text, lang, onStart, onEnd);
+  };
+  currentGTS.play().catch(e => {
+    currentGTS = null;
+    playNativeTTS(text, lang, onStart, onEnd);
+  });
+}
+
+function playNativeTTS(text, lang, onStart, onEnd) {
+  if (!('speechSynthesis' in window)) { if (onEnd) onEnd(); return; }
   const utt = new SpeechSynthesisUtterance(text);
-  // Try to find Urdu voice, fallback to any available
-  const voices = window.speechSynthesis.getVoices();
-  const urduVoice = voices.find(v => v.lang.includes('ur') || v.lang.includes('hi') || v.lang.includes('pk'));
-  if (urduVoice) utt.voice = urduVoice;
-  utt.lang = 'ur-PK';
+  utt.lang = lang === 'ur' ? 'ur-PK' : 'en-US';
   utt.rate = 0.85;
-  utt.pitch = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    const v = voices.find(v => v.lang.toLowerCase().includes(lang === 'ur' ? 'ur' : 'en'));
+    if (v) utt.voice = v;
+  }
+  if (onStart) utt.onstart = onStart;
+  utt.onend = onEnd;
+  utt.onerror = onEnd;
   window.speechSynthesis.speak(utt);
 }
 
 function addVoiceButton(containerId, textToSpeak) {
   const container = document.getElementById(containerId);
-  if (!container || !('speechSynthesis' in window)) return;
+  if (!container) return;
   const existing = container.querySelector('.voice-read-btn');
   if (existing) existing.remove();
   const btn = document.createElement('button');
@@ -781,7 +804,8 @@ function addVoiceButton(containerId, textToSpeak) {
   btn.onclick = () => {
     const isPlaying = btn.dataset.playing === 'true';
     if (isPlaying) { 
-      window.speechSynthesis.cancel(); 
+      if (currentGTS) { currentGTS.pause(); currentGTS = null; }
+      if (window.speechSynthesis) window.speechSynthesis.cancel(); 
       btn.innerHTML = `
         <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
         <span class="lang-ur-text">🔊 آواز میں سنیں</span>
@@ -794,14 +818,14 @@ function addVoiceButton(containerId, textToSpeak) {
       <span class="lang-ur-text">⏹️ آواز بند کریں</span>
     `;
     btn.dataset.playing = 'true';
-    speakUrdu(textToSpeak);
-    window.speechSynthesis.onend = () => { 
+    
+    playHighQualityTTS(textToSpeak, 'ur', null, () => {
       btn.innerHTML = `
         <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
         <span class="lang-ur-text">🔊 آواز میں سنیں</span>
       `;
       btn.dataset.playing = 'false'; 
-    };
+    });
   };
   container.appendChild(btn);
 }
@@ -1217,71 +1241,55 @@ function updateSeasonalAlertUI() {
   }
 }
 
-let currentUtterance = null;
+let isSeasonalAlertPlaying = false;
 
 function speakSeasonalAlert() {
-  if ('speechSynthesis' in window) {
-    if (window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
-      document.getElementById('alertAudioBtn').textContent = '🔊';
-      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
-      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
-      return;
-    }
-
-    const alert = getSeasonalAlert();
-    let weatherWarningEn = "";
-    let weatherWarningUr = "";
-
-    if (STATE.weather) {
-      const temp = Math.round(STATE.weather.temperature_2m_max[0]);
-      const rain = STATE.weather.precipitation_probability_max[0];
-      if (rain >= 50) {
-        weatherWarningEn = `. Caution: ${rain}% rain probability expected. Please delay pesticide sprays and field irrigation.`;
-        weatherWarningUr = `۔ تنبیہ: بارش کا امکان ${rain}% ہے۔ مہربانی کر کے فصل پر سپرے اور پانی لگانا روک دیں۔`;
-      } else if (temp >= 40) {
-        weatherWarningEn = `. Warning: Extreme heat of ${temp}°C expected. Avoid midday chemical sprays and apply light early-morning irrigation.`;
-        weatherWarningUr = `۔ تنبیہ: شدید گرمی (${temp}°C) متوقع ہے۔ دوپہر میں سپرے نہ کریں، اور صبح سویرے ہلکا پانی لگائیں۔`;
-      }
-    }
-
-    const textToSpeak = currentLanguage === 'ur' 
-      ? (alert.ur + weatherWarningUr) 
-      : (alert.en + weatherWarningEn);
-      
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = currentLanguage === 'ur' ? 'ur-PK' : 'en-US';
-    
-    const voices = window.speechSynthesis.getVoices();
-    if (currentLanguage === 'ur') {
-      const urVoice = voices.find(v => v.lang.startsWith('ur') || v.lang.startsWith('pa'));
-      if (urVoice) utterance.voice = urVoice;
-    } else {
-      const enVoice = voices.find(v => v.lang.startsWith('en'));
-      if (enVoice) utterance.voice = enVoice;
-    }
-    
-    utterance.onstart = () => {
-      document.getElementById('alertAudioBtn').textContent = '⏹️';
-      document.getElementById('alertAudioBtn').style.background = 'var(--red)';
-      document.getElementById('alertAudioBtn').style.color = '#fff';
-    };
-    
-    utterance.onend = () => {
-      document.getElementById('alertAudioBtn').textContent = '🔊';
-      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
-      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
-    };
-    
-    utterance.onerror = () => {
-      document.getElementById('alertAudioBtn').textContent = '🔊';
-      document.getElementById('alertAudioBtn').style.background = 'var(--s1)';
-      document.getElementById('alertAudioBtn').style.color = 'var(--text)';
-    };
-    
-    window.speechSynthesis.speak(utterance);
-    currentUtterance = utterance;
-  } else {
-    alert('Voice synthesis not supported on this browser.');
+  const btn = document.getElementById('alertAudioBtn');
+  if (isSeasonalAlertPlaying) {
+    if (currentGTS) { currentGTS.pause(); currentGTS = null; }
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    btn.textContent = '🔊';
+    btn.style.background = 'var(--s1)';
+    btn.style.color = 'var(--text)';
+    isSeasonalAlertPlaying = false;
+    return;
   }
+
+  const alert = getSeasonalAlert();
+  let weatherWarningEn = "";
+  let weatherWarningUr = "";
+
+  if (STATE.weather) {
+    const temp = Math.round(STATE.weather.temperature_2m_max[0]);
+    const rain = STATE.weather.precipitation_probability_max[0];
+    if (rain >= 50) {
+      weatherWarningEn = `. Caution: ${rain}% rain probability expected. Please delay pesticide sprays and field irrigation.`;
+      weatherWarningUr = `۔ تنبیہ: بارش کا امکان ${rain}% ہے۔ مہربانی کر کے فصل پر سپرے اور پانی لگانا روک دیں۔`;
+    } else if (temp >= 40) {
+      weatherWarningEn = `. Warning: Extreme heat of ${temp}°C expected. Avoid midday chemical sprays and apply light early-morning irrigation.`;
+      weatherWarningUr = `۔ تنبیہ: شدید گرمی (${temp}°C) متوقع ہے۔ دوپہر میں سپرے نہ کریں، اور صبح سویرے ہلکا پانی لگائیں۔`;
+    }
+  }
+
+  const textToSpeak = currentLanguage === 'ur' 
+    ? (alert.ur + weatherWarningUr) 
+    : (alert.en + weatherWarningEn);
+    
+  isSeasonalAlertPlaying = true;
+  
+  playHighQualityTTS(
+    textToSpeak, 
+    currentLanguage, 
+    () => {
+      btn.textContent = '⏹️';
+      btn.style.background = 'var(--red)';
+      btn.style.color = '#fff';
+    },
+    () => {
+      btn.textContent = '🔊';
+      btn.style.background = 'var(--s1)';
+      btn.style.color = 'var(--text)';
+      isSeasonalAlertPlaying = false;
+    }
+  );
 }
