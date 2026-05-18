@@ -582,8 +582,13 @@ function toggleVoice() {
       document.getElementById('symptomInput').value = text;
       if (isFinal) { btn.classList.remove('listening'); btn.textContent = '🎤 آواز سے بتائیں'; STATE.voiceRecognition = null; }
     },
-    (err) => { btn.classList.remove('listening'); btn.textContent = '🎤 آواز سے بتائیں'; STATE.voiceRecognition = null; }
-  );
+      (err) => { 
+        btn.classList.remove('listening'); 
+        btn.textContent = '🎤 آواز سے بتائیں'; 
+        STATE.voiceRecognition = null; 
+        if (err) alert(err);
+      }
+    );
 }
 
 async function runLivestockDiag() {
@@ -1093,6 +1098,7 @@ function initSewaModule() {
           vBtn.classList.remove('listening');
           vBtn.textContent = '🎤 آواز سے بتائیں';
           STATE.voiceRecognition = null;
+          if (err) alert(err);
         }
       );
     });

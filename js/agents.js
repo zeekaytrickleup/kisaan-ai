@@ -369,22 +369,37 @@ async function getWeather(lat = 31.5497, lon = 74.3436) {
 
 // ─── VOICE AGENT (Web Speech API) ────────────────────────────────
 function startVoiceInput(onResult, onError) {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    onError('آپ کا براؤزر آواز کو سپورٹ نہیں کرتا');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isIOS) {
+    onError('آئی فون کے براؤزر میں یہ سہولت بند ہے۔ براہ کرم ٹائپنگ کے لیے اپنے کی بورڈ کا مائیک (مائیکروفون) استعمال کریں۔');
     return null;
   }
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    onError('آپ کا براؤزر آواز کو سپورٹ نہیں کرتا۔');
+    return null;
+  }
+  
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SR();
   recognition.lang = 'ur-PK';
   recognition.continuous = false;
   recognition.interimResults = true;
+  
   recognition.onresult = (e) => {
     const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
     onResult(transcript, e.results[e.results.length - 1].isFinal);
   };
-  recognition.onerror = (e) => onError(e.error);
-  recognition.start();
-  return recognition;
+  
+  recognition.onerror = (e) => onError('آواز کی شناخت میں مسئلہ: ' + e.error + '۔ براہ کرم دوبارہ کوشش کریں۔');
+  
+  try {
+    recognition.start();
+    return recognition;
+  } catch (e) {
+    onError('مائیکروفون شروع کرنے میں ناکامی۔ براہ کرم اجازت (Permissions) چیک کریں۔');
+    return null;
+  }
 }
 
 // ─── UTILITY ──────────────────────────────────────────────────────
