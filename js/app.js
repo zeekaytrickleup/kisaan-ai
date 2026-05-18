@@ -184,6 +184,7 @@ async function initHome() {
     const temp = Math.round(weather.temperature_2m_max[0]);
     const rain = weather.precipitation_probability_max[0];
     document.getElementById('weatherChip').textContent = `🌡️ ${temp}°C · 🌧️ ${rain}%`;
+    updateSeasonalAlertUI(); // Freshly render seasonal alerts with loaded weather warnings!
   } else {
     document.getElementById('weatherChip').textContent = '🌡️ -- · 🌧️ --';
   }
