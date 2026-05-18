@@ -753,10 +753,17 @@ function hideLoading() {
 
 // ── Phase 4: High-Quality Text-to-Speech ──────────────────
 let currentGTS = null;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 function playHighQualityTTS(text, lang, onStart, onEnd) {
   if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.cancel();
   if (currentGTS) { currentGTS.pause(); currentGTS = null; }
+
+  // iOS Safari mutes HTML5 Audio in silent mode, but allows Native TTS. 
+  // Native TTS also requires synchronous execution on iOS.
+  if (isIOS) {
+    return playNativeTTS(text, lang, onStart, onEnd);
+  }
 
   // Use Google Translate TTS for reliable Urdu audio on all devices
   const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&client=tw-ob&q=${encodeURIComponent(text.substring(0, 200))}`;
