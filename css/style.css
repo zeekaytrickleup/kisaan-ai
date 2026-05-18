@@ -265,8 +265,8 @@ body {
 .step-body {}
 .step-num { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; font-weight: bold; }
 .step-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-.step-title-urdu { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 15px; color: var(--green); margin-bottom: 4px; font-weight: bold; }
-.step-text { font-size: 13.5px; color: var(--text); line-height: 1.7; font-weight: 500; }
+.step-title-urdu { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 16px; color: var(--green); margin-bottom: 4px; font-weight: bold; }
+.step-text { font-size: 16px; color: var(--text); line-height: 1.7; font-weight: 500; }
 
 .rec-box {
   background: rgba(10,92,54,0.08); border: 2px solid rgba(10,92,54,0.3);
@@ -654,10 +654,10 @@ body {
 
 /* Global default scaling boost for accessibility */
 body {
-  font-size: 14.5px;
+  font-size: 16px;
 }
 input, textarea, select {
-  font-size: 14.5px !important;
+  font-size: 16px !important;
 }
 
 /* Dual Language Visibility Rules */
@@ -677,8 +677,8 @@ body.lang-ur .alert-title { font-size: 18px; font-weight: 700; }
 body.lang-ur .alert-urdu { font-size: 15px; font-weight: 600; }
 body.lang-ur .alert-eyebrow { font-size: 15px; font-weight: bold; }
 body.lang-ur .step-title { font-size: 16px; }
-body.lang-ur .step-title-urdu { font-size: 16.5px; }
-body.lang-ur .step-text { font-size: 14.5px; line-height: 1.8; }
+body.lang-ur .step-title-urdu { font-size: 16px; }
+body.lang-ur .step-text { font-size: 16px; line-height: 1.8; }
 body.lang-ur .rec-box { font-size: 16.5px; line-height: 2.1; }
 body.lang-ur .nav-item { font-size: 12px; font-weight: bold; }
 body.lang-ur .bhb-title { font-size: 18px; }
