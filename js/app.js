@@ -246,7 +246,7 @@ function navigate(screenId) {
   // Toggle Global Back Button visibility (only show on sub-screens)
   const backBtn = document.getElementById('globalBackBtn');
   if (backBtn) {
-    backBtn.style.display = screenId === 'home' ? 'none' : 'block';
+    backBtn.style.display = screenId === 'home' ? 'none' : 'flex';
   }
 }
 

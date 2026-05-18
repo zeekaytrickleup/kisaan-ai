@@ -83,7 +83,7 @@ body {
   white-space: nowrap;
 }
 .global-back-btn {
-  display: flex !important; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; border-radius: 10px;
   background: var(--s2) !important; border: 1px solid var(--border) !important;
   color: var(--text) !important; font-size: 15px !important; cursor: pointer;
