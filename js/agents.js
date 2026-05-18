@@ -438,8 +438,14 @@ function updateStepper(steps, activeIndex) {
     <div class="progress-step ${i === activeIndex ? 'active' : ''} ${i < activeIndex ? 'done' : ''}">
       <div class="ps-dot"></div>
       <div class="ps-info">
-        <div class="ps-title">${s.title}</div>
-        <div class="ps-desc">${s.desc}</div>
+        <div class="ps-title">
+          <span class="lang-en-text">${s.titleEn}</span>
+          <span class="lang-ur-text">${s.titleUr}</span>
+        </div>
+        <div class="ps-desc">
+          <span class="lang-en-text">${s.descEn}</span>
+          <span class="lang-ur-text">${s.descUr}</span>
+        </div>
       </div>
     </div>
   `).join('');
@@ -451,11 +457,26 @@ async function runAntigravityOrchestrator(inputString) {
   term.innerHTML = ''; // Clear console
   
   const steps = [
-    { title: 'Intent Ingestion', desc: 'Parsing Roman Urdu request' },
-    { title: 'Weather Guard', desc: 'Checking climate constraints' },
-    { title: 'Provider Matchmaking', desc: 'Multi-factor ranking analysis' },
-    { title: 'Dynamic Bargaining', desc: 'Negotiating budget with operator' },
-    { title: 'Booking Simulated', desc: 'Auto-confirmed and SMS dispatched' }
+    { 
+      titleEn: 'Intent Ingestion', titleUr: 'درخواست کا تجزیہ', 
+      descEn: 'Parsing Roman Urdu request', descUr: 'رومن اردو درخواست کا تجزیہ کیا جا رہا ہے' 
+    },
+    { 
+      titleEn: 'Weather Guard', titleUr: 'موسمی تحفظ', 
+      descEn: 'Checking climate constraints', descUr: 'موسمی خطرات اور پابندیوں کی جانچ' 
+    },
+    { 
+      titleEn: 'Provider Matchmaking', titleUr: 'آپریٹر کا انتخاب', 
+      descEn: 'Multi-factor ranking analysis', descUr: 'مختلف فیکٹرز کی بنیاد پر آپریٹر کی درجہ بندی' 
+    },
+    { 
+      titleEn: 'Dynamic Bargaining', titleUr: 'مذاکرات اور ڈسکاؤنٹ', 
+      descEn: 'Negotiating budget with operator', descUr: 'کسان کے بجٹ کے مطابق قیمت پر گفت و شنید' 
+    },
+    { 
+      titleEn: 'Booking Simulated', titleUr: 'بکنگ کی تصدیق', 
+      descEn: 'Auto-confirmed and SMS dispatched', descUr: 'بکنگ خودکار طور پر تصدیق اور ایس ایم ایس روانہ' 
+    }
   ];
   
   updateStepper(steps, 0);
@@ -535,10 +556,18 @@ async function runAntigravityOrchestrator(inputString) {
   document.getElementById('sewaResult').style.display = 'flex';
   
   conflictDesc.innerHTML = `
-    <strong>${targetDateStrUrdu} کو شدید بارش کا امکان ہے!</strong><br>
-    بارش کے دوران کام کرنے سے فصل کو شدید نقصان ہو سکتا ہے۔<br> 
-    متوقع مالی نقصان: <strong>PKR ${estYieldLoss.toLocaleString()}</strong> (${targetAcres} ایکڑ)<br><br>
-    <em>💡 Google Antigravity ایجنٹ نے کام کا وقت تبدیل کر کے خودکار طور پر <strong>${backupDateStrUrdu}</strong> کر دیا ہے۔</em>
+    <span class="lang-en-text">
+      <strong>High rain probability expected on ${targetDateStr}!</strong><br>
+      Operating during rainfall can lead to severe crop spoilage.<br> 
+      Projected yield risk: <strong>PKR ${estYieldLoss.toLocaleString()}</strong> (${targetAcres} acres)<br><br>
+      <em>💡 Google Antigravity Agent adjusted scheduling to <strong>${backupDateStr}</strong> to evade risk.</em>
+    </span>
+    <span class="lang-ur-text">
+      <strong>${targetDateStrUrdu} کو شدید بارش کا امکان ہے!</strong><br>
+      بارش کے دوران کام کرنے سے فصل کو شدید نقصان ہو سکتا ہے۔<br> 
+      متوقع مالی نقصان: <strong>PKR ${estYieldLoss.toLocaleString()}</strong> (${targetAcres} ایکڑ)<br><br>
+      <em>💡 Google Antigravity ایجنٹ نے کام کا وقت تبدیل کر کے خودکار طور پر <strong>${backupDateStrUrdu}</strong> کر دیا ہے۔</em>
+    </span>
   `;
   
   await sleep(1500);
@@ -586,22 +615,42 @@ async function runAntigravityOrchestrator(inputString) {
         <div>
           <div class="prov-name">${topProv.name}</div>
           <div class="prov-meta">
-            <span>📍 ${topProv.distance} km away (${topProv.area})</span>
+            <span>
+              <span class="lang-en-text">📍 ${topProv.distance} km away (${topProv.area})</span>
+              <span class="lang-ur-text">📍 ${topProv.distance} کلومیٹر دور (${topProv.area})</span>
+            </span>
             <span class="star-rating">⭐ ${topProv.rating} / 5.0</span>
           </div>
         </div>
       </div>
       <div class="prov-factors">
-        <span class="factor-badge green">✅ Available ${backupDateStr}</span>
-        <span class="factor-badge">🛡️ ${topProv.reliability}% Reliability Score</span>
+        <span class="factor-badge green">
+          <span class="lang-en-text">✅ Available ${backupDateStr}</span>
+          <span class="lang-ur-text">✅ دستیاب ${backupDateStr}</span>
+        </span>
+        <span class="factor-badge">
+          <span class="lang-en-text">🛡️ ${topProv.reliability}% Reliability Score</span>
+          <span class="lang-ur-text">🛡️ ${topProv.reliability}% بھروسہ مندی اسکور</span>
+        </span>
         <span class="factor-badge">⚙️ ${topProv.machine}</span>
       </div>
       <div class="prov-price-row">
         <div>
-          <div class="prov-price-total">Negotiated Rate:</div>
-          <div class="prov-price-val" id="negotiatedPriceTag">PKR ${topProv.rate} / acre</div>
+          <div class="prov-price-total">
+            <span class="lang-en-text">Negotiated Rate:</span>
+            <span class="lang-ur-text">طے شدہ شرح:</span>
+          </div>
+          <div class="prov-price-val" id="negotiatedPriceTag">
+            <span class="lang-en-text">PKR ${topProv.rate} / acre</span>
+            <span class="lang-ur-text">PKR ${topProv.rate} فی ایکڑ</span>
+          </div>
         </div>
-        <div class="prov-price-total" style="font-weight:bold; color:var(--text);">Total for ${targetAcres} Acres:<br><span id="negotiatedTotalTag">PKR ${(topProv.rate * targetAcres).toLocaleString()}</span></div>
+        <div class="prov-price-total" style="font-weight:bold; color:var(--text);">
+          <span class="lang-en-text">Total for ${targetAcres} Acres:</span>
+          <span class="lang-ur-text">کل ${targetAcres} ایکڑ کے لیے:</span>
+          <br>
+          <span id="negotiatedTotalTag">PKR ${(topProv.rate * targetAcres).toLocaleString()}</span>
+        </div>
       </div>
     </div>
   `;
@@ -667,9 +716,18 @@ async function runAntigravityOrchestrator(inputString) {
   const ticketCard = document.getElementById('bookingTicketCard');
   document.getElementById('ticketBookingId').textContent = bookingId;
   document.getElementById('ticketOperatorName').textContent = topProv.name;
-  document.getElementById('ticketDate').textContent = `${backupDateStr} @ 8:00 AM`;
-  document.getElementById('ticketCost').textContent = `PKR ${totalJobCost.toLocaleString()} (PKR ${negotiatedRate}/acre)`;
-  document.getElementById('ticketNotifText').textContent = `${topProv.name.split(' ')[0]} was notified via WhatsApp dispatch loop. Auto-alert scheduled 1 hour before arrival.`;
+  document.getElementById('ticketDate').innerHTML = `
+    <span class="lang-en-text">${backupDateStr} @ 8:00 AM</span>
+    <span class="lang-ur-text">${backupDateStr} بوقت صبح 8:00 بجے</span>
+  `;
+  document.getElementById('ticketCost').innerHTML = `
+    <span class="lang-en-text">PKR ${totalJobCost.toLocaleString()} (PKR ${negotiatedRate}/acre)</span>
+    <span class="lang-ur-text">PKR ${totalJobCost.toLocaleString()} (PKR ${negotiatedRate} فی ایکڑ)</span>
+  `;
+  document.getElementById('ticketNotifText').innerHTML = `
+    <span class="lang-en-text">${topProv.name.split(' ')[0]} was notified via WhatsApp dispatch loop. Auto-alert scheduled 1 hour before arrival.</span>
+    <span class="lang-ur-text">${topProv.name.split(' ')[0]} کو واٹس ایپ ڈسپیچ لوپ کے ذریعے مطلع کیا گیا تھا۔ آمد سے 1 گھنٹہ پہلے خودکار الرٹ شیڈول کیا گیا ہے۔</span>
+  `;
   
   // Store current booking data for the active WhatsApp send button!
   window._currentSewaBooking = {
@@ -685,10 +743,18 @@ async function runAntigravityOrchestrator(inputString) {
   animateValueCounter('valSavedText', estYieldLoss);
   
   document.getElementById('valDescText').innerHTML = `
-    <strong>How value was simulated:</strong><br>
-    - 🌧️ Evaded rain disaster (saved ${targetAcres} acres from storm) worth PKR ${estYieldLoss.toLocaleString()}.<br>
-    - 💰 Negotiated PKR ${totalSavedCost.toLocaleString()} total cost arbitrage off original quote.<br>
-    - 🔧 Total booking cost: PKR ${totalJobCost.toLocaleString()} via local informal net.
+    <span class="lang-en-text">
+      <strong>How value was simulated:</strong><br>
+      - 🌧️ Evaded rain disaster (saved ${targetAcres} acres from storm) worth PKR ${estYieldLoss.toLocaleString()}.<br>
+      - 💰 Negotiated PKR ${totalSavedCost.toLocaleString()} total cost arbitrage off original quote.<br>
+      - 🔧 Total booking cost: PKR ${totalJobCost.toLocaleString()} via local informal net.
+    </span>
+    <span class="lang-ur-text">
+      <strong>پیداوار کی قیمت کیسے بنائی گئی:</strong><br>
+      - 🌧️ بارش کی تباہی سے بچاؤ (طوفان سے ${targetAcres} ایکڑ بچایا گیا) مالیت PKR ${estYieldLoss.toLocaleString()}۔<br>
+      - 💰 مذاکرات کے ذریعے کل PKR ${totalSavedCost.toLocaleString()} کی بچت کی گئی۔<br>
+      - 🔧 کل بکنگ لاگت: PKR ${totalJobCost.toLocaleString()} مقامی نیٹ ورک کے ذریعے۔
+    </span>
   `;
 
   // Render other dynamically ranked pool items
@@ -701,17 +767,26 @@ async function runAntigravityOrchestrator(inputString) {
         <div style="flex:1;">
           <div class="prov-name" style="font-size:13px;">${p.name}</div>
           <div class="prov-meta">
-            <span>📍 ${p.distance} km away</span>
+            <span>
+              <span class="lang-en-text">📍 ${p.distance} km away</span>
+              <span class="lang-ur-text">📍 ${p.distance} کلو میٹر دور</span>
+            </span>
             <span class="star-rating">⭐ ${p.rating}</span>
           </div>
         </div>
         <div style="text-align:right;">
-          <div style="font-size:11px; color:var(--muted);">Rank Score</div>
+          <div style="font-size:11px; color:var(--muted);">
+            <span class="lang-en-text">Rank Score</span>
+            <span class="lang-ur-text">درجہ بندی سکور</span>
+          </div>
           <div style="font-size:14px; font-weight:700; color:var(--m2);">${p.computedScore}/100</div>
         </div>
       </div>
       <div class="prov-factors">
-        <span class="factor-badge" style="color: ${p.isAvail ? 'var(--green)' : 'var(--red)'}; border-color: ${p.isAvail ? 'rgba(10,92,54,0.2)' : 'rgba(211,84,0,0.2)'};">${p.isAvail ? `✅ Available ${backupDateStr}` : '❌ Unavailable'}</span>
+        <span class="factor-badge" style="color: ${p.isAvail ? 'var(--green)' : 'var(--red)'}; border-color: ${p.isAvail ? 'rgba(10,92,54,0.2)' : 'rgba(211,84,0,0.2)'};">
+          <span class="lang-en-text">${p.isAvail ? `✅ Available ${backupDateStr}` : '❌ Unavailable'}</span>
+          <span class="lang-ur-text">${p.isAvail ? `✅ دستیاب ${backupDateStr}` : '❌ غیر دستیاب'}</span>
+        </span>
         <span class="factor-badge">⚙️ ${p.machine}</span>
       </div>
     </div>
@@ -725,7 +800,11 @@ async function runAntigravityOrchestrator(inputString) {
   fbCard.style.pointerEvents = 'none';
   // Update button to reset state
   const fbBtn = document.getElementById('feedbackSubmitBtn');
-  fbBtn.disabled = false; fbBtn.style.background = 'var(--s3)'; fbBtn.style.color = 'var(--m2)'; fbBtn.textContent = 'Submit Operator Rating';
+  fbBtn.disabled = false; fbBtn.style.background = 'var(--s3)'; fbBtn.style.color = 'var(--m2)';
+  fbBtn.innerHTML = `
+    <span class="lang-en-text">Submit Operator Rating</span>
+    <span class="lang-ur-text">آپریٹر ریٹنگ جمع کریں</span>
+  `;
   sewaCurrentRating = 0;
   for(let i=1; i<=5; i++) { document.getElementById('star'+i).style.opacity = '1'; }
 
@@ -771,7 +850,10 @@ function submitSewaFeedback() {
   }
   const btn = document.getElementById('feedbackSubmitBtn');
   btn.disabled = true;
-  btn.textContent = 'Updating reputation index...';
+  btn.innerHTML = `
+    <span class="lang-en-text">Updating reputation index...</span>
+    <span class="lang-ur-text">ریپوٹیشن انڈیکس کو اپ ڈیٹ کیا جا رہا ہے...</span>
+  `;
   
   addTerminalLog('invoking reputation_ledger_api. Parsing worker metrics...', 'tool');
   
@@ -780,7 +862,10 @@ function submitSewaFeedback() {
     btn.style.background = 'linear-gradient(135deg, var(--green), #063c22)';
     btn.style.color = '#fff';
     btn.style.border = 'none';
-    btn.textContent = '✅ Operator Rating Submitted!';
+    btn.innerHTML = `
+      <span class="lang-en-text">✅ Operator Rating Submitted!</span>
+      <span class="lang-ur-text">✅ آپریٹر کی ریٹنگ جمع ہو گئی!</span>
+    `;
   }, 1500);
 }
 

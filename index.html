@@ -656,28 +656,43 @@
 
         <!-- Weather Conflict Warning -->
         <div id="sewaConflictBox" style="display:none;" class="financial-impact">
-          <div class="fi-title" id="conflictTitle">⚠️ Weather Conflict Detected</div>
+          <div class="fi-title" id="conflictTitle">
+            <span class="lang-en-text">⚠️ Weather Conflict Detected</span>
+            <span class="lang-ur-text">⚠️ موسم کا خطرہ دریافت ہوا</span>
+          </div>
           <div id="conflictDesc" style="font-size:12px; color:var(--red); line-height:1.6; margin-top:4px;"></div>
         </div>
 
         <!-- Top Matching Provider Card -->
-        <div class="section-title">🏆 Recommended Provider</div>
+        <div class="section-title">
+          <span class="lang-en-text">🏆 Recommended Provider</span>
+          <span class="lang-ur-text">🏆 تجویز کردہ سروس فراہم کنندہ</span>
+        </div>
         <div id="recommendedProvider"></div>
 
         <!-- Bargaining / Negotiation Bot Simulation -->
         <div id="negoSimulationBox" style="display:none;" class="nego-bubble">
           <div class="nego-bot-avatar">💬</div>
           <div style="flex:1;">
-            <div class="nego-bubble-title">AI Bargaining Agent (Antigravity)</div>
+            <div class="nego-bubble-title">
+              <span class="lang-en-text">AI Bargaining Agent (Antigravity)</span>
+              <span class="lang-ur-text">اے آئی مذاکراتی ایجنٹ (اینٹی گریوٹی)</span>
+            </div>
             <div class="nego-bubble-text" id="negoBubbleText"></div>
           </div>
         </div>
 
         <!-- Value Created / Outcome Simulation Card -->
         <div id="valueCreatedCard" style="display:none;" class="value-card">
-          <div class="vc-title">📈 Projected Outcome Simulation</div>
+          <div class="vc-title">
+            <span class="lang-en-text">📈 Projected Outcome Simulation</span>
+            <span class="lang-ur-text">📈 متوقع نتائج کی سیمولیشن</span>
+          </div>
           <div class="vc-body">
-            <div class="vc-label">Yield Value Saved from Rain</div>
+            <div class="vc-label">
+              <span class="lang-en-text">Yield Value Saved from Rain</span>
+              <span class="lang-ur-text">بارش سے بچائی گئی فصل کی مالیت</span>
+            </div>
             <div class="vc-stat" id="valSavedText">—</div>
           </div>
           <div class="vc-desc" id="valDescText"></div>
@@ -686,31 +701,50 @@
         <!-- Booking Confirmation Ticket (Challenge 2 Simulation) -->
         <div id="bookingTicketCard" style="display:none;" class="card">
           <div style="background:linear-gradient(90deg, var(--green), #063c22); padding:12px 16px; color:#fff; font-weight:bold; display:flex; justify-content:space-between; align-items:center;">
-            <span>🔖 Booking Confirmation</span>
-            <span id="ticketStatus" style="background:rgba(255,255,255,0.2); font-size:11px; padding:4px 8px; border-radius:20px;">✓ WhatsApp Sent</span>
+            <span>
+              <span class="lang-en-text">🔖 Booking Confirmation</span>
+              <span class="lang-ur-text">🔖 بکنگ کی تصدیق</span>
+            </span>
+            <span id="ticketStatus" style="background:rgba(255,255,255,0.2); font-size:11px; padding:4px 8px; border-radius:20px;">
+              <span class="lang-en-text">✓ WhatsApp Sent</span>
+              <span class="lang-ur-text">✓ واٹس ایپ بھیج دیا گیا</span>
+            </span>
           </div>
           <div style="padding:16px; font-family:monospace; font-size:13px; color:var(--text); line-height:1.8; border-bottom:1px dashed var(--border);">
             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span style="color:var(--muted);">Booking ID:</span>
+              <span style="color:var(--muted);">
+                <span class="lang-en-text">Booking ID:</span>
+                <span class="lang-ur-text">بکنگ آئی ڈی:</span>
+              </span>
               <strong id="ticketBookingId" style="color:var(--m2);">#KS-XXXX</strong>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span style="color:var(--muted);">Operator Name:</span>
+              <span style="color:var(--muted);">
+                <span class="lang-en-text">Operator Name:</span>
+                <span class="lang-ur-text">آپریٹر کا نام:</span>
+              </span>
               <strong id="ticketOperatorName">---</strong>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span style="color:var(--muted);">Scheduled:</span>
+              <span style="color:var(--muted);">
+                <span class="lang-en-text">Scheduled:</span>
+                <span class="lang-ur-text">شیڈول وقت:</span>
+              </span>
               <strong id="ticketDate" style="color:var(--s3);">---</strong>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span style="color:var(--muted);">Agreed Rate:</span>
+              <span style="color:var(--muted);">
+                <span class="lang-en-text">Agreed Rate:</span>
+                <span class="lang-ur-text">طے شدہ ریٹ:</span>
+              </span>
               <strong id="ticketCost">PKR ---</strong>
             </div>
           </div>
           <div style="padding: 12px; background:var(--s1); border-bottom: 1px dashed var(--border); text-align:center;">
             <button id="ticketWaBtn" style="width:100%; padding:12px; background:#25D366; border:none; border-radius:8px; color:#fff; font-family:Outfit,sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition: opacity .2s;" onclick="triggerWhatsAppSend()" onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:16px; height:16px;" alt="WA"/>
-              Send WhatsApp Receipt
+              <span class="lang-en-text">Send WhatsApp Receipt</span>
+              <span class="lang-ur-text">واٹس ایپ رسید بھیجیں</span>
             </button>
           </div>
           <div style="padding:10px; background:#232D36; color:#E6ECF0; font-size:11px; display:flex; align-items:center; gap:8px; border-radius: 0 0 12px 12px;">
