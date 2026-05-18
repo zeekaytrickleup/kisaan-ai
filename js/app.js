@@ -158,9 +158,7 @@ function initSplash() {
 
 // ── Home Screen ─────────────────────────────────────────
 async function initHome() {
-  const alert = getSeasonalAlert();
-  document.getElementById('alertTitle').textContent = '🌾 ' + alert.en;
-  document.getElementById('alertUrdu').textContent = alert.ur;
+  updateSeasonalAlertUI();
 
   // Phase 3: seasonal tips + disease tags
   renderSeasonalTips();
@@ -932,4 +930,63 @@ function triggerSewaFromAdvisor(promptText) {
     const diagBtn = document.getElementById('sewaDiagBtn');
     if (diagBtn) diagBtn.click();
   }, 650);
+}
+
+// ── Global Language System ──
+let currentLanguage = 'ur'; // default to bilingual/Urdu mode
+
+function toggleLanguage() {
+  if (document.body.classList.contains('lang-ur')) {
+    document.body.classList.remove('lang-ur');
+    document.body.classList.add('lang-en');
+    currentLanguage = 'en';
+  } else {
+    document.body.classList.remove('lang-en');
+    document.body.classList.add('lang-ur');
+    currentLanguage = 'ur';
+  }
+  updateLangToggleButton();
+  updateSeasonalAlertUI();
+}
+
+function updateLangToggleButton() {
+  const btn = document.getElementById('langToggleBtn');
+  if (btn) {
+    if (currentLanguage === 'ur') {
+      btn.innerHTML = 'English (EN)';
+      btn.style.background = 'var(--green)';
+    } else {
+      btn.innerHTML = 'اردو (UR)';
+      btn.style.background = '#2B6CB0'; // Premium blue for English toggle
+    }
+  }
+}
+
+function updateSeasonalAlertUI() {
+  const alert = getSeasonalAlert();
+  const titleEl = document.getElementById('alertTitle');
+  const urduEl = document.getElementById('alertUrdu');
+  if (titleEl && urduEl) {
+    if (currentLanguage === 'ur') {
+      titleEl.textContent = '🌾 ' + alert.ur;
+      titleEl.style.fontFamily = "'Noto Nastaliq Urdu', serif";
+      titleEl.style.fontSize = "18px";
+      titleEl.style.direction = "rtl";
+      
+      urduEl.textContent = alert.en;
+      urduEl.style.fontFamily = "'Outfit', sans-serif";
+      urduEl.style.fontSize = "13px";
+      urduEl.style.direction = "ltr";
+    } else {
+      titleEl.textContent = '🌾 ' + alert.en;
+      titleEl.style.fontFamily = "'Outfit', sans-serif";
+      titleEl.style.fontSize = "16px";
+      titleEl.style.direction = "ltr";
+      
+      urduEl.textContent = alert.ur;
+      urduEl.style.fontFamily = "'Noto Nastaliq Urdu', serif";
+      urduEl.style.fontSize = "14px";
+      urduEl.style.direction = "rtl";
+    }
+  }
 }

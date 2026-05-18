@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="lang-ur">
 
 <!-- ── SPLASH ── -->
 <div id="splash">
@@ -39,7 +39,10 @@
         <div class="topbar-logo">🌾 KISAAN AI</div>
         <div class="topbar-urdu">کسان اے آئی</div>
       </div>
-      <div class="weather-chip" id="weatherChip">🌡️ --°C</div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">English (EN)</button>
+        <div class="weather-chip" id="weatherChip">🌡️ --°C</div>
+      </div>
     </div>
 
     <div class="home-scroll">

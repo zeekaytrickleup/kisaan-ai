@@ -614,8 +614,8 @@ body {
 .ps-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
 .big-highlight-banner {
-  background: linear-gradient(135deg, #FFF9E6, #FFFDF0);
-  border: 1px solid var(--gold); border-radius: 18px;
+  background: linear-gradient(135deg, #EBF5EE, #FAFDFB);
+  border: 2px solid var(--gold); border-radius: 18px;
   padding: 16px; position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: space-between;
   cursor: pointer; transition: transform .15s; margin-bottom: 12px;
@@ -623,8 +623,55 @@ body {
 .big-highlight-banner:active { transform: scale(.98); }
 .bhb-left { flex: 1; }
 .bhb-eyebrow { font-size: 9px; color: var(--gold); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
-.bhb-title { font-size: 16px; font-weight: 700; }
-.bhb-urdu { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 13px; color: var(--m2); margin-top: 4px; }
+.bhb-title { font-size: 16.5px; font-weight: 700; }
+.bhb-urdu { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 13.5px; color: var(--green); margin-top: 4px; font-weight: bold; }
 .bhb-icon { font-size: 42px; opacity: 0.85; }
-.bhb-glow { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%); top:-20px; right:-20px; }
+.bhb-glow { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, rgba(30,175,113,0.15) 0%, transparent 70%); top:-20px; right:-20px; }
+
+/* ── DUAL LANGUAGE AND ACCESSIBILITY SYSTEM ── */
+.lang-toggle-btn {
+  background: var(--green); border: none; border-radius: 20px;
+  padding: 6px 14px; color: #fff; font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(10,92,54,0.25);
+  transition: background 0.2s, transform 0.1s;
+}
+.lang-toggle-btn:active { transform: scale(0.95); }
+
+/* Global default scaling boost for accessibility */
+body {
+  font-size: 14.5px;
+}
+input, textarea, select {
+  font-size: 14.5px !important;
+}
+
+/* Urdu Language Scale-Up & Alignment Rules */
+body.lang-ur {
+  font-size: 16px;
+}
+body.lang-ur .topbar-logo { font-size: 20px; }
+body.lang-ur .topbar-urdu { font-size: 15px; font-weight: bold; color: var(--green); }
+body.lang-ur .qc-title { font-size: 16.5px; }
+body.lang-ur .qc-urdu { font-size: 15px; font-weight: 700; color: var(--green); }
+body.lang-ur .section-title { font-size: 16px; font-weight: 800; }
+body.lang-ur .alert-title { font-size: 18px; font-weight: 700; }
+body.lang-ur .alert-urdu { font-size: 15px; font-weight: 600; }
+body.lang-ur .step-title { font-size: 16px; }
+body.lang-ur .step-title-urdu { font-size: 16.5px; }
+body.lang-ur .step-text { font-size: 14.5px; line-height: 1.8; }
+body.lang-ur .rec-box { font-size: 16.5px; line-height: 2.1; }
+body.lang-ur .nav-item { font-size: 12px; font-weight: bold; }
+body.lang-ur .bhb-title { font-size: 18px; }
+body.lang-ur .bhb-urdu { font-size: 15px; font-weight: 700; color: var(--green); }
+body.lang-ur .load-text { font-size: 17px; }
+body.lang-ur .load-urdu { font-size: 15px; }
+body.lang-ur .price-chip .pc-crop { font-size: 14px; font-weight: 700; }
+body.lang-ur .price-chip .pc-price { font-size: 15px; font-weight: bold; }
+
+/* English Language Layout Adjustments */
+body.lang-en .topbar-urdu,
+body.lang-en .bhb-urdu {
+  display: none !important;
+}
 
