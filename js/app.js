@@ -427,27 +427,33 @@ function renderCropResult(r) {
   `;
 
   // Agent steps with staggered animation
-  document.getElementById('agentSteps').innerHTML = r.steps.map((s, i) => `
-    <div class="agent-step" id="step${i}" style="transition-delay:${i * 0.12}s">
-      <div class="step-emoji">${s.emoji}</div>
-      <div class="step-body">
-        <div class="step-num">Step ${s.step} of ${r.steps.length}</div>
-        <div class="step-title-urdu">
-          <span class="lang-en-text">${s.titleEn}</span>
-          <span class="lang-ur-text">${s.titleUr}</span>
-        </div>
-        <div class="step-text">
-          <span class="lang-en-text">${s.textEn}</span>
-          <span class="lang-ur-text">${s.textUr}</span>
+  document.getElementById('agentSteps').innerHTML = r.steps.map((s, i) => {
+    const titleEn = s.titleEn || s.title || '';
+    const titleUr = s.titleUr || s.title || '';
+    const textEn = s.textEn || s.text || '';
+    const textUr = s.textUr || s.text || '';
+    return `
+      <div class="agent-step" id="step${i}" style="transition-delay:${i * 0.12}s">
+        <div class="step-emoji">${s.emoji}</div>
+        <div class="step-body">
+          <div class="step-num">Step ${s.step} of ${r.steps.length}</div>
+          <div class="step-title-urdu">
+            <span class="lang-en-text">${titleEn}</span>
+            <span class="lang-ur-text">${titleUr}</span>
+          </div>
+          <div class="step-text">
+            <span class="lang-en-text">${textEn}</span>
+            <span class="lang-ur-text">${textUr}</span>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   setTimeout(() => document.querySelectorAll('.agent-step').forEach(el => el.classList.add('show')), 100);
 
   document.getElementById('cropRec').innerHTML = `
-    <span class="lang-en-text">${(r.recommendationEn || '').replace(/\n/g, '<br>')}</span>
-    <span class="lang-ur-text">${(r.recommendationUr || '').replace(/\n/g, '<br>')}</span>
+    <span class="lang-en-text">${(r.recommendationEn || r.recommendation || '').replace(/\n/g, '<br>')}</span>
+    <span class="lang-ur-text">${(r.recommendationUr || r.recommendation || '').replace(/\n/g, '<br>')}</span>
   `;
 
   // Add reset button
@@ -612,22 +618,28 @@ function renderLivestockResult(r) {
     <span class="lang-ur-text">یقینی حد: ${r.probability}% | جانور: ${animalUr}</span>
   `;
 
-  document.getElementById('liveSteps').innerHTML = r.steps.map((s, i) => `
-    <div class="agent-step" style="transition-delay:${i * 0.12}s">
-      <div class="step-emoji">${s.emoji}</div>
-      <div class="step-body">
-        <div class="step-num">Step ${s.step}</div>
-        <div class="step-title-urdu">
-          <span class="lang-en-text">${s.titleEn}</span>
-          <span class="lang-ur-text">${s.titleUr}</span>
-        </div>
-        <div class="step-text">
-          <span class="lang-en-text">${s.textEn}</span>
-          <span class="lang-ur-text">${s.textUr}</span>
+  document.getElementById('liveSteps').innerHTML = r.steps.map((s, i) => {
+    const titleEn = s.titleEn || s.title || '';
+    const titleUr = s.titleUr || s.title || '';
+    const textEn = s.textEn || s.text || '';
+    const textUr = s.textUr || s.text || '';
+    return `
+      <div class="agent-step" style="transition-delay:${i * 0.12}s">
+        <div class="step-emoji">${s.emoji}</div>
+        <div class="step-body">
+          <div class="step-num">Step ${s.step}</div>
+          <div class="step-title-urdu">
+            <span class="lang-en-text">${titleEn}</span>
+            <span class="lang-ur-text">${titleUr}</span>
+          </div>
+          <div class="step-text">
+            <span class="lang-en-text">${textEn}</span>
+            <span class="lang-ur-text">${textUr}</span>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   setTimeout(() => res.querySelectorAll('.agent-step').forEach(el => el.classList.add('show')), 100);
 
   document.getElementById('vetBanner').style.display = r.vetRequired ? 'flex' : 'none';
