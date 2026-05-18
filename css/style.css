@@ -669,9 +669,5 @@ body.lang-ur .load-urdu { font-size: 15px; }
 body.lang-ur .price-chip .pc-crop { font-size: 14px; font-weight: 700; }
 body.lang-ur .price-chip .pc-price { font-size: 15px; font-weight: bold; }
 
-/* English Language Layout Adjustments */
-body.lang-en .topbar-urdu,
-body.lang-en .bhb-urdu {
-  display: none !important;
-}
+
 
