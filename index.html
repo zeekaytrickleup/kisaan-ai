@@ -32,18 +32,64 @@
 <!-- ── APP SHELL ── -->
 <div id="app">
 
-  <!-- ════════════════════════════════════════ HOME SCREEN ════ -->
-  <div class="screen active" id="screen-home">
-    <div class="topbar">
+  <!-- ── GLOBAL FIXED HEADER ── -->
+  <div class="topbar">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <!-- Global Back Button (only shown on sub-screens) -->
+      <button class="global-back-btn" id="globalBackBtn" onclick="navigate('home')" style="display:none; background:var(--s2); border:1px solid var(--border); border-radius:8px; padding:6px 12px; color:var(--m2); font-size:12px; cursor:pointer; font-weight:700;">←</button>
+      
       <div>
-        <div class="topbar-logo lang-en-text">🌾 KISAAN AI</div>
-        <div class="topbar-urdu lang-ur-text">کسان اے آئی</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">English (EN)</button>
-        <div class="weather-chip" id="weatherChip">🌡️ --°C</div>
+        <!-- Home Title -->
+        <div class="global-logo-item" id="gl-home">
+          <div class="topbar-logo lang-en-text">🌾 KISAAN AI</div>
+          <div class="topbar-urdu lang-ur-text">کسان اے آئی</div>
+        </div>
+        <!-- About Title -->
+        <div class="global-logo-item" id="gl-about" style="display:none">
+          <div class="topbar-logo lang-en-text">🏆 Kisaan AI Pitch</div>
+          <div class="topbar-urdu lang-ur-text">اے آئی سیکھو 2026</div>
+        </div>
+        <!-- Encyclopedia Title -->
+        <div class="global-logo-item" id="gl-enc" style="display:none">
+          <div class="topbar-logo lang-en-text">🦠 Encyclopedia</div>
+          <div class="topbar-urdu lang-ur-text">بیماریوں کا انسائیکلوپیڈیا</div>
+        </div>
+        <!-- Crop Title -->
+        <div class="global-logo-item" id="gl-crop" style="display:none">
+          <div class="topbar-logo lang-en-text">🌿 Crop Disease AI</div>
+          <div class="topbar-urdu lang-ur-text">فصل کی بیماری کا علاج</div>
+        </div>
+        <!-- Sewa Title -->
+        <div class="global-logo-item" id="gl-sewa" style="display:none">
+          <div class="topbar-logo lang-en-text">🚜 Kisaan Sewa</div>
+          <div class="topbar-urdu lang-ur-text">کسان سروسز مارکیٹ</div>
+        </div>
+        <!-- Mandi Title -->
+        <div class="global-logo-item" id="gl-mandi" style="display:none">
+          <div class="topbar-logo lang-en-text">💰 Mandi Prices</div>
+          <div class="topbar-urdu lang-ur-text">منڈی مشورہ</div>
+        </div>
+        <!-- Livestock Title -->
+        <div class="global-logo-item" id="gl-live" style="display:none">
+          <div class="topbar-logo lang-en-text">🐄 Livestock AI</div>
+          <div class="topbar-urdu lang-ur-text">مویشی صحت تشخیص</div>
+        </div>
+        <!-- Irrigation Title -->
+        <div class="global-logo-item" id="gl-irr" style="display:none">
+          <div class="topbar-logo lang-en-text">💧 Irrigation AI</div>
+          <div class="topbar-urdu lang-ur-text">آبپاشی منصوبہ ساز</div>
+        </div>
       </div>
     </div>
+    
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">English (EN)</button>
+      <div class="weather-chip" id="weatherChip">🌡️ --°C</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ HOME SCREEN ════ -->
+  <div class="screen active" id="screen-home">
 
     <div class="home-scroll">
       <!-- Daily Alert -->
@@ -155,14 +201,7 @@
   </div>
 
   <!-- ════ ABOUT / PITCH SCREEN ════ -->
-  <div class="screen" id="screen-about">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">🏆 Kisaan AI Pitch</div>
-        <div class="topbar-urdu">اے آئی سیکھو 2026</div>
-      </div>
-      <button onclick="navigate('home')" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--m2);font-size:12px;cursor:pointer">← گھر</button>
-    </div>
+<div class="screen" id="screen-about">
     <div style="padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
 
       <!-- Hero -->
@@ -250,14 +289,7 @@
   </div>
 
   <!-- ══════════════════════════════════════ DISEASE ENCYCLOPEDIA ════ -->
-  <div class="screen" id="screen-enc">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">🦠 Disease Encyclopedia</div>
-        <div class="topbar-urdu">بیماریوں کا انسائیکلوپیڈیا</div>
-      </div>
-      <button onclick="navigate('home')" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--m2);font-size:12px;cursor:pointer">← گھر</button>
-    </div>
+<div class="screen" id="screen-enc">
     <div style="padding:8px 16px 4px">
       <input type="text" id="encSearch" placeholder="بیماری تلاش کریں... (Search disease)" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:Outfit,sans-serif;font-size:13px;margin-bottom:10px;outline:none;" onkeyup="filterDiseases(document.querySelector('.enc-filter-btn.active').dataset.filter)">
       <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="encFilter">
@@ -272,13 +304,7 @@
   </div>
 
   <!-- ════════════════════════════════════════ CROP SCREEN ════ -->
-  <div class="screen" id="screen-crop">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">🌿 Crop Disease AI</div>
-        <div class="topbar-urdu">فصل کی بیماری کا علاج</div>
-      </div>
-    </div>
+<div class="screen" id="screen-crop">
 
     <div class="upload-zone" id="cropUploadZone">
       <input type="file" id="cropInput" accept="image/*" capture="environment">
@@ -319,13 +345,7 @@
   </div>
 
   <!-- ════════════════════════════════════════ MANDI SCREEN ════ -->
-  <div class="screen" id="screen-mandi">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">💰 Mandi Advisor</div>
-        <div class="topbar-urdu">منڈی مشورہ</div>
-      </div>
-    </div>
+<div class="screen" id="screen-mandi">
 
     <div class="mandi-body">
       <div class="select-row">
@@ -371,13 +391,7 @@
   </div>
 
   <!-- ════════════════════════════════════════ LIVESTOCK SCREEN ════ -->
-  <div class="screen" id="screen-live">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">🐄 Livestock AI</div>
-        <div class="topbar-urdu">مویشی صحت تشخیص</div>
-      </div>
-    </div>
+<div class="screen" id="screen-live">
 
     <div class="live-body">
       <!-- Animal Selection -->
@@ -423,13 +437,7 @@
   </div>
 
   <!-- ════════════════════════════════════════ IRRIGATION SCREEN ════ -->
-  <div class="screen" id="screen-irr">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">💧 Irrigation AI</div>
-        <div class="topbar-urdu">آبپاشی منصوبہ ساز</div>
-      </div>
-    </div>
+<div class="screen" id="screen-irr">
 
     <div class="irr-body">
       <div class="irr-form">
@@ -496,13 +504,7 @@
   </div>
 
   <!-- ════════════════════════════════════════ SEWA (SERVICES) SCREEN ════ -->
-  <div class="screen" id="screen-sewa">
-    <div class="topbar">
-      <div>
-        <div class="topbar-logo">🚜 Kisaan Sewa</div>
-        <div class="topbar-urdu">کسان سروسز مارکیٹ</div>
-      </div>
-    </div>
+<div class="screen" id="screen-sewa">
 
     <div class="sewa-body" style="overflow-y:auto; flex:1; padding-bottom:20px;">
       <!-- Service Input -->

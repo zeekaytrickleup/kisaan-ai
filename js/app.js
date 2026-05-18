@@ -143,6 +143,17 @@ function navigate(screenId) {
   document.getElementById('screen-' + screenId)?.classList.add('active');
   document.getElementById('nav-' + screenId)?.classList.add('active');
   STATE.currentScreen = screenId;
+
+  // Dynamically update the Unified Global Header
+  document.querySelectorAll('.global-logo-item').forEach(el => el.style.display = 'none');
+  const activeLogo = document.getElementById('gl-' + screenId);
+  if (activeLogo) activeLogo.style.display = 'block';
+
+  // Toggle Global Back Button visibility (only show on sub-screens)
+  const backBtn = document.getElementById('globalBackBtn');
+  if (backBtn) {
+    backBtn.style.display = screenId === 'home' ? 'none' : 'block';
+  }
 }
 
 // ── Splash ──────────────────────────────────────────────
