@@ -768,7 +768,7 @@ function addVoiceButton(containerId, textToSpeak) {
     <span class="lang-en-text">🔊 Listen to Audio Advisory</span>
     <span class="lang-ur-text">🔊 آواز میں سنیں</span>
   `;
-  btn.style.cssText = 'margin:10px 0 0;padding:8px 16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;width:100%';
+  btn.style.cssText = 'margin:10px 0 0;padding:8px 16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;width:100%;justify-content:center;';
   btn.onclick = () => {
     const isPlaying = btn.dataset.playing === 'true';
     if (isPlaying) { 
@@ -812,9 +812,8 @@ function addShareButton(containerId, title, body) {
   const btn = document.createElement('button');
   btn.className = 'whatsapp-btn';
   btn.innerHTML = `
-    <span style="font-size:16px">📲</span> 
-    <span class="lang-en-text">Share on WhatsApp</span>
-    <span class="lang-ur-text">WhatsApp پر شیئر کریں</span>
+    <span class="lang-en-text">📲 Share on WhatsApp</span>
+    <span class="lang-ur-text">📲 WhatsApp پر شیئر کریں</span>
   `;
   btn.style.cssText = 'margin:8px 0 0;padding:10px 16px;background:#075E54;border:none;border-radius:10px;color:#fff;font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;justify-content:center';
   btn.onclick = () => shareOnWhatsApp(title, body);
