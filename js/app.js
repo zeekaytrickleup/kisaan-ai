@@ -17,29 +17,80 @@ const STATE = {
 // ── Seasonal context (Phase 3 — expanded) ──────────────
 const SEASONAL_DATA = {
   1: { en:'Wheat Growth Stage', ur:'گندم میں کانگ نکل رہی ہے', season:'rabi',
-    tips:['گندم کو ایک آبپاشی دیں — کانگ مرحلہ','زرد زنگ کی نگرانی کریں — روزانہ چیک کریں','درجہ حرارت کم — فنگل حملے کا خطرہ زیادہ'] },
+    tips:[
+      { en: 'Irrigate wheat - tillering stage', ur: 'گندم کو ایک آبپاشی دیں — کانگ مرحلہ' },
+      { en: 'Monitor for yellow rust - check daily', ur: 'زرد زنگ کی نگرانی کریں — روزانہ چیک کریں' },
+      { en: 'Low temperature - high fungal risk', ur: 'درجہ حرارت کم — فنگل حملے کا خطرہ زیادہ' }
+    ] },
   2: { en:'Pre-Harvest Alert', ur:'گندم پک رہی ہے', season:'rabi',
-    tips:['کٹائی مشینری ابھی بک کریں','دانہ سخت ہونے تک انتظار کریں','منڈی میں بھاؤ چیک کریں — اچھا وقت ہے'] },
+    tips:[
+      { en: 'Book harvesting machinery now', ur: 'کٹائی مشینری ابھی بک کریں' },
+      { en: 'Wait until grain is hard', ur: 'دانہ سخت ہونے تک انتظار کریں' },
+      { en: 'Check market prices - good timing', ur: 'منڈی میں بھاؤ چیک کریں — اچھا وقت ہے' }
+    ] },
   3: { en:'Wheat Harvest Season', ur:'گندم کی کٹائی', season:'rabi',
-    tips:['صبح سویرے کٹائی کریں — نمی کم ہوتی ہے','خشک جگہ اسٹوریج کریں','کپاس کے بیج ابھی خریدیں'] },
+    tips:[
+      { en: 'Harvest early in the morning - low moisture', ur: 'صبح سویرے کٹائی کریں — نمی کم ہوتی ہے' },
+      { en: 'Store in dry place', ur: 'خشک جگہ اسٹوریج کریں' },
+      { en: 'Purchase cotton seeds now', ur: 'کپاس کے بیج ابھی خریدیں' }
+    ] },
   4: { en:'Cotton Sowing Season', ur:'کپاس کی بوائی', season:'kharif',
-    tips:['BT Cotton مزاحم اقسام استعمال کریں','زمین کی تیاری مکمل کریں','وائٹ فلائی کنٹرول کا پہلے انتظام کریں','بیج کو Imidacloprid سے ٹریٹ کریں'] },
+    tips:[
+      { en: 'Use resistant BT Cotton varieties', ur: 'BT Cotton مزاحم اقسام استعمال کریں' },
+      { en: 'Complete land preparation', ur: 'زمین کی تیاری مکمل کریں' },
+      { en: 'Pre-arrange whitefly control measures', ur: 'وائٹ فلائی کنٹرول کا پہلے انتظام کریں' },
+      { en: 'Treat seed with Imidacloprid', ur: 'بیج کو Imidacloprid سے ٹریٹ کریں' }
+    ] },
   5: { en:'Cotton/Rice Sowing', ur:'کپاس اور چاول بوائی', season:'kharif',
-    tips:['مئی 15 تک کپاس بوائی مکمل کریں','چاول نرسری تیار کریں','مکئی کی بوائی شروع کریں','فیرومون ٹریپ لگائیں'] },
+    tips:[
+      { en: 'Complete cotton sowing by May 15', ur: 'مئی 15 تک کپاس بوائی مکمل کریں' },
+      { en: 'Prepare rice nursery beds', ur: 'چاول نرسری تیار کریں' },
+      { en: 'Start sowing Kharif maize', ur: 'مکئی کی بوائی شروع کریں' },
+      { en: 'Install pheromone traps to monitor pests', ur: 'فیرومون ٹریپ لگائیں' }
+    ] },
   6: { en:'Kharif Season Begins', ur:'خریف کا موسم شروع', season:'kharif',
-    tips:['مکئی، چاول اور کپاس پر توجہ دیں','آبپاشی شام کو کریں — پانی بچائیں','BPH کے لیے چاول کو چیک کریں'] },
+    tips:[
+      { en: 'Focus on maize, rice, and cotton', ur: 'مکئی، چاول اور کپاس پر توجہ دیں' },
+      { en: 'Irrigate in the evening - save water', ur: 'آبپاشی شام کو کریں — پانی بچائیں' },
+      { en: 'Check rice for Brown Plant Hopper', ur: 'BPH کے لیے چاول کو چیک کریں' }
+    ] },
   7: { en:'Kharif Peak', ur:'خریف عروج پر', season:'kharif',
-    tips:['گرمی میں پانی زیادہ دیں','Boll Worm کے لیے کپاس چیک کریں','چاول میں Blast کی نگرانی'] },
+    tips:[
+      { en: 'Increase irrigation frequency in hot weather', ur: 'گرمی میں پانی زیادہ دیں' },
+      { en: 'Check cotton for Boll Worm', ur: 'Boll Worm کے لیے کپاس چیک کریں' },
+      { en: 'Monitor rice for blast disease', ur: 'چاول میں Blast کی نگرانی' }
+    ] },
   8: { en:'Kharif Monitoring', ur:'خریف فصلوں کی نگرانی', season:'kharif',
-    tips:['چاول بلاسٹ عام ہے — Beam فوری سپرے','کپاس گھنڈی بننے کا مرحلہ','گندم کے لیے زمین تیار کرنا شروع کریں'] },
+    tips:[
+      { en: 'Rice blast is common - spray Beam immediately', ur: 'چاول بلاسٹ عام ہے — Beam فوری سپرے' },
+      { en: 'Cotton square and boll formation stage', ur: 'کپاس گھنڈی بننے کا مرحلہ' },
+      { en: 'Start land preparation for wheat', ur: 'گندم کے لیے زمین تیار کرنا شروع کریں' }
+    ] },
   9: { en:'Pre-Rabi Preparation', ur:'ربیع کی تیاری', season:'transition',
-    tips:['زمین کی جانچ کروائیں — مٹی ٹیسٹ','گندم کا بیج خریدیں — مزاحم اقسام','کھاد کا ذخیرہ کریں'] },
+    tips:[
+      { en: 'Get soil test done', ur: 'زمین کی جانچ کروائیں — مٹی ٹیسٹ' },
+      { en: 'Buy wheat seed - use resistant varieties', ur: 'گندم کا بیج خریدیں — مزاحم اقسام' },
+      { en: 'Stock fertilizer', ur: 'کھاد کا ذخیرہ کریں' }
+    ] },
   10: { en:'Wheat Sowing Season', ur:'گندم کی بوائی', season:'rabi',
-    tips:['اکتوبر 20 سے نومبر 20 — بہترین وقت','Inquilab-91 یا Seher-2006 بیج','بیج ٹریٹمنٹ ضرور کریں — Raxil','پہلی آبپاشی بوائی کے 3 ہفتے بعد'] },
+    tips:[
+      { en: 'Oct 20 to Nov 20 - best sowing window', ur: 'اکتوبر 20 سے نومبر 20 — بہترین وقت' },
+      { en: 'Inquilab-91 or Seher-2006 seeds', ur: 'Inquilab-91 یا Seher-2006 بیج' },
+      { en: 'Must treat seed with fungicide - Raxil', ur: 'بیج ٹریٹمنٹ ضرور کریں — Raxil' },
+      { en: 'First irrigation 3 weeks after sowing', ur: 'پہلی آبپاشی بوائی کے 3 ہفتے بعد' }
+    ] },
   11: { en:'Wheat Growing Fast', ur:'گندم تیزی سے بڑھ رہی ہے', season:'rabi',
-    tips:['نومبر 20 تک بوائی مکمل کریں','پہلی آبپاشی وقت پر دیں','زنگ کے لیے پابندی سے چیک کریں'] },
+    tips:[
+      { en: 'Complete wheat sowing by November 20', ur: 'نومبر 20 تک بوائی مکمل کریں' },
+      { en: 'Provide first irrigation on time', ur: 'پہلی آبپاشی وقت پر دیں' },
+      { en: 'Check regularly for rust diseases', ur: 'زنگ کے لیے پابندی سے چیک کریں' }
+    ] },
   12: { en:'Rabi Season Care', ur:'ربیع فصل کی دیکھ بھال', season:'rabi',
-    tips:['گندم کو دوسری آبپاشی دیں','زرد زنگ کا موسم شروع ہوتا ہے','سردی میں کم آبپاشی کریں'] },
+    tips:[
+      { en: 'Provide second irrigation to wheat', ur: 'گندم کو دوسری آبپاشی دیں' },
+      { en: 'Yellow rust season begins', ur: 'زرد زنگ کا موسم شروع ہوتا ہے' },
+      { en: 'Reduce irrigation frequency in cold weather', ur: 'سردی میں کم آبپاشی کریں' }
+    ] },
 };
 
 function getSeasonalAlert() {
@@ -58,44 +109,79 @@ function renderEncyclopedia(filter = 'all') {
   }
   
   if (filtered.length === 0) {
-    list.innerHTML = `<div class="empty-state"><div class="es-icon">🔍</div><p>کوئی بیماری نہیں ملی</p></div>`;
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="es-icon">🔍</div>
+        <p class="lang-en-text">No diseases found</p>
+        <p class="lang-ur-text">کوئی بیماری نہیں ملی</p>
+      </div>`;
     return;
   }
   
-  list.innerHTML = filtered.map((d, i) => `
-    <div class="disease-card" id="dc${i}" onclick="toggleDiseaseCard(${i})">
-      <div class="dc-head">
-        <div class="dc-sev" style="background:${sevColor[d.severity] || 'var(--muted)'}"></div>
-        <div style="flex:1">
-          <div class="dc-name">${d.name}</div>
-          <div class="dc-urdu">${d.urdu}</div>
-        </div>
-        <div class="dc-crop-tag">${d.crop === 'all' ? '🌿 تمام' : d.crop}</div>
-      </div>
-      <div class="dc-body">
-        <div class="dc-row">
-          <div class="dc-icon">🔍</div>
-          <div><div class="dc-label">علامات</div><div class="dc-val">${d.symptoms}</div></div>
-        </div>
-        <div class="dc-row">
-          <div class="dc-icon">💊</div>
-          <div><div class="dc-label">علاج</div><div class="dc-val">${d.treatment}</div></div>
-        </div>
-        <div class="dc-row">
-          <div class="dc-icon">🛡️</div>
-          <div><div class="dc-label">بچاؤ</div><div class="dc-val">${d.prevention}</div></div>
-        </div>
-        <div class="dc-row">
-          <div class="dc-icon">💰</div>
-          <div>
-            <div class="dc-label">لاگت فی ایکڑ</div>
-            <div class="dc-cost">${d.cost > 0 ? 'PKR ' + d.cost.toLocaleString() : 'مزاحم قسم استعمال کریں'}</div>
+  list.innerHTML = filtered.map((d, i) => {
+    const costText = d.cost > 0 
+      ? 'PKR ' + d.cost.toLocaleString() 
+      : `<span class="lang-en-text">Use resistant variety</span><span class="lang-ur-text">مزاحم قسم استعمال کریں</span>`;
+      
+    return `
+      <div class="disease-card" id="dc${i}" onclick="toggleDiseaseCard(${i})">
+        <div class="dc-head">
+          <div class="dc-sev" style="background:${sevColor[d.severity] || 'var(--muted)'}"></div>
+          <div style="flex:1">
+            <div class="dc-name lang-en-text">${d.name}</div>
+            <div class="dc-urdu lang-ur-text">${d.urdu}</div>
+          </div>
+          <div class="dc-crop-tag">
+            <span class="lang-en-text">${d.crop === 'all' ? '🌿 All' : d.crop.toUpperCase()}</span>
+            <span class="lang-ur-text">${d.crop === 'all' ? '🌿 تمام' : (MANDI_DATA[d.crop] ? MANDI_DATA[d.crop].name : d.crop)}</span>
           </div>
         </div>
-        ${d.markets && d.markets.length ? `<div class="dc-markets">${d.markets.map(m => `<span class="dc-market-tag">${m}</span>`).join('')}</div>` : ''}
+        <div class="dc-body">
+          <div class="dc-row">
+            <div class="dc-icon">🔍</div>
+            <div>
+              <div class="dc-label">
+                <span class="lang-en-text">Symptoms</span>
+                <span class="lang-ur-text">علامات</span>
+              </div>
+              <div class="dc-val">${d.symptoms}</div>
+            </div>
+          </div>
+          <div class="dc-row">
+            <div class="dc-icon">💊</div>
+            <div>
+              <div class="dc-label">
+                <span class="lang-en-text">Treatment</span>
+                <span class="lang-ur-text">علاج</span>
+              </div>
+              <div class="dc-val">${d.treatment}</div>
+            </div>
+          </div>
+          <div class="dc-row">
+            <div class="dc-icon">🛡️</div>
+            <div>
+              <div class="dc-label">
+                <span class="lang-en-text">Prevention</span>
+                <span class="lang-ur-text">بچاؤ</span>
+              </div>
+              <div class="dc-val">${d.prevention}</div>
+            </div>
+          </div>
+          <div class="dc-row">
+            <div class="dc-icon">💰</div>
+            <div>
+              <div class="dc-label">
+                <span class="lang-en-text">Cost Per Acre</span>
+                <span class="lang-ur-text">لاگت فی ایکڑ</span>
+              </div>
+              <div class="dc-cost">${costText}</div>
+            </div>
+          </div>
+          ${d.markets && d.markets.length ? `<div class="dc-markets">${d.markets.map(m => `<span class="dc-market-tag">${m}</span>`).join('')}</div>` : ''}
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function toggleDiseaseCard(i) {
@@ -113,12 +199,19 @@ function filterDiseases(filter) {
 function renderSeasonalTips() {
   const month = new Date().getMonth() + 1;
   const data = SEASONAL_DATA[month] || SEASONAL_DATA[5];
-  const monthNames = ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'];
-  document.getElementById('seasonTipTitle').textContent = `📅 ${monthNames[month-1]} کے اہم کام`;
+  const monthNamesUr = ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'];
+  const monthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  
+  document.getElementById('seasonTipTitle').innerHTML = `
+    <span class="lang-en-text">📅 Key Tasks for ${monthNamesEn[month-1]}</span>
+    <span class="lang-ur-text">📅 ${monthNamesUr[month-1]} کے اہم کام</span>
+  `;
+  
   document.getElementById('seasonTipsList').innerHTML = data.tips.map(t =>
     `<div style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--m2)">
       <span style="color:var(--gold);flex-shrink:0">✓</span>
-      <span style="font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.8">${t}</span>
+      <span class="lang-en-text" style="direction:ltr;line-height:1.6">${t.en}</span>
+      <span class="lang-ur-text" style="font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.8">${t.ur}</span>
     </div>`
   ).join('');
 }
@@ -131,7 +224,8 @@ function renderHomeDiseaseTags() {
     `<span onclick="navigate('enc')" style="cursor:pointer;background:var(--s2);border:1px solid ${sevColor[d.severity]}33;
      border-radius:20px;padding:4px 10px;font-size:10px;color:${sevColor[d.severity]};display:inline-flex;gap:4px;align-items:center">
       <span style="width:5px;height:5px;background:${sevColor[d.severity]};border-radius:50%;display:inline-block"></span>
-      ${d.urdu}
+      <span class="lang-en-text">${d.name}</span>
+      <span class="lang-ur-text">${d.urdu}</span>
     </span>`
   ).join('');
 }
@@ -907,6 +1001,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // addDemoButton(); // Removed for live release
   initCounters();
   
+  // Initialize default language and placeholders
+  document.body.classList.add('lang-ur');
+  updatePlaceholders();
+  
   // Phase 5: Offline indicator
   window.addEventListener('offline', () => {
     let banner = document.getElementById('offlineBanner');
@@ -959,6 +1057,23 @@ function toggleLanguage() {
   }
   updateLangToggleButton();
   updateSeasonalAlertUI();
+  updatePlaceholders();
+}
+
+function updatePlaceholders() {
+  const encSearch = document.getElementById('encSearch');
+  const symptomInput = document.getElementById('symptomInput');
+  const sewaInput = document.getElementById('sewaInput');
+  
+  if (currentLanguage === 'en') {
+    if (encSearch) encSearch.placeholder = "Search disease...";
+    if (symptomInput) symptomInput.placeholder = "e.g., fever, not eating, running nose, mouth ulcers...";
+    if (sewaInput) sewaInput.placeholder = "e.g., need harvester tomorrow for 5 acres of wheat, tight budget...";
+  } else {
+    if (encSearch) encSearch.placeholder = "بیماری تلاش کریں... (Search disease)";
+    if (symptomInput) symptomInput.placeholder = "مثال: بخار ہے، کھانا نہیں کھا رہا، ناک بہ رہا ہے، منہ میں چھالے ہیں...";
+    if (sewaInput) sewaInput.placeholder = "مثال: parson 5 acre gandum kaatne ke liye harvester chahiye, budget tight hai...";
+  }
 }
 
 function updateLangToggleButton() {

@@ -296,11 +296,26 @@
     <div style="padding:8px 16px 4px">
       <input type="text" id="encSearch" placeholder="بیماری تلاش کریں... (Search disease)" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:Outfit,sans-serif;font-size:13px;margin-bottom:10px;outline:none;" onkeyup="filterDiseases(document.querySelector('.enc-filter-btn.active').dataset.filter)">
       <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="encFilter">
-        <button class="enc-filter-btn active" data-filter="all" onclick="filterDiseases('all')">تمام</button>
-        <button class="enc-filter-btn" data-filter="wheat" onclick="filterDiseases('wheat')">🌾 گندم</button>
-        <button class="enc-filter-btn" data-filter="cotton" onclick="filterDiseases('cotton')">🌿 کپاس</button>
-        <button class="enc-filter-btn" data-filter="rice" onclick="filterDiseases('rice')">🍚 چاول</button>
-        <button class="enc-filter-btn" data-filter="maize" onclick="filterDiseases('maize')">🌽 مکئی</button>
+        <button class="enc-filter-btn active" data-filter="all" onclick="filterDiseases('all')">
+          <span class="lang-en-text">All</span>
+          <span class="lang-ur-text">تمام</span>
+        </button>
+        <button class="enc-filter-btn" data-filter="wheat" onclick="filterDiseases('wheat')">
+          <span class="lang-en-text">🌾 Wheat</span>
+          <span class="lang-ur-text">🌾 گندم</span>
+        </button>
+        <button class="enc-filter-btn" data-filter="cotton" onclick="filterDiseases('cotton')">
+          <span class="lang-en-text">🌿 Cotton</span>
+          <span class="lang-ur-text">🌿 کپاس</span>
+        </button>
+        <button class="enc-filter-btn" data-filter="rice" onclick="filterDiseases('rice')">
+          <span class="lang-en-text">🍚 Rice</span>
+          <span class="lang-ur-text">🍚 چاول</span>
+        </button>
+        <button class="enc-filter-btn" data-filter="maize" onclick="filterDiseases('maize')">
+          <span class="lang-en-text">🌽 Maize</span>
+          <span class="lang-ur-text">🌽 مکئی</span>
+        </button>
       </div>
     </div>
     <div id="diseaseList" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto"></div>
@@ -312,24 +327,33 @@
     <div class="upload-zone" id="cropUploadZone">
       <input type="file" id="cropInput" accept="image/*" capture="environment">
       <div class="uz-icon">📸</div>
-      <div class="uz-title">Take or Upload Crop Photo</div>
-      <div class="uz-sub">Tap to open camera or choose image</div>
-      <div class="uz-urdu">فصل کی تصویر لیں یا اپلوڈ کریں</div>
+      <div class="uz-title lang-en-text">Take or Upload Crop Photo</div>
+      <div class="uz-sub lang-en-text">Tap to open camera or choose image</div>
+      <div class="uz-urdu lang-ur-text">فصل کی تصویر لیں یا اپلوڈ کریں</div>
     </div>
 
     <div id="cropPreviewWrap"><img id="cropPreview" alt="Crop preview"></div>
-    <button class="analyze-btn" id="analyzeBtn">🔬 Analyze with Gemini AI — تجزیہ کریں</button>
+    <button class="analyze-btn" id="analyzeBtn">
+      <span class="lang-en-text">🔬 Analyze with Gemini AI</span>
+      <span class="lang-ur-text">🔬 ابھی تجزیہ کریں</span>
+    </button>
     <div id="apiStatusBadge" style="display:none;margin:6px 16px 0;padding:8px 14px;border-radius:10px;font-size:11px;font-weight:600;text-align:center"></div>
 
     <!-- Result -->
     <div class="result-section" id="cropResult">
       <div class="disease-header">
-        <div class="dh-label">Disease Detected — تشخیص</div>
+        <div class="dh-label">
+          <span class="lang-en-text">Disease Detected</span>
+          <span class="lang-ur-text">تشخیص شدہ بیماری</span>
+        </div>
         <div class="dh-name" id="diseaseName"></div>
         <div class="dh-conf" id="diseaseConf"></div>
         <div class="severity-wrap">
           <div class="severity-label">
-            <span id="severityLabel">شدت</span>
+            <span id="severityLabel">
+              <span class="lang-en-text">Severity</span>
+              <span class="lang-ur-text">شدت</span>
+            </span>
             <span id="severityPct">0%</span>
           </div>
           <div class="severity-bar-bg"><div class="severity-bar-fill" id="severityFill"></div></div>
@@ -337,7 +361,10 @@
       </div>
 
       <div class="financial-impact">
-        <div class="fi-title">⏱️ اگر علاج نہ کیا تو — What If You Don't Treat</div>
+        <div class="fi-title">
+          <span class="lang-en-text">⏱️ If Left Untreated</span>
+          <span class="lang-ur-text">⏱️ اگر علاج نہ کیا گیا</span>
+        </div>
         <div class="fi-timeline" id="fiTimeline"></div>
       </div>
 
@@ -360,11 +387,11 @@
           <option value="maize">🌽 Maize — مکئی</option>
         </select>
         <select class="styled-select" id="mandiCity">
-          <option value="lahore">لاہور</option>
-          <option value="karachi">کراچی</option>
-          <option value="faisalabad">فیصل آباد</option>
-          <option value="multan">ملتان</option>
-          <option value="rawalpindi">راولپنڈی</option>
+          <option value="lahore">📍 Lahore — لاہور</option>
+          <option value="karachi">📍 Karachi — کراچی</option>
+          <option value="faisalabad">📍 Faisalabad — فیصل آباد</option>
+          <option value="multan">📍 Multan — ملتان</option>
+          <option value="rawalpindi">📍 Rawalpindi — راولپنڈی</option>
         </select>
       </div>
 
@@ -373,7 +400,10 @@
           <div>
             <div class="mc-crop" id="mandiCropName"></div>
             <div class="mc-city" id="mandiCityName"></div>
-            <div style="font-size:9px;color:var(--muted);margin-top:4px">Last updated: Today (AMIS)</div>
+            <div style="font-size:9px;color:var(--muted);margin-top:4px">
+              <span class="lang-en-text">Last updated: Today (AMIS)</span>
+              <span class="lang-ur-text">آخری اپ ڈیٹ: آج (AMIS)</span>
+            </div>
           </div>
           <div class="mc-trend" id="mandiTrend"></div>
         </div>
@@ -384,10 +414,16 @@
         <div class="mc-prediction" id="mandiPrediction"></div>
       </div>
 
-      <button class="nego-btn" id="negoBtn">📋 مذاکراتی اسکرپٹ بنائیں — Write Negotiation Script</button>
+      <button class="nego-btn" id="negoBtn">
+        <span class="lang-en-text">📋 Write Negotiation Script</span>
+        <span class="lang-ur-text">📋 مذاکراتی اسکرپٹ بنائیں</span>
+      </button>
 
       <div class="nego-script" id="negoScript">
-        <div class="ns-label">🗣️ آپ کی مذاکراتی اسکرپٹ — Your Negotiation Script</div>
+        <div class="ns-label">
+          <span class="lang-en-text">🗣️ Your Negotiation Script</span>
+          <span class="lang-ur-text">🗣️ آپ کی مذاکراتی اسکرپٹ</span>
+        </div>
         <div class="ns-text" id="nsText"></div>
       </div>
     </div>
@@ -400,23 +436,59 @@
       <!-- Animal Selection -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">جانور منتخب کریں — Select Animal</div>
+          <div class="card-title">
+            <span class="lang-en-text">Select Animal</span>
+            <span class="lang-ur-text">جانور منتخب کریں</span>
+          </div>
         </div>
         <div class="animal-grid" style="padding:0 14px 16px">
-          <div class="animal-btn selected" data-animal="cow"><div class="ab-icon">🐄</div><div class="ab-name">گائے</div></div>
-          <div class="animal-btn" data-animal="buffalo"><div class="ab-icon">🦬</div><div class="ab-name">بھینس</div></div>
-          <div class="animal-btn" data-animal="goat"><div class="ab-icon">🐐</div><div class="ab-name">بکری</div></div>
-          <div class="animal-btn" data-animal="sheep"><div class="ab-icon">🐑</div><div class="ab-name">بھیڑ</div></div>
+          <div class="animal-btn selected" data-animal="cow">
+            <div class="ab-icon">🐄</div>
+            <div class="ab-name">
+              <span class="lang-en-text">Cow</span>
+              <span class="lang-ur-text">گائے</span>
+            </div>
+          </div>
+          <div class="animal-btn" data-animal="buffalo">
+            <div class="ab-icon">🦬</div>
+            <div class="ab-name">
+              <span class="lang-en-text">Buffalo</span>
+              <span class="lang-ur-text">بھینس</span>
+            </div>
+          </div>
+          <div class="animal-btn" data-animal="goat">
+            <div class="ab-icon">🐐</div>
+            <div class="ab-name">
+              <span class="lang-en-text">Goat</span>
+              <span class="lang-ur-text">بکری</span>
+            </div>
+          </div>
+          <div class="animal-btn" data-animal="sheep">
+            <div class="ab-icon">🐑</div>
+            <div class="ab-name">
+              <span class="lang-en-text">Sheep</span>
+              <span class="lang-ur-text">بھیڑ</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Symptom Input -->
       <div class="symptom-area">
-        <div class="form-label">علامات بیان کریں — Describe Symptoms</div>
+        <div class="form-label">
+          <span class="lang-en-text">Describe Symptoms</span>
+          <span class="lang-ur-text">علامات بیان کریں</span>
+        </div>
         <textarea class="symptom-input" id="symptomInput" placeholder="مثال: بخار ہے، کھانا نہیں کھا رہا، ناک بہ رہا ہے، منہ میں چھالے ہیں..."></textarea>
         <div class="voice-row">
-          <button class="voice-btn" id="voiceBtn">🎤 آواز سے بتائیں</button>
-          <button class="diag-btn" id="diagBtn">🔬 تشخیص کریں</button>
+          <button class="voice-btn" id="voiceBtn">
+            <span class="lang-en-text">🎤 Speak Voice</span>
+            <span class="lang-ur-text">🎤 آواز سے بتائیں</span>
+          </button>
+          <button class="diag-btn" id="diagBtn">
+            <span class="lang-en-text">🔬 Diagnose Animal</span>
+            <span class="lang-ur-text">🔬 تشخیص کریں</span>
+          </button>
         </div>
       </div>
 
@@ -430,8 +502,14 @@
         <div class="vet-banner" id="vetBanner" style="display:none">
           <div class="vb-icon">🏥</div>
           <div>
-            <div class="vb-title">فوری ڈاکٹر بلائیں!</div>
-            <div class="vb-urdu">یہ بیماری خطرناک ہے — 24 گھنٹے میں ویٹرنری ڈاکٹر ضروری ہے</div>
+            <div class="vb-title">
+              <span class="lang-en-text">Call Vet Immediately!</span>
+              <span class="lang-ur-text">فوری ڈاکٹر بلائیں!</span>
+            </div>
+            <div class="vb-urdu">
+              <span class="lang-en-text">Critical disease detected — Veterinary consult required in 24 hours</span>
+              <span class="lang-ur-text">یہ بیماری خطرناک ہے — 24 گھنٹے میں ویٹرنری ڈاکٹر ضروری ہے</span>
+            </div>
           </div>
         </div>
         <div class="agent-steps" id="liveSteps"></div>
@@ -445,7 +523,10 @@
     <div class="irr-body">
       <div class="irr-form">
         <div>
-          <div class="form-label">فصل — Crop</div>
+          <div class="form-label">
+            <span class="lang-en-text">Crop</span>
+            <span class="lang-ur-text">فصل</span>
+          </div>
           <select class="styled-select" id="irrCrop" style="width:100%">
             <option value="wheat">🌾 گندم — Wheat</option>
             <option value="cotton">🌿 کپاس — Cotton</option>
@@ -454,7 +535,10 @@
           </select>
         </div>
         <div>
-          <div class="form-label">نشوونما کا مرحلہ — Growth Stage</div>
+          <div class="form-label">
+            <span class="lang-en-text">Growth Stage</span>
+            <span class="lang-ur-text">نشوونما کا مرحلہ</span>
+          </div>
           <select class="styled-select" id="irrStage" style="width:100%">
             <option value="germination">اگاؤ — Germination</option>
             <option value="tillering">کانگ — Tillering</option>
@@ -464,14 +548,20 @@
           </select>
         </div>
         <div>
-          <div class="form-label">مٹی کی قسم — Soil Type</div>
+          <div class="form-label">
+            <span class="lang-en-text">Soil Type</span>
+            <span class="lang-ur-text">مٹی کی قسم</span>
+          </div>
           <select class="styled-select" id="irrSoil" style="width:100%">
             <option value="clay">چکنی مٹی — Clay</option>
             <option value="loam">دوغلی مٹی — Loam</option>
             <option value="sandy">ریتلی مٹی — Sandy</option>
           </select>
         </div>
-        <button class="plan-btn" id="planBtn">💧 7 دن کا منصوبہ بنائیں — Generate 7-Day Plan</button>
+        <button class="plan-btn" id="planBtn">
+          <span class="lang-en-text">💧 Generate 7-Day Plan</span>
+          <span class="lang-ur-text">💧 7 دن کا منصوبہ بنائیں</span>
+        </button>
       </div>
 
       <!-- Cross-agent alert -->
@@ -482,23 +572,38 @@
 
       <!-- Result -->
       <div class="irr-result" id="irrResult">
-        <div class="section-title">📅 7 دن کا آبپاشی شیڈول</div>
+        <div class="section-title">
+          <span class="lang-en-text">📅 7-Day Irrigation Schedule</span>
+          <span class="lang-ur-text">📅 7 دن کا آبپاشی شیڈول</span>
+        </div>
         <div class="schedule-grid" id="schedGrid"></div>
 
         <div class="savings-card">
-          <div class="sc-title">💚 اس منصوبے سے آپ بچائیں گے</div>
+          <div class="sc-title">
+            <span class="lang-en-text">💚 With this plan, you will save</span>
+            <span class="lang-ur-text">💚 اس منصوبے سے آپ بچائیں گے</span>
+          </div>
           <div class="sc-grid">
             <div class="sc-stat">
               <div class="sc-num" id="savWater">—</div>
-              <div class="sc-label">پانی بچت</div>
+              <div class="sc-label">
+                <span class="lang-en-text">Water Saved</span>
+                <span class="lang-ur-text">پانی بچت</span>
+              </div>
             </div>
             <div class="sc-stat">
               <div class="sc-num" id="savIncome">—</div>
-              <div class="sc-label">اضافی آمدن</div>
+              <div class="sc-label">
+                <span class="lang-en-text">Extra Income</span>
+                <span class="lang-ur-text">اضافی آمدن</span>
+              </div>
             </div>
             <div class="sc-stat">
               <div class="sc-num" id="savYield">—</div>
-              <div class="sc-label">پیداوار اضافہ</div>
+              <div class="sc-label">
+                <span class="lang-en-text">Yield Increase</span>
+                <span class="lang-ur-text">پیداوار اضافہ</span>
+              </div>
             </div>
           </div>
         </div>
@@ -513,20 +618,32 @@
       <!-- Service Input -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🤖 Antigravity Voice Request</div>
-          <div class="card-sub">Roman Urdu or voice: machine booking, tractor, vet...</div>
+          <div class="card-title">
+            <span class="lang-en-text">🤖 Antigravity Voice Request</span>
+            <span class="lang-ur-text">🤖 اینٹی گریوٹی آواز کی درخواست</span>
+          </div>
+          <div class="card-sub">
+            <span class="lang-en-text">Roman Urdu or voice: machine booking, tractor, vet...</span>
+            <span class="lang-ur-text">رومن اردو یا آواز: مشین بکنگ، ٹریکٹر، ڈاکٹر...</span>
+          </div>
         </div>
         <div class="symptom-area" style="margin:0 16px 16px; background:var(--s1); border-color:var(--border);">
           <textarea class="symptom-input" id="sewaInput" placeholder="مثال: parson 5 acre gandum kaatne ke liye harvester chahiye, budget tight hai..."></textarea>
           <div class="voice-row">
-            <button class="voice-btn" id="sewaVoiceBtn">🎤 آواز سے بتائیں</button>
+            <button class="voice-btn" id="sewaVoiceBtn">
+              <span class="lang-en-text">🎤 Speak Voice</span>
+              <span class="lang-ur-text">🎤 آواز سے بتائیں</span>
+            </button>
             <button class="diag-btn" id="sewaDiagBtn" style="background:linear-gradient(135deg, var(--gold), #E68A00); color:#fff; font-weight:700;">⚡ Orchestrate</button>
           </div>
         </div>
       </div>
 
       <!-- Glowing Antigravity Terminal -->
-      <div class="section-title">📟 Google Antigravity Agent Trace</div>
+      <div class="section-title">
+        <span class="lang-en-text">📟 Google Antigravity Agent Trace</span>
+        <span class="lang-ur-text">📟 گوگل اینٹی گریوٹی ایجنٹ ٹریس</span>
+      </div>
       <div class="agt-terminal" id="agtTerminal">
         <div class="agt-log-line show"><span class="agt-tag-time">[10:00:00]</span> <span class="agt-tag-plan">INITIALIZED:</span> Standing by for natural language farm request...</div>
       </div>
@@ -605,24 +722,45 @@
         <!-- Post-Service Quality Feedback Card -->
         <div id="feedbackCard" style="display:none;" class="card">
           <div class="card-header">
-            <div class="card-title">📋 Service Quality Feedback</div>
-            <div class="card-sub">Verify operator work quality to update network rating</div>
+            <div class="card-title">
+              <span class="lang-en-text">📋 Service Quality Feedback</span>
+              <span class="lang-ur-text">📋 سروس کوالٹی فیڈ بیک</span>
+            </div>
+            <div class="card-sub">
+              <span class="lang-en-text">Verify operator work quality to update network rating</span>
+              <span class="lang-ur-text">نیٹ ورک ریٹنگ کو اپ ڈیٹ کرنے کے لیے آپریٹر کے کام کی تصدیق کریں</span>
+            </div>
           </div>
           <div style="padding: 0 16px 16px; display:flex; flex-direction:column; gap:12px;">
             <div style="text-align:center; font-size:24px; color:var(--gold); cursor:pointer;" id="feedbackStars">
               <span onclick="rateSewa(1)" id="star1">⭐</span><span onclick="rateSewa(2)" id="star2">⭐</span><span onclick="rateSewa(3)" id="star3">⭐</span><span onclick="rateSewa(4)" id="star4">⭐</span><span onclick="rateSewa(5)" id="star5">⭐</span>
             </div>
             <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center;">
-              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">🕒 وقت پر آئے (On Time)</button>
-              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">🚜 بہترین کام (Great Work)</button>
-              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">💰 کوئی خفیہ فیس نہیں</button>
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">
+                <span class="lang-en-text">🕒 On Time</span>
+                <span class="lang-ur-text">🕒 وقت پر آئے</span>
+              </button>
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">
+                <span class="lang-en-text">🚜 Great Work</span>
+                <span class="lang-ur-text">🚜 بہترین کام</span>
+              </button>
+              <button class="factor-badge" style="cursor:pointer;" onclick="this.classList.toggle('green')">
+                <span class="lang-en-text">💰 No Hidden Fees</span>
+                <span class="lang-ur-text">💰 کوئی خفیہ فیس نہیں</span>
+              </button>
             </div>
-            <button id="feedbackSubmitBtn" class="nego-btn" style="background:var(--s3); border:1px solid var(--border); color:var(--m2); padding:10px; font-size:12px; margin-top:6px;" onclick="submitSewaFeedback()">Submit Operator Rating</button>
+            <button id="feedbackSubmitBtn" class="nego-btn" style="background:var(--s3); border:1px solid var(--border); color:var(--m2); padding:10px; font-size:12px; margin-top:6px;" onclick="submitSewaFeedback()">
+              <span class="lang-en-text">Submit Operator Rating</span>
+              <span class="lang-ur-text">فیڈ بیک جمع کریں</span>
+            </button>
           </div>
         </div>
 
         <!-- Rest of Matched Providers -->
-        <div class="section-title">📋 Other Matched Providers</div>
+        <div class="section-title">
+          <span class="lang-en-text">📋 Other Matched Providers</span>
+          <span class="lang-ur-text">📋 دیگر دستیاب سروس فراہم کنندگان</span>
+        </div>
         <div class="provider-list" id="otherProvidersList"></div>
 
       </div> <!-- /sewaResult -->

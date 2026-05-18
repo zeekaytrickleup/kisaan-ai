@@ -688,5 +688,10 @@ body.lang-ur .load-urdu { font-size: 15px; }
 body.lang-ur .price-chip .pc-crop { font-size: 14px; font-weight: 700; }
 body.lang-ur .price-chip .pc-price { font-size: 15px; font-weight: bold; }
 
+/* Scroll Margin for Sticky Topbar Overlaps */
+.live-result, .result-section, .nego-script, .irr-result {
+  scroll-margin-top: 75px;
+}
+
 
 
