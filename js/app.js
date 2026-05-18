@@ -481,7 +481,10 @@ function renderCropResult(r) {
     cropSewaBtn = document.createElement('button');
     cropSewaBtn.id = 'cropSewaBtn';
     cropSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
-    cropSewaBtn.innerHTML = `🚜 Book Pesticide Sprayer via Kisaan Sewa`;
+    cropSewaBtn.innerHTML = `
+      <span class="lang-en-text">🚜 Book Pesticide Sprayer via Sewa</span>
+      <span class="lang-ur-text">🚜 پیسٹی سائیڈ سپرے کرنے والا بک کریں</span>
+    `;
     document.getElementById('cropResult').insertBefore(cropSewaBtn, resetBtn);
   }
   cropSewaBtn.onclick = () => {
@@ -650,7 +653,10 @@ function renderLivestockResult(r) {
     liveSewaBtn = document.createElement('button');
     liveSewaBtn.id = 'liveSewaBtn';
     liveSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
-    liveSewaBtn.innerHTML = `🏥 Book Emergency Vet Doctor via Sewa`;
+    liveSewaBtn.innerHTML = `
+      <span class="lang-en-text">🏥 Book Emergency Vet Doctor via Sewa</span>
+      <span class="lang-ur-text">🏥 ایمرجنسی ویٹرنری ڈاکٹر بک کریں</span>
+    `;
     document.getElementById('liveResult').appendChild(liveSewaBtn);
   }
   liveSewaBtn.onclick = () => {
@@ -717,7 +723,10 @@ function renderIrrigationResult(r) {
     irrSewaBtn = document.createElement('button');
     irrSewaBtn.id = 'irrSewaBtn';
     irrSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:16px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
-    irrSewaBtn.innerHTML = `🔧 Book Tubewell Setup or Diesel Delivery`;
+    irrSewaBtn.innerHTML = `
+      <span class="lang-en-text">🔧 Book Tubewell Setup or Diesel</span>
+      <span class="lang-ur-text">🔧 ٹیوب ویل یا ڈیزل ڈلیوری بک کریں</span>
+    `;
     document.getElementById('irrResult').appendChild(irrSewaBtn);
   }
   irrSewaBtn.onclick = () => {
