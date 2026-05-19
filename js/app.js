@@ -5,6 +5,7 @@
 // ── State ──────────────────────────────────────────────
 const STATE = {
   currentScreen: 'home',
+  location: { lat: 31.5497, lon: 74.3436 }, // Default: Lahore
   weather: null,
   cropResult: null,
   mandiResult: null,
@@ -269,8 +270,22 @@ async function initHome() {
   renderSeasonalTips();
   renderHomeDiseaseTags();
 
+  // Dynamically fetch exact GPS location of the farmer's device
+  await new Promise(resolve => {
+    if (!navigator.geolocation) return resolve();
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        STATE.location.lat = pos.coords.latitude;
+        STATE.location.lon = pos.coords.longitude;
+        resolve();
+      },
+      err => resolve(), // Fallback to Lahore if permission denied
+      { timeout: 4000, maximumAge: 3600000 }
+    );
+  });
+
   const weather = await Promise.race([
-    getWeather(),
+    getWeather(STATE.location.lat, STATE.location.lon),
     new Promise(r => setTimeout(() => r(null), 5000))
   ]);
   if (weather) {
@@ -692,7 +707,7 @@ async function runIrrigationPlan() {
   const soil = document.getElementById('irrSoil').value;
 
   const weatherStr = STATE.weather ? STATE.weather.precipitation_probability_max.slice(0, 7).join('%, ') + '%' : '';
-  const result = await runClaudeAgent('irrigation', { crop, stage, lat: 31.5497, lon: 74.3436, soilType: soil, weatherInfo: weatherStr });
+  const result = await runClaudeAgent('irrigation', { crop, stage, lat: STATE.location.lat, lon: STATE.location.lon, soilType: soil, weatherInfo: weatherStr });
   STATE.irrigationResult = result;
   hideLoading();
   renderIrrigationResult(result);
