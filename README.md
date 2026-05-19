@@ -51,16 +51,25 @@ Google Antigravity functions as the central **Brain and Orchestrator** of the en
 
 ---
 
+## 👥 Team
+
+*   **Zardad Khan** – Fullstack Developer
+*   **Fatima Farooq** – UI/UX Designer
+
+---
+
 ## 🛠️ APIs, Libraries, and Technologies Used
 
 *   **Core Engine**: Google Antigravity (Agentic workflow, decision matrix)
-*   **Weather Intelligence**: `Open-Meteo API` (Real-time localized weather query)
+*   **Location Intelligence**: `HTML5 Geolocation API` (Dynamic GPS tracking for hyper-local intelligence)
+*   **Weather Intelligence**: `Open-Meteo API` (Real-time localized weather query using dynamic coordinates)
 *   **Natural Language**: Custom Regex Tokenizer (Roman Urdu numeric parse)
 *   **Frontend Shell**: HTML5, ES6+ Javascript, Vanilla CSS Custom Properties
 *   **Interactivity & Design**: Glassmorphism UI, CSS Keyframe Micro-animations
 *   **Accessibility**: 
-    *   `Web Speech Recognition API` (Roman Urdu/English speech-to-text)
-    *   `SpeechSynthesisUtterance API` (Urdu Text-to-Speech reciter)
+    *   `Web Speech Recognition API` (Speech-to-text with iOS fallback handling)
+    *   `SpeechSynthesisUtterance API` (Native Urdu Text-to-Speech reciter)
+    *   **Google Translate TTS Engine**: Custom audio stream routing to ensure 100% flawless Urdu voice playback on iPhones and Windows devices lacking native language packs.
 *   **Offline Deployment**: Service Workers (`sw.js`), Web Manifest (`manifest.json`)
 *   **Action Simulator**: Real `wa.me` WhatsApp API URI Integration
 
