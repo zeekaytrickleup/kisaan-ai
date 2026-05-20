@@ -51,6 +51,49 @@ Google Antigravity functions as the central **Brain and Orchestrator** of the en
 
 ---
 
+## 🎨 Design Brief — UI/UX as a Solution, Not Just a Surface
+
+### Overview
+KISAAN AI is not just an AI application — it is a **trust-building tool** for a population that has historically been excluded from digital technology. The design brief begins with one core principle: **the interface itself is part of the solution.** A farmer who feels confused, talked down to, or overwhelmed by a screen will close the app. The design had to make sure that never happens.
+
+### The Design Problem
+Pakistani farmers — particularly smallholder farmers in Punjab, Sindh, and KPK — face a specific set of barriers when interacting with digital tools: low digital literacy, limited English proficiency, distrust of technology that feels foreign or complicated, and often, poor connectivity. Any interface that ignored these realities would fail before the AI ever got a chance to help.
+
+### Design Decisions & Rationale
+
+**Language as the first design decision.** KISAAN AI offers a full dual-language experience — the user can switch between Urdu and English at any point, making the app accessible to both rural farmers and the educated intermediaries, NGO workers, or family members helping them. Urdu is not a cosmetic addition or a translation layer — it is a primary interface language, given equal weight to English. This single decision removes the biggest barrier to adoption before the farmer even reaches the first feature.
+
+**Colour palette — `#0A5C36` (deep flag green), `#1EAF71` (emerald action), `#FFFFFF` (clean white), and `#F9FBF7` (warm off-white) — rooted in the field.** The interface uses two greens and two whites — clean, direct, and intentional. `#0A5C36` is the deep Pakistani flag green that carries authority and trust; `#1EAF71` is the vibrant emerald used for action/CTA elements; the colour of crops, of growth, of the land these farmers work every day. The whites `#FFFFFF` and `#F9FBF7` keep the surfaces uncluttered and easy to read in bright outdoor light — a deliberate anti-glare choice for the Punjabi/Sindhi sun.
+
+| Token | Hex | Role |
+|---|---|---|
+| `--green` | `#0A5C36` | Deep Pakistani Flag Green — authority / trust |
+| `--gold` | `#1EAF71` | Vibrant Emerald — primary CTA / action |
+| `--gold2` | `#159C61` | Emerald hover state |
+| `--s1` | `#FFFFFF` | Clean white card surfaces |
+| `--bg` | `#F9FBF7` | Warm off-white base (anti-glare) |
+| `--s2` | `#F1F4EE` | Secondary surfaces |
+| `--border` | `#DFE5DA` | Soft grey-green border |
+| `--text` | `#1C241B` | High-contrast dark text for sun readability |
+| `--red` | `#D35400` | Terracotta warning for disease / urgent states |
+
+**Familiarity as onboarding.** The layout and interaction flow take direct cues from WhatsApp — the most widely used app in rural Pakistan, with over 50 million users across the country. By designing around patterns the farmer already knows, KISAAN AI requires no tutorial, no walkthrough, no learning period. The interface is immediately intuitive because it speaks the visual language the farmer already uses every day.
+
+**Large touch targets, minimal text input.** Buttons are large and clearly labelled. Wherever possible, the farmer selects rather than types — choosing a crop from a list, selecting an animal, tapping a city. Wherever typing is unavoidable, voice input is available, supporting farmers who are illiterate or more comfortable speaking than writing.
+
+**Voice-first for critical features.** The Livestock Health AI and the Khidmat marketplace both accept voice input in Urdu via the `Web Speech API`, while AI-generated outputs (crop diagnosis, mandi negotiation script, livestock advice) can be read aloud in Urdu via TTS. This is not a feature — it is an accessibility decision. For a farmer describing a sick animal in a field, speaking is faster, more natural, and more accurate than typing.
+
+**Bilingual labelling throughout.** Every action and section carries both Urdu script and an English label — not for the farmer alone, but for the family member, NGO worker, or agricultural extension officer who may be helping them use the app. The design accounts for assisted use, not just solo use.
+
+**Installable PWA with cached shell.** Rural Pakistan has inconsistent connectivity. The app is built as a Progressive Web App with Service Worker support, so the UI shell and assets are cached after first load — meaning the farmer can re-open the app and navigate the interface even on a flaky connection. Designing for inconsistent connectivity is designing for the actual user — not an idealised one.
+
+### The Design Philosophy in One Line
+> Every design decision was made by asking: *will a farmer in Sheikhupura who has never used an app before understand this in three seconds?* If the answer was no, we changed it.
+>
+> **Design is not decoration here. Design is access.**
+
+---
+
 ## 👥 Team
 
 *   **Zardad Khan** – Fullstack Developer
