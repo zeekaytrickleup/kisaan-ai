@@ -54,7 +54,7 @@ Google Antigravity functions as the central **Brain and Orchestrator** of the en
 ## 👥 Team
 
 *   **Zardad Khan** – Fullstack Developer
-*   **Fatima Farooq** – UI/UX Designer
+*   **Fatima Farooq** – Team Lead
 
 ---
 
