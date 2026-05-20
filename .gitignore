@@ -1,1 +1,8 @@
 video/
+
+# Secrets — never commit API keys
+js/secrets.js
+
+# Local development logs that may contain secrets
+antigravity_logs/
+*.log

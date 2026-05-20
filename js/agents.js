@@ -59,8 +59,10 @@ const DEMO_CACHE = {
     trend: 'up',
     trendPct: 2.3,
     prediction: 'اگلے 2 ہفتوں میں 5-8% اضافہ متوقع',
+    predictionEn: '5-8% price increase expected over the next 2 weeks',
     minPrice: 3700,
-    negotiationScript: `آداب! میں ایک پیشہ ور کسان ہوں اور میری گندم اعلیٰ معیار کی ہے۔\n\nلاہور منڈی میں آج کا بھاؤ PKR 3,850 فی من ہے — یہ میں نے خود AMIS پاکستان پر چیک کیا ہے۔\n\nमेरी کم از کم قیمت PKR 3,700 فی من ہے — اس سے کم میں نہیں بیچوں گا۔\n\nاگر آپ آج پوری مقدار خریدیں تو PKR 3,800 پر سودا کریں گے۔`,
+    negotiationScript: `آداب! میں ایک پیشہ ور کسان ہوں اور میری گندم اعلیٰ معیار کی ہے۔\n\nلاہور منڈی میں آج کا بھاؤ PKR 3,850 فی من ہے — یہ میں نے خود AMIS پاکستان پر چیک کیا ہے۔\n\nمیری کم از کم قیمت PKR 3,700 فی من ہے — اس سے کم میں نہیں بیچوں گا۔\n\nاگر آپ آج پوری مقدار خریدیں تو PKR 3,800 پر سودا کریں گے۔`,
+    negotiationScriptEn: `Hello! I'm a professional farmer and my wheat is top quality.\n\nToday's Lahore Mandi rate is PKR 3,850 per maund — I verified this on AMIS Pakistan myself.\n\nMy floor price is PKR 3,700 per maund — I will not sell below this.\n\nIf you take the full lot today, I can settle at PKR 3,800.`,
   },
 
   livestock: {
@@ -160,10 +162,12 @@ async function analyzeCropDisease(imageBase64) {
 
 Carefully analyze this image and identify the exact crop disease shown. Do NOT default to Yellow Rust unless you clearly see yellow/orange stripe patterns on wheat leaves. Look carefully at what is actually shown.
 
-IMPORTANT: If the image is NOT of a plant, crop, or agricultural nature, you MUST respond with: {"disease":"INVALID_IMAGE","severity":0,"confidence":0,"steps":[],"financial":{"yieldLoss":[0,0,0],"days":[0,0,0],"damage":0,"acres":0},"recommendation":"Not a valid crop image."}
+IMPORTANT: If the image is NOT of a plant, crop, or agricultural nature, you MUST respond with: {"disease":"INVALID_IMAGE","diseaseEn":"INVALID_IMAGE","severity":0,"confidence":0,"steps":[],"financial":{"yieldLoss":[0,0,0],"days":[0,0,0],"damage":0,"acres":0},"recommendation":"Not a valid crop image.","recommendationEn":"Not a valid crop image."}
+
+Every text field MUST exist in BOTH languages — Urdu in the base key and English in the *En key. Never omit either.
 
 Respond ONLY with a single valid JSON object, no markdown fences, no explanation:
-{"disease":"Exact Disease Name (اردو نام)","severity":0,"confidence":0,"steps":[{"step":1,"title":"بیماری کی شناخت","titleEn":"Disease Identified","text":"Urdu description of what you see","emoji":"🔍"},{"step":2,"title":"شدت کا اندازہ","titleEn":"Severity Assessment","text":"Urdu severity detail","emoji":"⚠️"},{"step":3,"title":"علاج","titleEn":"Treatment","text":"Pakistan market product names + exact dosage in Urdu","emoji":"💊"},{"step":4,"title":"لاگت","titleEn":"Cost Estimate","text":"PKR cost per acre in Urdu","emoji":"💰"},{"step":5,"title":"بچاؤ","titleEn":"Prevention","text":"Urdu prevention advice","emoji":"🛡️"}],"financial":{"yieldLoss":[15,35,60],"days":[3,7,14],"damage":40000,"acres":5},"recommendation":"Urdu recommendation"}`;
+{"disease":"اردو نام","diseaseEn":"English disease name","severity":0,"confidence":0,"steps":[{"step":1,"title":"بیماری کی شناخت","titleEn":"Disease Identified","text":"Urdu description of what you see","textEn":"English description of what you see","emoji":"🔍"},{"step":2,"title":"شدت کا اندازہ","titleEn":"Severity Assessment","text":"Urdu severity detail","textEn":"English severity detail","emoji":"⚠️"},{"step":3,"title":"علاج","titleEn":"Treatment","text":"Pakistan market product names + exact dosage in Urdu","textEn":"Pakistan market product names + exact dosage in English","emoji":"💊"},{"step":4,"title":"لاگت","titleEn":"Cost Estimate","text":"PKR cost per acre in Urdu","textEn":"PKR cost per acre in English","emoji":"💰"},{"step":5,"title":"بچاؤ","titleEn":"Prevention","text":"Urdu prevention advice","textEn":"English prevention advice","emoji":"🛡️"}],"financial":{"yieldLoss":[15,35,60],"days":[3,7,14],"damage":40000,"acres":5},"recommendation":"Urdu recommendation","recommendationEn":"English recommendation"}`;
 
   try {
     const response = await fetch(`${CONFIG.GEMINI_URL}?key=${CONFIG.GEMINI_API_KEY}`, {
@@ -306,8 +310,10 @@ function buildMandiPrompt({ crop, city, prices }) {
 
 Crop: ${crop}, City: ${city}, Price: PKR ${prices[city]} per man, Weekly change: ${change}%
 
+Every text field MUST exist in BOTH languages — Urdu in the base key and English in the *En key. Never omit either.
+
 Return JSON:
-{"crop":"${crop}","city":"${city}","currentPrice":${prices[city]},"weeklyAvg":${Math.round(prices[city]*0.978)},"trend":"${change>=0?'up':'down'}","trendPct":${Math.abs(change)},"prediction":"write 2-week Urdu price forecast here","minPrice":${minP},"negotiationScript":"write complete Urdu script for farmer to negotiate at ${city} mandi, mention PKR ${prices[city]} rate, minimum PKR ${minP}"}`;
+{"crop":"${crop}","city":"${city}","currentPrice":${prices[city]},"weeklyAvg":${Math.round(prices[city]*0.978)},"trend":"${change>=0?'up':'down'}","trendPct":${Math.abs(change)},"prediction":"2-week Urdu price forecast","predictionEn":"2-week English price forecast","minPrice":${minP},"negotiationScript":"complete Urdu script for the farmer to negotiate at ${city} mandi, mention PKR ${prices[city]} rate, minimum PKR ${minP}","negotiationScriptEn":"complete English script for the farmer to negotiate at ${city} mandi, mention PKR ${prices[city]} rate, minimum PKR ${minP}"}`;
 }
 
 function buildLivestockPrompt({ animal, symptoms }) {
@@ -446,41 +452,41 @@ function imageToBase64(file) {
 
 // Mock informal agricultural service providers DB
 const PROVIDER_DB = [
-  { 
-    id: 1, name: 'Zahid Harvester Service (زاہد ہارویسٹر)', type: 'harvester', 
-    rating: 4.8, reliability: 96, distance: 12, rate: 3900, 
-    availableToday: true, availableTomorrow: true, availableParson: false, 
-    phone: '+92 300 123 4567', machine: 'John Deere W70', area: 'Lahore G-13'
+  {
+    id: 1, name: 'Zahid Harvester Service', nameUr: 'زاہد ہارویسٹر سروس', type: 'harvester',
+    rating: 4.8, reliability: 96, distance: 12, rate: 3900,
+    availableToday: true, availableTomorrow: true, availableParson: false,
+    phone: '+92 300 123 4567', machine: 'John Deere W70', area: 'Lahore G-13', areaUr: 'لاہور G-13'
   },
-  { 
-    id: 2, name: 'Kisan Tractor Rental (کسان ٹریکٹر رینٹل)', type: 'tractor', 
-    rating: 4.2, reliability: 85, distance: 4, rate: 2500, 
-    availableToday: true, availableTomorrow: true, availableParson: false, 
-    phone: '+92 301 987 6543', machine: 'New Holland 80-56', area: 'Thokar Niaz'
+  {
+    id: 2, name: 'Kisan Tractor Rental', nameUr: 'کسان ٹریکٹر رینٹل', type: 'tractor',
+    rating: 4.2, reliability: 85, distance: 4, rate: 2500,
+    availableToday: true, availableTomorrow: true, availableParson: false,
+    phone: '+92 301 987 6543', machine: 'New Holland 80-56', area: 'Thokar Niaz', areaUr: 'ٹھوکر نیاز'
   },
-  { 
-    id: 3, name: 'Ahmad Agri Machinery (احمد ایگری سروس)', type: 'harvester', 
-    rating: 4.5, reliability: 92, distance: 18, rate: 4200, 
-    availableToday: true, availableTomorrow: true, availableParson: true, 
-    phone: '+92 321 456 7890', machine: 'Claas Crop Tiger 30', area: 'Raiwind'
+  {
+    id: 3, name: 'Ahmad Agri Machinery', nameUr: 'احمد ایگری مشینری', type: 'harvester',
+    rating: 4.5, reliability: 92, distance: 18, rate: 4200,
+    availableToday: true, availableTomorrow: true, availableParson: true,
+    phone: '+92 321 456 7890', machine: 'Claas Crop Tiger 30', area: 'Raiwind', areaUr: 'رائے ونڈ'
   },
-  { 
-    id: 4, name: 'Malik Agri Rental (ملک رینٹل سروسز)', type: 'tractor', 
-    rating: 3.9, reliability: 78, distance: 8, rate: 2200, 
-    availableToday: true, availableTomorrow: false, availableParson: true, 
-    phone: '+92 333 765 4321', machine: 'Massey Ferguson 385', area: 'Shahdara'
+  {
+    id: 4, name: 'Malik Agri Rental', nameUr: 'ملک ایگری رینٹل', type: 'tractor',
+    rating: 3.9, reliability: 78, distance: 8, rate: 2200,
+    availableToday: true, availableTomorrow: false, availableParson: true,
+    phone: '+92 333 765 4321', machine: 'Massey Ferguson 385', area: 'Shahdara', areaUr: 'شاہدرہ'
   },
-  { 
-    id: 5, name: 'Dr. Usman Livestock Vet (ڈاکٹر عثمان ویٹ)', type: 'vet', 
-    rating: 4.9, reliability: 98, distance: 3, rate: 1500, 
-    availableToday: true, availableTomorrow: true, availableParson: true, 
-    phone: '+92 345 678 9012', machine: 'Emergency Vet Mobile', area: 'Lahore'
+  {
+    id: 5, name: 'Dr. Usman Livestock Vet', nameUr: 'ڈاکٹر عثمان لائیو اسٹاک ویٹ', type: 'vet',
+    rating: 4.9, reliability: 98, distance: 3, rate: 1500,
+    availableToday: true, availableTomorrow: true, availableParson: true,
+    phone: '+92 345 678 9012', machine: 'Emergency Vet Mobile', area: 'Lahore', areaUr: 'لاہور'
   },
-  { 
-    id: 6, name: 'Nadeem Spray Services (ندیم سپرے سروس)', type: 'sprayer', 
-    rating: 4.6, reliability: 89, distance: 6, rate: 1200, 
-    availableToday: true, availableTomorrow: true, availableParson: false, 
-    phone: '+92 355 123 4567', machine: 'Boom Sprayer 600L', area: 'Thokar'
+  {
+    id: 6, name: 'Nadeem Spray Services', nameUr: 'ندیم سپرے سروسز', type: 'sprayer',
+    rating: 4.6, reliability: 89, distance: 6, rate: 1200,
+    availableToday: true, availableTomorrow: true, availableParson: false,
+    phone: '+92 355 123 4567', machine: 'Boom Sprayer 600L', area: 'Thokar', areaUr: 'ٹھوکر'
   }
 ];
 
@@ -689,11 +695,14 @@ async function runAntigravityOrchestrator(inputString) {
       <div class="prov-header">
         <div class="prov-avatar">🚜</div>
         <div>
-          <div class="prov-name">${topProv.name}</div>
+          <div class="prov-name">
+            <span class="lang-en-text">${topProv.name}</span>
+            <span class="lang-ur-text">${topProv.nameUr || topProv.name}</span>
+          </div>
           <div class="prov-meta">
             <span>
               <span class="lang-en-text">📍 ${topProv.distance} km away (${topProv.area})</span>
-              <span class="lang-ur-text">📍 ${topProv.distance} کلومیٹر دور (${topProv.area})</span>
+              <span class="lang-ur-text">📍 ${topProv.distance} کلومیٹر دور (${topProv.areaUr || topProv.area})</span>
             </span>
             <span class="star-rating">⭐ ${topProv.rating} / 5.0</span>
           </div>
@@ -702,7 +711,7 @@ async function runAntigravityOrchestrator(inputString) {
       <div class="prov-factors">
         <span class="factor-badge green">
           <span class="lang-en-text">✅ Available ${backupDateStr}</span>
-          <span class="lang-ur-text">✅ دستیاب ${backupDateStr}</span>
+          <span class="lang-ur-text">✅ دستیاب ${backupDateStrUrdu}</span>
         </span>
         <span class="factor-badge">
           <span class="lang-en-text">🛡️ ${topProv.reliability}% Reliability Score</span>
@@ -748,20 +757,35 @@ async function runAntigravityOrchestrator(inputString) {
   const negoBox = document.getElementById('negoSimulationBox');
   negoBox.style.display = 'flex';
   const negoBubble = document.getElementById('negoBubbleText');
-  negoBubble.innerHTML = `<em>مذاکرات اور سودے بازی جاری ہے...</em>`;
+  const opNameEn = topProv.name.split(' ')[0];
+  const opNameUr = (topProv.nameUr || topProv.name).split(' ')[0];
+
+  negoBubble.innerHTML = `
+    <span class="lang-en-text"><em>Negotiation in progress...</em></span>
+    <span class="lang-ur-text"><em>مذاکرات اور سودے بازی جاری ہے...</em></span>
+  `;
   await sleep(1500);
-  
-  negoBubble.innerHTML = `<strong>Antigravity Bot:</strong> السلام علیکم، ہمیں ${targetAcres} ایکڑ کے لیے ${svcTypeUrdu} بک کرنا ہے۔ بجٹ تھوڑا ٹائٹ ہے، کیا آپ PKR ${initialOfferRate} فی ایکڑ کر سکتے ہیں؟`;
+
+  negoBubble.innerHTML = `
+    <span class="lang-en-text"><strong>Antigravity Bot:</strong> Hello, we need to book a ${svcType} for ${targetAcres} acres. Budget is tight — can you do PKR ${initialOfferRate} per acre?</span>
+    <span class="lang-ur-text"><strong>اینٹی گریوٹی بوٹ:</strong> السلام علیکم، ہمیں ${targetAcres} ایکڑ کے لیے ${svcTypeUrdu} بک کرنا ہے۔ بجٹ تھوڑا ٹائٹ ہے، کیا آپ PKR ${initialOfferRate} فی ایکڑ کر سکتے ہیں؟</span>
+  `;
   await sleep(2000);
-  
-  addTerminalLog(`Bargain Iteration 1: Counter-offer received from ${topProv.name.split(' ')[0]} (Base rate too tight).`, 'plan');
-  negoBubble.innerHTML = `<strong>${topProv.name.split(' ')[0]}:</strong> وعلیکم السلام بھائی۔ ڈیزل اور مزدوری بہت مہنگی ہے، PKR ${baseRate} سے کم تو وارا نہیں کھاتا۔`;
+
+  addTerminalLog(`Bargain Iteration 1: Counter-offer received from ${opNameEn} (Base rate too tight).`, 'plan');
+  negoBubble.innerHTML = `
+    <span class="lang-en-text"><strong>${opNameEn}:</strong> Hello brother. Diesel and labour are very expensive — anything under PKR ${baseRate} just doesn't work for me.</span>
+    <span class="lang-ur-text"><strong>${opNameUr}:</strong> وعلیکم السلام بھائی۔ ڈیزل اور مزدوری بہت مہنگی ہے، PKR ${baseRate} سے کم تو وارا نہیں کھاتا۔</span>
+  `;
   await sleep(2000);
-  
+
   addTerminalLog(`Bargain Iteration 2: Dynamic compromise lock. Successful arbitrage reached.`, 'plan');
   addTerminalLog(`Price negotiated down by PKR ${perAcreSavings} per acre. Lock rate: PKR ${negotiatedRate}.`, 'action');
-  
-  negoBubble.innerHTML = `<strong>Antigravity Bot:</strong> ہم ${backupDateStrUrdu} کے لیے فوری بک کر رہے ہیں۔ PKR ${negotiatedRate} پر لاک کریں؟<br><strong>${topProv.name.split(' ')[0]}:</strong> چلیں بھائی ٹھیک ہے، PKR ${negotiatedRate} فائنل ہے۔ کل ٹائم پر پہنچ جاؤں گا۔`;
+
+  negoBubble.innerHTML = `
+    <span class="lang-en-text"><strong>Antigravity Bot:</strong> We're locking the booking for ${backupDateStr}. Confirm at PKR ${negotiatedRate}?<br><strong>${opNameEn}:</strong> OK brother, PKR ${negotiatedRate} is final. I'll be there on time.</span>
+    <span class="lang-ur-text"><strong>اینٹی گریوٹی بوٹ:</strong> ہم ${backupDateStrUrdu} کے لیے فوری بک کر رہے ہیں۔ PKR ${negotiatedRate} پر لاک کریں؟<br><strong>${opNameUr}:</strong> چلیں بھائی ٹھیک ہے، PKR ${negotiatedRate} فائنل ہے۔ کل ٹائم پر پہنچ جاؤں گا۔</span>
+  `;
   
   // Animate price changes
   const tagRate = document.getElementById('negotiatedPriceTag');
@@ -791,18 +815,21 @@ async function runAntigravityOrchestrator(inputString) {
   // Render the Visual Booking Ticket (Challenge 2 Compliance)
   const ticketCard = document.getElementById('bookingTicketCard');
   document.getElementById('ticketBookingId').textContent = bookingId;
-  document.getElementById('ticketOperatorName').textContent = topProv.name;
+  document.getElementById('ticketOperatorName').innerHTML = `
+    <span class="lang-en-text">${topProv.name}</span>
+    <span class="lang-ur-text">${topProv.nameUr || topProv.name}</span>
+  `;
   document.getElementById('ticketDate').innerHTML = `
     <span class="lang-en-text">${backupDateStr} @ 8:00 AM</span>
-    <span class="lang-ur-text">${backupDateStr} بوقت صبح 8:00 بجے</span>
+    <span class="lang-ur-text">${backupDateStrUrdu} بوقت صبح 8:00 بجے</span>
   `;
   document.getElementById('ticketCost').innerHTML = `
     <span class="lang-en-text">PKR ${totalJobCost.toLocaleString()} (PKR ${negotiatedRate}/acre)</span>
     <span class="lang-ur-text">PKR ${totalJobCost.toLocaleString()} (PKR ${negotiatedRate} فی ایکڑ)</span>
   `;
   document.getElementById('ticketNotifText').innerHTML = `
-    <span class="lang-en-text">${topProv.name.split(' ')[0]} was notified via WhatsApp dispatch loop. Auto-alert scheduled 1 hour before arrival.</span>
-    <span class="lang-ur-text">${topProv.name.split(' ')[0]} کو واٹس ایپ ڈسپیچ لوپ کے ذریعے مطلع کیا گیا تھا۔ آمد سے 1 گھنٹہ پہلے خودکار الرٹ شیڈول کیا گیا ہے۔</span>
+    <span class="lang-en-text">${opNameEn} was notified via WhatsApp dispatch loop. Auto-alert scheduled 1 hour before arrival.</span>
+    <span class="lang-ur-text">${opNameUr} کو واٹس ایپ ڈسپیچ لوپ کے ذریعے مطلع کیا گیا تھا۔ آمد سے 1 گھنٹہ پہلے خودکار الرٹ شیڈول کیا گیا ہے۔</span>
   `;
   
   // Store current booking data for the active WhatsApp send button!
@@ -841,7 +868,10 @@ async function runAntigravityOrchestrator(inputString) {
       <div class="prov-header">
         <div class="prov-avatar">🚜</div>
         <div style="flex:1;">
-          <div class="prov-name" style="font-size:13px;">${p.name}</div>
+          <div class="prov-name" style="font-size:13px;">
+            <span class="lang-en-text">${p.name}</span>
+            <span class="lang-ur-text">${p.nameUr || p.name}</span>
+          </div>
           <div class="prov-meta">
             <span>
               <span class="lang-en-text">📍 ${p.distance} km away</span>

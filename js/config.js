@@ -4,9 +4,12 @@
 // Gemini: https://ai.google.dev
 // Claude: https://console.anthropic.com
 
+// Keys come from js/secrets.js (gitignored). If that file is missing, falls back to placeholders.
+const _S = typeof SECRETS !== 'undefined' ? SECRETS : {};
+
 const CONFIG = {
-  GEMINI_API_KEY: 'REDACTED_LEAKED_KEY',
-  CLAUDE_API_KEY: 'YOUR_CLAUDE_API_KEY_HERE',
+  GEMINI_API_KEY: _S.GEMINI_API_KEY || 'YOUR_GEMINI_API_KEY_HERE',
+  CLAUDE_API_KEY: _S.CLAUDE_API_KEY || 'YOUR_CLAUDE_API_KEY_HERE',
 
   GEMINI_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
   CLAUDE_URL: 'https://api.anthropic.com/v1/messages',
@@ -69,89 +72,129 @@ const MANDI_DATA = {
 const DISEASE_DB = [
   // WHEAT
   { id:'yw', name:'Yellow Rust', urdu:'زرد زنگ', crop:'wheat', season:'rabi', severity:'high',
-    symptoms:'پتوں پر زرد دھاریاں، پیلا پاؤڈر', treatment:'Tilt 25EC 0.5ml/L یا Folicur 0.75ml/L', cost:1200,
-    prevention:'مزاحم اقسام: Inquilab-91, Galaxy-2013', markets:['Punjab Seed Corp','Al-Hamra Pesticides'] },
+    symptoms:'پتوں پر زرد دھاریاں، پیلا پاؤڈر', symptomsEn:'Yellow stripes on leaves, yellow powdery deposit',
+    treatment:'Tilt 25EC 0.5ml/L یا Folicur 0.75ml/L', treatmentEn:'Tilt 25EC 0.5ml/L or Folicur 0.75ml/L', cost:1200,
+    prevention:'مزاحم اقسام: Inquilab-91, Galaxy-2013', preventionEn:'Resistant varieties: Inquilab-91, Galaxy-2013',
+    markets:['Punjab Seed Corp','Al-Hamra Pesticides'] },
 
   { id:'br', name:'Brown Rust', urdu:'بھورا زنگ', crop:'wheat', season:'rabi', severity:'medium',
-    symptoms:'پتوں پر بھورے دھبے، گول شکل', treatment:'Propiconazole 25EC سپرے', cost:1100,
-    prevention:'بوائی وقت پر کریں، نومبر کے آخر تک', markets:['Syngenta','FMC Pakistan'] },
+    symptoms:'پتوں پر بھورے دھبے، گول شکل', symptomsEn:'Brown spots on leaves, round in shape',
+    treatment:'Propiconazole 25EC سپرے', treatmentEn:'Spray Propiconazole 25EC', cost:1100,
+    prevention:'بوائی وقت پر کریں، نومبر کے آخر تک', preventionEn:'Sow on time, by end of November',
+    markets:['Syngenta','FMC Pakistan'] },
 
   { id:'lb', name:'Loose Smut', urdu:'کھلا کانگ', crop:'wheat', season:'rabi', severity:'medium',
-    symptoms:'کانگ کی جگہ کالا پاؤڈر نکلتا ہے', treatment:'Raxil 2% بیج کو ٹریٹ کریں', cost:800,
-    prevention:'بیج ٹریٹمنٹ ضروری ہے — بوائی سے پہلے', markets:['Bayer CropScience'] },
+    symptoms:'کانگ کی جگہ کالا پاؤڈر نکلتا ہے', symptomsEn:'Black powder appears in place of grain heads',
+    treatment:'Raxil 2% بیج کو ٹریٹ کریں', treatmentEn:'Treat seed with Raxil 2%', cost:800,
+    prevention:'بیج ٹریٹمنٹ ضروری ہے — بوائی سے پہلے', preventionEn:'Seed treatment is essential — before sowing',
+    markets:['Bayer CropScience'] },
 
   { id:'pm', name:'Powdery Mildew', urdu:'سفید پھپھوندی', crop:'wheat', season:'rabi', severity:'medium',
-    symptoms:'پتوں پر سفید پاؤڈر، بعد میں سیاہ ہو جاتا ہے', treatment:'Sulfur 80WP 2g/L یا Topsin-M', cost:900,
-    prevention:'گھنی بوائی سے بچیں', markets:['ICI Pakistan'] },
+    symptoms:'پتوں پر سفید پاؤڈر، بعد میں سیاہ ہو جاتا ہے', symptomsEn:'White powder on leaves, later turns black',
+    treatment:'Sulfur 80WP 2g/L یا Topsin-M', treatmentEn:'Sulfur 80WP 2g/L or Topsin-M', cost:900,
+    prevention:'گھنی بوائی سے بچیں', preventionEn:'Avoid dense sowing',
+    markets:['ICI Pakistan'] },
 
   { id:'ka', name:'Karnal Bunt', urdu:'کرنال بنٹ', crop:'wheat', season:'rabi', severity:'low',
-    symptoms:'دانوں میں کالا پاؤڈر، مچھلی جیسی بو', treatment:'Vitavax 200 بیج ٹریٹمنٹ', cost:700,
-    prevention:'مرطوب موسم میں زیادہ ہوتی ہے', markets:['Chevron Chemicals'] },
+    symptoms:'دانوں میں کالا پاؤڈر، مچھلی جیسی بو', symptomsEn:'Black powder in grains, fishy smell',
+    treatment:'Vitavax 200 بیج ٹریٹمنٹ', treatmentEn:'Vitavax 200 seed treatment', cost:700,
+    prevention:'مرطوب موسم میں زیادہ ہوتی ہے', preventionEn:'More common in humid weather',
+    markets:['Chevron Chemicals'] },
 
   // COTTON
   { id:'clc', name:'Cotton Leaf Curl', urdu:'پتہ مروڑ وائرس', crop:'cotton', season:'kharif', severity:'high',
-    symptoms:'پتے اوپر کو مڑ جاتے ہیں، نسیں موٹی ہو جاتی ہیں', treatment:'سفید مکھی کنٹرول: Confidor 0.5ml/L', cost:2500,
-    prevention:'BT Cotton مزاحم اقسام استعمال کریں', markets:['Bayer','Syngenta'] },
+    symptoms:'پتے اوپر کو مڑ جاتے ہیں، نسیں موٹی ہو جاتی ہیں', symptomsEn:'Leaves curl upward, veins become thick',
+    treatment:'سفید مکھی کنٹرول: Confidor 0.5ml/L', treatmentEn:'Whitefly control: Confidor 0.5ml/L', cost:2500,
+    prevention:'BT Cotton مزاحم اقسام استعمال کریں', preventionEn:'Use BT Cotton resistant varieties',
+    markets:['Bayer','Syngenta'] },
 
   { id:'bw', name:'Boll Worm', urdu:'گھنڈی کا کیڑا', crop:'cotton', season:'kharif', severity:'high',
-    symptoms:'گھنڈی میں سوراخ، اندر سے کالا، گر جاتی ہے', treatment:'Karate 2.5EC یا Cypermethrin', cost:1800,
-    prevention:'فیرومون ٹریپ لگائیں — جولائی سے', markets:['BASF','FMC'] },
+    symptoms:'گھنڈی میں سوراخ، اندر سے کالا، گر جاتی ہے', symptomsEn:'Holes in bolls, black inside, bolls drop',
+    treatment:'Karate 2.5EC یا Cypermethrin', treatmentEn:'Karate 2.5EC or Cypermethrin', cost:1800,
+    prevention:'فیرومون ٹریپ لگائیں — جولائی سے', preventionEn:'Install pheromone traps — from July',
+    markets:['BASF','FMC'] },
 
   { id:'alt', name:'Alternaria Leaf Spot', urdu:'الٹرنیریا دھبہ', crop:'cotton', season:'kharif', severity:'medium',
-    symptoms:'پتوں پر بھورے گول دھبے، بعد میں چھید', treatment:'Dithane M-45 2g/L سپرے', cost:1200,
-    prevention:'کھیت میں فاصلہ رکھیں، ہوا آئے', markets:['Dow AgroSciences'] },
+    symptoms:'پتوں پر بھورے گول دھبے، بعد میں چھید', symptomsEn:'Brown round spots on leaves, holes later',
+    treatment:'Dithane M-45 2g/L سپرے', treatmentEn:'Spray Dithane M-45 2g/L', cost:1200,
+    prevention:'کھیت میں فاصلہ رکھیں، ہوا آئے', preventionEn:'Maintain field spacing for airflow',
+    markets:['Dow AgroSciences'] },
 
   // RICE
   { id:'rb', name:'Rice Blast', urdu:'چاول بلاسٹ', crop:'rice', season:'kharif', severity:'high',
-    symptoms:'پتوں پر ہیرے جیسے دھبے، گردن پر بھی آتا ہے', treatment:'Beam 75WP 0.6g/L یا Tricyclazole', cost:1800,
-    prevention:'نائٹروجن زیادہ نہ دیں، متوازن کھاد', markets:['Dow','Syngenta'] },
+    symptoms:'پتوں پر ہیرے جیسے دھبے، گردن پر بھی آتا ہے', symptomsEn:'Diamond-shaped spots on leaves, also infects neck',
+    treatment:'Beam 75WP 0.6g/L یا Tricyclazole', treatmentEn:'Beam 75WP 0.6g/L or Tricyclazole', cost:1800,
+    prevention:'نائٹروجن زیادہ نہ دیں، متوازن کھاد', preventionEn:'Do not over-apply nitrogen, use balanced fertilizer',
+    markets:['Dow','Syngenta'] },
 
   { id:'bpb', name:'Brown Plant Hopper', urdu:'بھورا پلانٹ ہاپر', crop:'rice', season:'kharif', severity:'high',
-    symptoms:'پودہ جل جاتا ہے، چکر میں پیلا ہوتا ہے', treatment:'Applaud 25SC یا Actara 25WG', cost:2200,
-    prevention:'پانی کو وقفہ وقفہ سے لگائیں', markets:['Bayer'] },
+    symptoms:'پودہ جل جاتا ہے، چکر میں پیلا ہوتا ہے', symptomsEn:'Plant scorches and yellows in patches',
+    treatment:'Applaud 25SC یا Actara 25WG', treatmentEn:'Applaud 25SC or Actara 25WG', cost:2200,
+    prevention:'پانی کو وقفہ وقفہ سے لگائیں', preventionEn:'Alternate wet/dry irrigation',
+    markets:['Bayer'] },
 
   { id:'sh', name:'Sheath Blight', urdu:'چاول غلاف جھلسا', crop:'rice', season:'kharif', severity:'medium',
-    symptoms:'غلاف پر بھورے دھبے، آبی رنگ', treatment:'Validacin 3L 1.5ml/L', cost:1500,
-    prevention:'زیادہ پودے ایک جگہ نہ لگائیں', markets:['ICI'] },
+    symptoms:'غلاف پر بھورے دھبے، آبی رنگ', symptomsEn:'Brown water-soaked lesions on sheath',
+    treatment:'Validacin 3L 1.5ml/L', treatmentEn:'Validacin 3L 1.5ml/L', cost:1500,
+    prevention:'زیادہ پودے ایک جگہ نہ لگائیں', preventionEn:'Avoid dense transplanting',
+    markets:['ICI'] },
 
   // SUGARCANE
   { id:'sr', name:'Red Rot', urdu:'سرخ سڑن', crop:'sugarcane', season:'kharif', severity:'high',
-    symptoms:'اندر سے سرخ، شراب جیسی بو، گانٹھیں سڑتی ہیں', treatment:'مزاحم اقسام: CPF-238, HSF-240', cost:3000,
-    prevention:'متاثرہ بیج استعمال نہ کریں', markets:['Punjab Sugar Mills'] },
+    symptoms:'اندر سے سرخ، شراب جیسی بو، گانٹھیں سڑتی ہیں', symptomsEn:'Red inside, alcoholic smell, nodes rot',
+    treatment:'مزاحم اقسام: CPF-238, HSF-240', treatmentEn:'Resistant varieties: CPF-238, HSF-240', cost:3000,
+    prevention:'متاثرہ بیج استعمال نہ کریں', preventionEn:'Do not use infected seed canes',
+    markets:['Punjab Sugar Mills'] },
 
   { id:'sm', name:'Sugarcane Stem Borer', urdu:'گنا تنہ چھیدنے والا', crop:'sugarcane', season:'kharif', severity:'medium',
-    symptoms:'اندر سے کھوکھلا، مردہ ڈنڈی', treatment:'Furadan 3G granules بوائی پر', cost:1600,
-    prevention:'اپریل میں Trichogramma parasitoids چھوڑیں', markets:['FMC Pakistan'] },
+    symptoms:'اندر سے کھوکھلا، مردہ ڈنڈی', symptomsEn:'Hollow stems, dead heart in shoots',
+    treatment:'Furadan 3G granules بوائی پر', treatmentEn:'Furadan 3G granules at sowing', cost:1600,
+    prevention:'اپریل میں Trichogramma parasitoids چھوڑیں', preventionEn:'Release Trichogramma parasitoids in April',
+    markets:['FMC Pakistan'] },
 
   // MAIZE
   { id:'msb', name:'Maize Stem Borer', urdu:'مکئی تنہ کیڑا', crop:'maize', season:'kharif', severity:'high',
-    symptoms:'پتوں پر قطاریں، تنہ میں سوراخ، ٹوٹ جاتا ہے', treatment:'Chlorpyrifos 40EC 1.5ml/L', cost:1500,
-    prevention:'مئی جون میں بوائی کریں', markets:['Dow AgroSciences'] },
+    symptoms:'پتوں پر قطاریں، تنہ میں سوراخ، ٹوٹ جاتا ہے', symptomsEn:'Linear damage on leaves, holes in stems, stems break',
+    treatment:'Chlorpyrifos 40EC 1.5ml/L', treatmentEn:'Chlorpyrifos 40EC 1.5ml/L', cost:1500,
+    prevention:'مئی جون میں بوائی کریں', preventionEn:'Sow in May–June',
+    markets:['Dow AgroSciences'] },
 
   { id:'flw', name:'Fall Armyworm', urdu:'موسمی فوجی سنڈی', crop:'maize', season:'kharif', severity:'high',
-    symptoms:'پتوں پر چھید، مل کر حملہ کرتے ہیں', treatment:'Coragen 20SC 0.4ml/L — فوری', cost:2000,
-    prevention:'جلد پتہ لگائیں — ہر 3 دن نگرانی', markets:['FMC','Corteva'] },
+    symptoms:'پتوں پر چھید، مل کر حملہ کرتے ہیں', symptomsEn:'Holes in leaves, swarming attack',
+    treatment:'Coragen 20SC 0.4ml/L — فوری', treatmentEn:'Coragen 20SC 0.4ml/L — apply immediately', cost:2000,
+    prevention:'جلد پتہ لگائیں — ہر 3 دن نگرانی', preventionEn:'Detect early — scout every 3 days',
+    markets:['FMC','Corteva'] },
 
   { id:'gls', name:'Gray Leaf Spot', urdu:'سرمئی پتہ دھبہ', crop:'maize', season:'kharif', severity:'medium',
-    symptoms:'پتوں پر لمبے سرمئی دھبے', treatment:'Mancozeb 80WP 2.5g/L', cost:1100,
-    prevention:'مزاحم ہائبرڈ: Pioneer 3025, Monsanto DK6525', markets:['Pioneer'] },
+    symptoms:'پتوں پر لمبے سرمئی دھبے', symptomsEn:'Long gray lesions on leaves',
+    treatment:'Mancozeb 80WP 2.5g/L', treatmentEn:'Mancozeb 80WP 2.5g/L', cost:1100,
+    prevention:'مزاحم ہائبرڈ: Pioneer 3025, Monsanto DK6525', preventionEn:'Resistant hybrids: Pioneer 3025, Monsanto DK6525',
+    markets:['Pioneer'] },
 
   // GENERAL / MULTI-CROP
   { id:'afe', name:'Aphid Infestation', urdu:'تیلا کا حملہ', crop:'all', season:'all', severity:'medium',
-    symptoms:'پتوں کے نیچے چھوٹے سبز/کالے کیڑے، پتے مڑتے ہیں', treatment:'Confidor 200SL 0.5ml/L یا Dimethoate', cost:900,
-    prevention:'قدرتی دشمن: لیڈی برڈ بیٹل — کیمیکل آخری حل', markets:['Bayer','Nufarm'] },
+    symptoms:'پتوں کے نیچے چھوٹے سبز/کالے کیڑے، پتے مڑتے ہیں', symptomsEn:'Small green/black insects under leaves, leaves curl',
+    treatment:'Confidor 200SL 0.5ml/L یا Dimethoate', treatmentEn:'Confidor 200SL 0.5ml/L or Dimethoate', cost:900,
+    prevention:'قدرتی دشمن: لیڈی برڈ بیٹل — کیمیکل آخری حل', preventionEn:'Natural enemy: ladybird beetle — chemicals as last resort',
+    markets:['Bayer','Nufarm'] },
 
   { id:'sp', name:'Spider Mites', urdu:'مکڑی کا حملہ', crop:'cotton', season:'kharif', severity:'medium',
-    symptoms:'پتوں پر باریک سفید جالا، زرد ہو جاتے ہیں', treatment:'Polo 250SC یا Oberon 240SC', cost:2200,
-    prevention:'گرم خشک موسم میں زیادہ — پانی سپرے کریں', markets:['BASF','Bayer'] },
+    symptoms:'پتوں پر باریک سفید جالا، زرد ہو جاتے ہیں', symptomsEn:'Fine white webbing on leaves, leaves turn yellow',
+    treatment:'Polo 250SC یا Oberon 240SC', treatmentEn:'Polo 250SC or Oberon 240SC', cost:2200,
+    prevention:'گرم خشک موسم میں زیادہ — پانی سپرے کریں', preventionEn:'Common in hot dry weather — water spray helps',
+    markets:['BASF','Bayer'] },
 
   { id:'root', name:'Root Rot', urdu:'جڑ سڑن', crop:'all', season:'all', severity:'medium',
-    symptoms:'پودا مرجھاتا ہے، جڑیں سیاہ ہو جاتی ہیں', treatment:'Ridomil Gold 68WP ڈرینچ', cost:1300,
-    prevention:'کھیت میں پانی کھڑا نہ ہونے دیں', markets:['Syngenta'] },
+    symptoms:'پودا مرجھاتا ہے، جڑیں سیاہ ہو جاتی ہیں', symptomsEn:'Plant wilts, roots turn black',
+    treatment:'Ridomil Gold 68WP ڈرینچ', treatmentEn:'Ridomil Gold 68WP drench', cost:1300,
+    prevention:'کھیت میں پانی کھڑا نہ ہونے دیں', preventionEn:'Do not let water stand in the field',
+    markets:['Syngenta'] },
 
   { id:'wilt', name:'Fusarium Wilt', urdu:'مرجھاؤ بیماری', crop:'cotton', season:'kharif', severity:'high',
-    symptoms:'پودا اچانک مرجھا جاتا ہے، تنہ اندر سے بھورا', treatment:'کوئی موثر علاج نہیں — متاثرہ پودے اکھاڑیں', cost:0,
-    prevention:'فصل کی تبدیلی — 3 سال بعد کپاس', markets:[] },
+    symptoms:'پودا اچانک مرجھا جاتا ہے، تنہ اندر سے بھورا', symptomsEn:'Plant wilts suddenly, stem brown inside',
+    treatment:'کوئی موثر علاج نہیں — متاثرہ پودے اکھاڑیں', treatmentEn:'No effective cure — uproot infected plants', cost:0,
+    prevention:'فصل کی تبدیلی — 3 سال بعد کپاس', preventionEn:'Crop rotation — return to cotton only after 3 years',
+    markets:[] },
 ];
 
 // ─── Pakistan Livestock Diseases — Extended (Phase 3) ─────────────

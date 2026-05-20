@@ -59,10 +59,10 @@
           <div class="topbar-logo lang-en-text">🌿 Crop Disease AI</div>
           <div class="topbar-urdu lang-ur-text">فصل کی بیماری کا علاج</div>
         </div>
-        <!-- Sewa Title -->
+        <!-- Khidmat Title -->
         <div class="global-logo-item" id="gl-sewa" style="display:none">
-          <div class="topbar-logo lang-en-text">🚜 Kisaan Sewa</div>
-          <div class="topbar-urdu lang-ur-text">کسان سروسز مارکیٹ</div>
+          <div class="topbar-logo lang-en-text">🚜 Kisaan Khidmat</div>
+          <div class="topbar-urdu lang-ur-text">کسان خدمات مارکیٹ</div>
         </div>
         <!-- Mandi Title -->
         <div class="global-logo-item" id="gl-mandi" style="display:none">
@@ -103,15 +103,13 @@
         </div>
         <div class="alert-title lang-en-text" id="alertTitle" style="padding-right: 40px;">Today's Farm Alert</div>
         <div class="alert-urdu lang-ur-text" id="alertUrdu" style="padding-right: 40px;">موسمی مشورہ لوڈ ہو رہا ہے...</div>
-        <div class="alert-badge">🤖 AI Seasonal Intelligence</div>
       </div>
 
-      <!-- Kisaan Sewa Orchestrator Highlight -->
+      <!-- Kisaan Khidmat Orchestrator Highlight -->
       <div class="big-highlight-banner" onclick="navigate('sewa')">
         <div class="bhb-left">
-          <div class="bhb-eyebrow">✨ Antigravity Orchestrator</div>
-          <div class="bhb-title lang-en-text">Kisaan Sewa Marketplace</div>
-          <div class="bhb-urdu lang-ur-text">کسان سروسز — آٹومیٹک بکنگ</div>
+          <div class="bhb-title lang-en-text">Kisaan Khidmat Marketplace</div>
+          <div class="bhb-urdu lang-ur-text">کسان خدمات — آٹومیٹک بکنگ</div>
         </div>
         <div class="bhb-icon">🚜</div>
         <div class="bhb-glow"></div>
@@ -150,7 +148,10 @@
       </div>
 
       <!-- Live Mandi Prices -->
-      <div class="section-title">📊 آج کے منڈی ریٹ — لاہور</div>
+      <div class="section-title">
+        <span class="lang-en-text">📊 Today's Mandi Rates — Lahore</span>
+        <span class="lang-ur-text">📊 آج کے منڈی ریٹ — لاہور</span>
+      </div>
       <div class="price-strip" id="priceStrip"></div>
 
       <!-- Season Tips Card -->
@@ -162,43 +163,63 @@
       </div>
 
       <!-- Disease Quick Ref -->
-      <div class="section-title">🦠 عام بیماریاں — Quick Disease Ref</div>
+      <div class="section-title">
+        <span class="lang-en-text">🦠 Quick Disease Ref</span>
+        <span class="lang-ur-text">🦠 عام بیماریاں</span>
+      </div>
       <div id="homeDiseaseTags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px"></div>
       <button onclick="navigate('enc')" style="width:100%;margin-top:6px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--gold);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
-        🦠 20 بیماریوں کا مکمل انسائیکلوپیڈیا — دیکھیں
+        <span class="lang-en-text">🦠 View Full Disease Encyclopedia (20 diseases)</span>
+        <span class="lang-ur-text">🦠 20 بیماریوں کا مکمل انسائیکلوپیڈیا — دیکھیں</span>
       </button>
 
       <!-- Phase 5: Animated Impact Counters -->
-      <div class="section-title">📊 کسان اے آئی کا اثر — AI Impact</div>
+      <div class="section-title">
+        <span class="lang-en-text">📊 AI Impact</span>
+        <span class="lang-ur-text">📊 کسان اے آئی کا اثر</span>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px">
         <div class="impact-stat" data-target="2400000" data-suffix="+">
           <div class="is-num" id="cnt-farmers">0</div>
-          <div class="is-label">کسان مستفید</div>
-          <div class="is-en">Farmers</div>
+          <div class="is-en lang-en-text">Farmers</div>
+          <div class="is-label lang-ur-text">کسان مستفید</div>
         </div>
         <div class="impact-stat" data-target="850000" data-suffix="">
           <div class="is-num" id="cnt-diseases">0</div>
-          <div class="is-label">بیماریاں</div>
-          <div class="is-en">Detected</div>
+          <div class="is-en lang-en-text">Detected</div>
+          <div class="is-label lang-ur-text">بیماریاں</div>
         </div>
         <div class="impact-stat" data-target="4200" data-suffix="CR">
           <div class="is-num" id="cnt-saved">0</div>
-          <div class="is-label">PKR بچت</div>
-          <div class="is-en">Saved</div>
+          <div class="is-en lang-en-text">PKR Saved</div>
+          <div class="is-label lang-ur-text">PKR بچت</div>
         </div>
       </div>
 
       <!-- About -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🤖 Powered by Google Gemini AI</div>
+          <div class="card-title">
+            <span class="lang-en-text">🤖 Powered by Google Gemini AI</span>
+            <span class="lang-ur-text">🤖 گوگل جیمنی اے آئی سے چلتا ہے</span>
+          </div>
           <div class="card-sub" style="margin-top:8px;line-height:1.7">
-            <b style="color:var(--gold)">Gemini 2.0 Flash Vision</b> — sees your crop photo &amp; identifies disease.<br>
-            <b style="color:var(--purple)">Gemini 2.0 Flash Text</b> — mandi negotiation, livestock diagnosis &amp; irrigation planning.<br>
-            <span style="color:var(--green)">One free API key — full AI power.</span> 🔑
+            <span class="lang-en-text">
+              <b style="color:var(--gold)">Gemini 2.0 Flash Vision</b> — sees your crop photo &amp; identifies disease.<br>
+              <b style="color:var(--purple)">Gemini 2.0 Flash Text</b> — mandi negotiation, livestock diagnosis &amp; irrigation planning.<br>
+              <span style="color:var(--green)">One free API key — full AI power.</span> 🔑
+            </span>
+            <span class="lang-ur-text">
+              <b style="color:var(--gold)">Gemini 2.0 Flash Vision</b> — آپ کی فصل کی تصویر دیکھ کر بیماری کی شناخت کرتا ہے۔<br>
+              <b style="color:var(--purple)">Gemini 2.0 Flash Text</b> — منڈی مذاکرات، مویشی تشخیص اور آبپاشی منصوبہ بندی۔<br>
+              <span style="color:var(--green)">ایک مفت API کلید — مکمل اے آئی طاقت۔</span> 🔑
+            </span>
           </div>
         </div>
-        <button onclick="navigate('about')" style="margin:0 16px 16px;width:calc(100% - 32px);padding:10px;background:linear-gradient(135deg,#1a2e0a,#0d1a2e);border:1px solid var(--gold);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">🏆 مکمل پریزنٹیشن دیکھیں — View Full Pitch</button>
+        <button onclick="navigate('about')" style="margin:0 16px 16px;width:calc(100% - 32px);padding:10px;background:linear-gradient(135deg,#1a2e0a,#0d1a2e);border:1px solid var(--gold);border-radius:10px;color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">
+          <span class="lang-en-text">🏆 View Full Pitch</span>
+          <span class="lang-ur-text">🏆 مکمل پریزنٹیشن دیکھیں</span>
+        </button>
       </div>
     </div>
   </div>
@@ -211,19 +232,27 @@
       <div style="background:linear-gradient(135deg,#0d2e1a,#1a1a0d);border:1px solid var(--gold);border-radius:18px;padding:20px;text-align:center">
         <div style="font-size:40px">🌾</div>
         <div style="font-size:22px;font-weight:800;color:var(--gold);margin:8px 0 4px">KISAAN AI</div>
-        <div style="font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:14px;color:var(--m2)">پاکستانی کسانوں کے لیے ذہین زراعت</div>
+        <div class="lang-en-text" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--m2)">Smart farming for Pakistan's farmers</div>
+        <div class="lang-ur-text" style="font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:14px;color:var(--m2)">پاکستانی کسانوں کے لیے ذہین زراعت</div>
         <div style="font-size:11px;color:var(--muted);margin-top:8px">AI Seekho 2026 Competition · Pakistan</div>
       </div>
 
       <!-- Problem -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">❌ مسئلہ — The Problem</div>
+          <div class="card-title">
+            <span class="lang-en-text">❌ The Problem</span>
+            <span class="lang-ur-text">❌ مسئلہ</span>
+          </div>
           <div class="card-sub" style="margin-top:10px">
-            <div class="pitch-point">🌿 <b>60% فصلیں تباہ</b> — کسان بیماری دیر سے پہچانتا ہے</div>
-            <div class="pitch-point">💰 <b>مڈل مین کا استحصال</b> — کسان کو منڈی بھاؤ معلوم نہیں</div>
-            <div class="pitch-point">🐄 <b>مویشی بغیر علاج مرتے ہیں</b> — ویٹ دور ہے، فیس زیادہ</div>
-            <div class="pitch-point">💧 <b>پانی کا 40% ضیاع</b> — سیلابی آبپاشی سے</div>
+            <div class="pitch-point lang-en-text">🌿 <b>60% crops destroyed</b> — farmers detect disease too late</div>
+            <div class="pitch-point lang-ur-text">🌿 <b>60% فصلیں تباہ</b> — کسان بیماری دیر سے پہچانتا ہے</div>
+            <div class="pitch-point lang-en-text">💰 <b>Middleman exploitation</b> — farmers don't know mandi prices</div>
+            <div class="pitch-point lang-ur-text">💰 <b>مڈل مین کا استحصال</b> — کسان کو منڈی بھاؤ معلوم نہیں</div>
+            <div class="pitch-point lang-en-text">🐄 <b>Livestock die untreated</b> — vets are far, fees are high</div>
+            <div class="pitch-point lang-ur-text">🐄 <b>مویشی بغیر علاج مرتے ہیں</b> — ویٹ دور ہے، فیس زیادہ</div>
+            <div class="pitch-point lang-en-text">💧 <b>40% water wasted</b> — through flood irrigation</div>
+            <div class="pitch-point lang-ur-text">💧 <b>پانی کا 40% ضیاع</b> — سیلابی آبپاشی سے</div>
           </div>
         </div>
       </div>
@@ -231,13 +260,21 @@
       <!-- Solution -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">✅ حل — Our Solution</div>
+          <div class="card-title">
+            <span class="lang-en-text">✅ Our Solution</span>
+            <span class="lang-ur-text">✅ حل</span>
+          </div>
           <div class="card-sub" style="margin-top:10px">
-            <div class="pitch-point">🔬 <b>Gemini Vision</b> — تصویر سے فوری بیماری تشخیص</div>
-            <div class="pitch-point">📊 <b>AMIS Data</b> — 5 شہروں کے لائیو منڈی بھاؤ</div>
-            <div class="pitch-point">🐄 <b>AI ویٹرنری</b> — آواز سے علامات بتائیں، علاج ملے</div>
-            <div class="pitch-point">💧 <b>Smart Irrigation</b> — موسم دیکھ کر 7 دن کا منصوبہ</div>
-            <div class="pitch-point">📴 <b>Offline PWA</b> — بغیر نیٹ کے بھی کام کرے</div>
+            <div class="pitch-point lang-en-text">🔬 <b>Gemini Vision</b> — instant disease diagnosis from photo</div>
+            <div class="pitch-point lang-ur-text">🔬 <b>Gemini Vision</b> — تصویر سے فوری بیماری تشخیص</div>
+            <div class="pitch-point lang-en-text">📊 <b>AMIS Data</b> — live mandi prices from 5 cities</div>
+            <div class="pitch-point lang-ur-text">📊 <b>AMIS Data</b> — 5 شہروں کے لائیو منڈی بھاؤ</div>
+            <div class="pitch-point lang-en-text">🐄 <b>AI Veterinary</b> — speak symptoms, get treatment</div>
+            <div class="pitch-point lang-ur-text">🐄 <b>AI ویٹرنری</b> — آواز سے علامات بتائیں، علاج ملے</div>
+            <div class="pitch-point lang-en-text">💧 <b>Smart Irrigation</b> — 7-day plan based on weather</div>
+            <div class="pitch-point lang-ur-text">💧 <b>Smart Irrigation</b> — موسم دیکھ کر 7 دن کا منصوبہ</div>
+            <div class="pitch-point lang-en-text">📴 <b>Offline PWA</b> — works even without internet</div>
+            <div class="pitch-point lang-ur-text">📴 <b>Offline PWA</b> — بغیر نیٹ کے بھی کام کرے</div>
           </div>
         </div>
       </div>
@@ -245,7 +282,10 @@
       <!-- Tech Stack -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">⚙️ ٹیکنالوجی — Tech Stack</div>
+          <div class="card-title">
+            <span class="lang-en-text">⚙️ Tech Stack</span>
+            <span class="lang-ur-text">⚙️ ٹیکنالوجی</span>
+          </div>
         </div>
         <div style="padding:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div class="tech-chip">🧠 Gemini 2.0 Flash</div>
@@ -262,12 +302,19 @@
       <!-- Impact -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📈 اثر — Potential Impact</div>
+          <div class="card-title">
+            <span class="lang-en-text">📈 Potential Impact</span>
+            <span class="lang-ur-text">📈 اثر</span>
+          </div>
           <div class="card-sub" style="margin-top:10px">
-            <div class="pitch-point">🧑‍🌾 <b>8.5 ملین</b> چھوٹے کسان جن تک پہنچ سکتے ہیں</div>
-            <div class="pitch-point">💰 <b>PKR 45,000</b> فی ایکڑ اوسط نقصان روکا جا سکتا ہے</div>
-            <div class="pitch-point">💧 <b>40%</b> پانی کی بچت ہوشیار آبپاشی سے</div>
-            <div class="pitch-point">⏱️ <b>5 سیکنڈ</b> میں بیماری کی تشخیص — ڈاکٹر کے بجائے</div>
+            <div class="pitch-point lang-en-text">🧑‍🌾 <b>8.5 million</b> smallholder farmers reachable</div>
+            <div class="pitch-point lang-ur-text">🧑‍🌾 <b>8.5 ملین</b> چھوٹے کسان جن تک پہنچ سکتے ہیں</div>
+            <div class="pitch-point lang-en-text">💰 <b>PKR 45,000</b> average loss per acre preventable</div>
+            <div class="pitch-point lang-ur-text">💰 <b>PKR 45,000</b> فی ایکڑ اوسط نقصان روکا جا سکتا ہے</div>
+            <div class="pitch-point lang-en-text">💧 <b>40%</b> water savings through smart irrigation</div>
+            <div class="pitch-point lang-ur-text">💧 <b>40%</b> پانی کی بچت ہوشیار آبپاشی سے</div>
+            <div class="pitch-point lang-en-text">⏱️ <b>5 seconds</b> to diagnose disease — instead of waiting on a doctor</div>
+            <div class="pitch-point lang-ur-text">⏱️ <b>5 سیکنڈ</b> میں بیماری کی تشخیص — ڈاکٹر کے بجائے</div>
           </div>
         </div>
       </div>
@@ -275,7 +322,10 @@
       <!-- Team -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">👥 ٹیم — Team</div>
+          <div class="card-title">
+            <span class="lang-en-text">👥 Team</span>
+            <span class="lang-ur-text">👥 ٹیم</span>
+          </div>
           
           <div style="display:flex; justify-content:center; gap:24px; margin: 20px 0 14px;">
             <div style="display:flex; flex-direction:column; align-items:center;">
@@ -287,14 +337,17 @@
             <div style="display:flex; flex-direction:column; align-items:center;">
               <div style="font-size:38px; background:var(--s1); width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:2px solid rgba(212,168,67,0.3); box-shadow:0 4px 10px rgba(0,0,0,0.05);">👩‍🎨</div>
               <div style="font-size:15px; font-weight:700; color:var(--text); margin-top:10px; font-family:'Outfit', sans-serif;">Fatima Farooq</div>
-              <div style="font-size:11px; color:var(--gold); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-top:2px;">UI/UX Designer</div>
+              <div style="font-size:11px; color:var(--gold); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-top:2px;">Team Lead</div>
             </div>
           </div>
 
           <div class="card-sub" style="text-align:center; padding-top: 10px; border-top: 1px solid var(--border);">
             <div style="font-size:13px; font-weight:800; color:var(--green); margin-bottom:4px;">AI Seekho 2026</div>
             <div style="font-size:11px; color:var(--muted)">Built with 💚 for Pakistani Farmers</div>
-            <div style="margin-top:12px;padding:12px;background:var(--s2);border-radius:10px;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:14px;color:var(--text);line-height:1.8;">
+            <div class="lang-en-text" style="margin-top:12px;padding:12px;background:var(--s2);border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text);line-height:1.7;">
+              68% of Pakistan's population depends on agriculture — Kisaan AI is their voice
+            </div>
+            <div class="lang-ur-text" style="margin-top:12px;padding:12px;background:var(--s2);border-radius:10px;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:14px;color:var(--text);line-height:1.8;">
               پاکستان میں 68% آبادی زراعت سے جڑی ہے — کسان اے آئی ان کی آواز ہے
             </div>
           </div>
@@ -648,7 +701,10 @@
               <span class="lang-en-text">🎤 Speak Voice</span>
               <span class="lang-ur-text">🎤 آواز سے بتائیں</span>
             </button>
-            <button class="diag-btn" id="sewaDiagBtn" style="background:linear-gradient(135deg, var(--gold), #E68A00); color:#fff; font-weight:700;">⚡ Orchestrate</button>
+            <button class="diag-btn" id="sewaDiagBtn" style="background:linear-gradient(135deg, var(--gold), #E68A00); color:#fff; font-weight:700;">
+              <span class="lang-en-text">⚡ Orchestrate</span>
+              <span class="lang-ur-text">⚡ آرکیسٹریٹ کریں</span>
+            </button>
           </div>
         </div>
       </div>
@@ -830,8 +886,8 @@
     </button>
     <button class="nav-item" id="nav-sewa" onclick="navigate('sewa')">
       <span class="nav-icon">🚜</span>
-      <span class="lang-en-text">Sewa</span>
-      <span class="lang-ur-text">سروسز</span>
+      <span class="lang-en-text">Khidmat</span>
+      <span class="lang-ur-text">خدمات</span>
     </button>
     <button class="nav-item" id="nav-mandi" onclick="navigate('mandi')">
       <span class="nav-icon">💰</span>
@@ -848,6 +904,7 @@
 
 </div><!-- /#app -->
 
+<script src="js/secrets.js?v=20" onerror="window.SECRETS={}"></script>
 <script src="js/config.js?v=20"></script>
 <script src="js/agents.js?v=20"></script>
 <script src="js/app.js?v=20"></script>

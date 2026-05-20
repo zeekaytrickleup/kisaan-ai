@@ -120,12 +120,12 @@ function renderEncyclopedia(filter = 'all') {
   }
   
   list.innerHTML = filtered.map((d, i) => {
-    const costText = d.cost > 0 
-      ? 'PKR ' + d.cost.toLocaleString() 
+    const costText = d.cost > 0
+      ? 'PKR ' + d.cost.toLocaleString()
       : `<span class="lang-en-text">Use resistant variety</span><span class="lang-ur-text">مزاحم قسم استعمال کریں</span>`;
-      
+
     return `
-      <div class="disease-card" id="dc${i}" onclick="toggleDiseaseCard(${i})">
+      <div class="disease-card" id="dc${i}" data-disease-id="${d.id}" onclick="toggleDiseaseCard(${i})">
         <div class="dc-head">
           <div class="dc-sev" style="background:${sevColor[d.severity] || 'var(--muted)'}"></div>
           <div style="flex:1">
@@ -145,7 +145,10 @@ function renderEncyclopedia(filter = 'all') {
                 <span class="lang-en-text">Symptoms</span>
                 <span class="lang-ur-text">علامات</span>
               </div>
-              <div class="dc-val">${d.symptoms}</div>
+              <div class="dc-val">
+                <span class="lang-en-text">${d.symptomsEn || d.symptoms}</span>
+                <span class="lang-ur-text">${d.symptoms}</span>
+              </div>
             </div>
           </div>
           <div class="dc-row">
@@ -155,7 +158,10 @@ function renderEncyclopedia(filter = 'all') {
                 <span class="lang-en-text">Treatment</span>
                 <span class="lang-ur-text">علاج</span>
               </div>
-              <div class="dc-val">${d.treatment}</div>
+              <div class="dc-val">
+                <span class="lang-en-text">${d.treatmentEn || d.treatment}</span>
+                <span class="lang-ur-text">${d.treatment}</span>
+              </div>
             </div>
           </div>
           <div class="dc-row">
@@ -165,7 +171,10 @@ function renderEncyclopedia(filter = 'all') {
                 <span class="lang-en-text">Prevention</span>
                 <span class="lang-ur-text">بچاؤ</span>
               </div>
-              <div class="dc-val">${d.prevention}</div>
+              <div class="dc-val">
+                <span class="lang-en-text">${d.preventionEn || d.prevention}</span>
+                <span class="lang-ur-text">${d.prevention}</span>
+              </div>
             </div>
           </div>
           <div class="dc-row">
@@ -222,13 +231,33 @@ function renderHomeDiseaseTags() {
   const sevColor = { high:'var(--red)', medium:'var(--orange)', low:'var(--green)', critical:'#ff3333' };
   const tags = DISEASE_DB.slice(0, 10);
   document.getElementById('homeDiseaseTags').innerHTML = tags.map(d =>
-    `<span onclick="navigate('enc')" style="cursor:pointer;background:var(--s2);border:1px solid ${sevColor[d.severity]}33;
+    `<span onclick="openDiseaseFromHome('${d.id}')" style="cursor:pointer;background:var(--s2);border:1px solid ${sevColor[d.severity]}33;
      border-radius:20px;padding:4px 10px;font-size:16px;color:${sevColor[d.severity]};display:inline-flex;gap:4px;align-items:center">
       <span style="width:5px;height:5px;background:${sevColor[d.severity]};border-radius:50%;display:inline-block"></span>
       <span class="lang-en-text">${d.name}</span>
       <span class="lang-ur-text">${d.urdu}</span>
     </span>`
   ).join('');
+}
+
+function openDiseaseFromHome(diseaseId) {
+  // Reset filter to 'all' and clear search so the target card is definitely rendered
+  const searchEl = document.getElementById('encSearch');
+  if (searchEl) searchEl.value = '';
+  document.querySelectorAll('.enc-filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === 'all');
+  });
+  renderEncyclopedia('all');
+
+  navigate('enc');
+
+  // After the screen swap, expand the matching card and scroll into view
+  requestAnimationFrame(() => {
+    const card = document.querySelector(`.disease-card[data-disease-id="${diseaseId}"]`);
+    if (!card) return;
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 }
 
 // ── Navigation ──────────────────────────────────────────
@@ -310,9 +339,15 @@ function renderMandStrip() {
     const cls = chg >= 0 ? 'pc-up' : 'pc-down';
     const arrow = chg >= 0 ? '▲' : '▼';
     return `<div class="price-chip">
-      <div class="pc-crop">${d.icon} ${d.nameEn}</div>
+      <div class="pc-crop">
+        <span class="lang-en-text">${d.icon} ${d.nameEn}</span>
+        <span class="lang-ur-text">${d.icon} ${d.name}</span>
+      </div>
       <div class="pc-price" style="color:var(--gold)">PKR ${price.toLocaleString()}</div>
-      <div class="pc-change ${cls}">${arrow} ${Math.abs(chg)}% this week</div>
+      <div class="pc-change ${cls}">
+        <span class="lang-en-text">${arrow} ${Math.abs(chg)}% this week</span>
+        <span class="lang-ur-text">${arrow} ${Math.abs(chg)}% اس ہفتے</span>
+      </div>
     </div>`;
   }).join('');
 }
@@ -394,7 +429,10 @@ function renderCropResult(r) {
   const sec = document.getElementById('cropResult');
   sec.classList.add('visible');
 
-  document.getElementById('diseaseName').textContent = r.disease;
+  document.getElementById('diseaseName').innerHTML = `
+    <span class="lang-en-text">${r.diseaseEn || r.disease || ''}</span>
+    <span class="lang-ur-text">${r.disease || r.diseaseEn || ''}</span>
+  `;
   document.getElementById('diseaseConf').innerHTML = `
     <span class="lang-en-text">Confidence: ${r.confidence}%</span>
     <span class="lang-ur-text">یقینی حد: ${r.confidence}%</span>
@@ -497,7 +535,7 @@ function renderCropResult(r) {
     cropSewaBtn.id = 'cropSewaBtn';
     cropSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
     cropSewaBtn.innerHTML = `
-      <span class="lang-en-text">🚜 Book Pesticide Sprayer via Sewa</span>
+      <span class="lang-en-text">🚜 Book Pesticide Sprayer via Khidmat</span>
       <span class="lang-ur-text">🚜 پیسٹی سائیڈ سپرے کرنے والا بک کریں</span>
     `;
     document.getElementById('cropResult').insertBefore(cropSewaBtn, resetBtn);
@@ -518,6 +556,8 @@ function initMandiModule() {
   const cropSel = document.getElementById('mandiCrop');
   const citySel = document.getElementById('mandiCity');
 
+  const cityNamesUr = { lahore: 'لاہور', karachi: 'کراچی', faisalabad: 'فیصل آباد', multan: 'ملتان', rawalpindi: 'راولپنڈی' };
+
   function updateMandi() {
     const crop = cropSel.value;
     const city = citySel.value;
@@ -525,16 +565,29 @@ function initMandiModule() {
     const price = d.prices[city];
     const chg = d.weeklyChange;
     const isUp = chg >= 0;
+    const cityEn = city.charAt(0).toUpperCase() + city.slice(1);
+    const cityUr = cityNamesUr[city] || cityEn;
 
-    document.getElementById('mandiCropName').textContent = `${d.icon} ${d.nameEn} / ${d.name}`;
-    document.getElementById('mandiCityName').textContent = city.charAt(0).toUpperCase() + city.slice(1) + ' Mandi';
+    document.getElementById('mandiCropName').innerHTML = `
+      <span class="lang-en-text">${d.icon} ${d.nameEn}</span>
+      <span class="lang-ur-text">${d.icon} ${d.name}</span>
+    `;
+    document.getElementById('mandiCityName').innerHTML = `
+      <span class="lang-en-text">${cityEn} Mandi</span>
+      <span class="lang-ur-text">${cityUr} منڈی</span>
+    `;
     document.getElementById('mandiCurrentPrice').textContent = 'PKR ' + price.toLocaleString();
-    document.getElementById('mandiUnit').textContent = '/' + d.unit;
+    document.getElementById('mandiUnit').innerHTML = `
+      <span class="lang-en-text">/ Maund (40kg)</span>
+      <span class="lang-ur-text">/ ${d.unit}</span>
+    `;
     document.getElementById('mandiTrend').textContent = (isUp ? '▲ ' : '▼ ') + Math.abs(chg) + '%';
     document.getElementById('mandiTrend').className = 'mc-trend ' + (isUp ? 'trend-up' : 'trend-down');
-    document.getElementById('mandiPrediction').textContent = isUp
-      ? `📈 قیمت بڑھ رہی ہے — اگلے 2 ہفتوں میں مزید ${(chg * 2).toFixed(1)}% اضافے کا امکان ہے`
-      : `📉 قیمت گر رہی ہے — آج یا کل فروخت کریں`;
+    document.getElementById('mandiPrediction').innerHTML = isUp
+      ? `<span class="lang-en-text">📈 Prices are rising — expected to climb another ${(chg * 2).toFixed(1)}% over the next 2 weeks</span>
+         <span class="lang-ur-text">📈 قیمت بڑھ رہی ہے — اگلے 2 ہفتوں میں مزید ${(chg * 2).toFixed(1)}% اضافے کا امکان ہے</span>`
+      : `<span class="lang-en-text">📉 Prices are falling — sell today or tomorrow</span>
+         <span class="lang-ur-text">📉 قیمت گر رہی ہے — آج یا کل فروخت کریں</span>`;
 
     document.getElementById('negoScript').classList.remove('visible');
   }
@@ -555,13 +608,18 @@ function initMandiModule() {
     hideLoading();
 
     // Cross-agent: adjust if crop quality signal exists
-    let script = result.negotiationScript;
+    let scriptUr = result.negotiationScript || '';
+    let scriptEn = result.negotiationScriptEn || result.negotiationScript || '';
     if (STATE.cropToMandiSignal) {
-      script += `\n\n[نوٹ: آپ کی فصل ${STATE.cropToMandiSignal.qualityReduction}% کم معیار ہے — اس کا ذکر نہ کریں لیکن قیمت توقع کم رکھیں]`;
+      const reduction = STATE.cropToMandiSignal.qualityReduction;
+      scriptUr += `\n\n[نوٹ: آپ کی فصل ${reduction}% کم معیار ہے — اس کا ذکر نہ کریں لیکن قیمت توقع کم رکھیں]`;
+      scriptEn += `\n\n[Note: your crop is ${reduction}% lower quality — don't mention it, but adjust your price expectation downward]`;
     }
 
-    document.getElementById('nsText').innerHTML =
-      (script || '').replace(/\n/g, '<br>');
+    document.getElementById('nsText').innerHTML = `
+      <span class="lang-en-text">${scriptEn.replace(/\n/g, '<br>')}</span>
+      <span class="lang-ur-text">${scriptUr.replace(/\n/g, '<br>')}</span>
+    `;
     document.getElementById('negoScript').classList.add('visible');
     document.getElementById('negoScript').scrollIntoView({ behavior: 'smooth' });
   });
@@ -674,7 +732,7 @@ function renderLivestockResult(r) {
     liveSewaBtn.id = 'liveSewaBtn';
     liveSewaBtn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(135deg, var(--gold), #E68A00);border:none;border-radius:12px;color:#fff;font-family:Outfit,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
     liveSewaBtn.innerHTML = `
-      <span class="lang-en-text">🏥 Book Emergency Vet Doctor via Sewa</span>
+      <span class="lang-en-text">🏥 Book Emergency Vet Doctor via Khidmat</span>
       <span class="lang-ur-text">🏥 ایمرجنسی ویٹرنری ڈاکٹر بک کریں</span>
     `;
     document.getElementById('liveResult').appendChild(liveSewaBtn);
@@ -994,7 +1052,10 @@ async function runAutoDemo() {
       }, wait: 800, msg: '📊 Loading Lahore wheat prices...' },
     { action: () => {
         hideLoading();
-        document.getElementById('nsText').textContent = DEMO_CACHE.mandi.negotiationScript;
+        document.getElementById('nsText').innerHTML = `
+          <span class="lang-en-text">${(DEMO_CACHE.mandi.negotiationScriptEn || '').replace(/\n/g, '<br>')}</span>
+          <span class="lang-ur-text">${(DEMO_CACHE.mandi.negotiationScript || '').replace(/\n/g, '<br>')}</span>
+        `;
         document.getElementById('negoScript').classList.add('visible');
       }, wait: 2000, msg: '📝 Writing Urdu negotiation script...' },
     { action: () => navigate('live'),      wait: 1500, msg: '🐄 Livestock Health AI' },
@@ -1005,7 +1066,7 @@ async function runAutoDemo() {
         hideLoading();
         renderLivestockResult(DEMO_CACHE.livestock);
       }, wait: 2500, msg: '🔬 Diagnosing livestock disease...' },
-    { action: () => navigate('sewa'),      wait: 1500, msg: '🚜 Kisaan Sewa Orchestrator' },
+    { action: () => navigate('sewa'),      wait: 1500, msg: '🚜 Kisaan Khidmat Orchestrator' },
     { action: () => {
         document.getElementById('sewaInput').value = 'Oye, parson 16 may ko 5 acre gandum kaatne ke liye harvester chahiye, sasta wala.';
       }, wait: 1000, msg: '✍️ Inputting Roman Urdu request...' },
@@ -1256,11 +1317,11 @@ function updateSeasonalAlertUI() {
       const temp = Math.round(STATE.weather.temperature_2m_max[0]);
       const rain = STATE.weather.precipitation_probability_max[0];
       if (rain >= 50) {
-        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:10px;font-size:12px;color:#C53030;font-weight:700;">⚠️ Weather Alert: ${rain}% rain forecast—delay sprays & irrigation!</div>`;
-        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:10px;font-size:12.5px;color:#C53030;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">⚠️ موسم کی وارننگ: بارش کا امکان ${rain}% ہے — سپرے اور پانی روکیں!</div>`;
+        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:10px;font-size:12px;color:#fff;font-weight:700;">⚠️ Weather Alert: ${rain}% rain forecast—delay sprays & irrigation!</div>`;
+        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:10px;font-size:12.5px;color:#fff;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">⚠️ موسم کی وارننگ: بارش کا امکان ${rain}% ہے — سپرے اور پانی روکیں!</div>`;
       } else if (temp >= 40) {
-        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(214,158,46,0.1);border:1px solid rgba(214,158,46,0.3);border-radius:10px;font-size:12px;color:#9B6A15;font-weight:700;">🔥 Heat Alert: Extreme ${temp}°C forecast—avoid noon chemical sprays!</div>`;
-        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(214,158,46,0.1);border:1px solid rgba(214,158,46,0.3);border-radius:10px;font-size:12.5px;color:#9B6A15;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">🔥 گرمی کی وارننگ: شدید درجہ حرارت (${temp}°C) متوقع ہے — دوپہر میں سپرے نہ کریں!</div>`;
+        weatherWarningEn = `<div style="margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:10px;font-size:12px;color:#fff;font-weight:700;">🔥 Heat Alert: Extreme ${temp}°C forecast—avoid noon chemical sprays!</div>`;
+        weatherWarningUr = `<div style="margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:10px;font-size:12.5px;color:#fff;font-weight:700;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:1.7;">🔥 گرمی کی وارننگ: شدید درجہ حرارت (${temp}°C) متوقع ہے — دوپہر میں سپرے نہ کریں!</div>`;
       }
     }
 
