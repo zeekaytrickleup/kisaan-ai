@@ -2,7 +2,7 @@
 
 > **Submission Category**: Challenge 2 — AI Service Orchestrator for Informal Economy  
 > **Core Platform**: Google Antigravity Engine  
-> **Deployment**: Progressive Web App (PWA), Offline-First architecture  
+> **Deployment**: Progressive Web App (PWA), installable shell with Service Worker caching  
 
 ---
 
@@ -93,7 +93,7 @@ The app features an active, algorithmically-adaptive database. You can input var
 
 ### Limitations
 1.  **Speech Recognition Constraints**: Browser-native Speech-to-Text functions optimally in Google Chrome and requires an active microphone permission.
-2.  **Language Variants**: The custom Roman Urdu parser is highly optimized for service matching but functions on a modular regex dictionary rather than an LLM embeddings API to maintain lightning-fast Offline-First speeds.
+2.  **Language Variants**: The custom Roman Urdu parser is highly optimized for service matching but functions on a modular regex dictionary rather than an LLM embeddings API to maintain lightning-fast response times.
 
 ---
 

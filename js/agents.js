@@ -664,20 +664,33 @@ async function runAntigravityOrchestrator(inputString) {
   addTerminalLog(`Scanning local provider registry for "${svcType}" operators available on ${backupDateStr}...`, 'plan');
   await sleep(800);
   
-  // Real algorithmic filter & sort
+  // Real algorithmic filter & sort — applies persisted reputation overrides from past feedback
+  const reputation = getReputationOverrides();
   const matches = PROVIDER_DB.filter(p => p.type === svcType);
   const pool = matches.length > 0 ? matches : PROVIDER_DB;
   const rankedPool = pool.map(p => {
-    // Higher availability score if active on backup day
+    // Blend original rating with average of farmer feedback (weighted by # of reviews)
+    const fb = reputation[p.id];
+    const liveRating = fb && fb.count > 0
+      ? Number(((p.rating * 2 + fb.sum) / (2 + fb.count)).toFixed(2))
+      : p.rating;
+    const liveReliability = fb && fb.count > 0
+      ? Math.round((p.reliability + (fb.sum / fb.count - 3) * 8))
+      : p.reliability;
+
     const isAvail = isParson ? p.availableTomorrow : p.availableToday;
     const score = Math.round(
-      (isAvail ? 40 : 5) + 
-      ((p.reliability/100)*25) + 
-      ((p.rating/5)*20) + 
+      (isAvail ? 40 : 5) +
+      ((liveReliability/100)*25) +
+      ((liveRating/5)*20) +
       ((20 - p.distance)*0.75)
     );
-    return { ...p, isAvail, computedScore: Math.max(score, 35) };
+    return { ...p, rating: liveRating, reliability: liveReliability, reviewCount: fb?.count || 0, isAvail, computedScore: Math.max(score, 35) };
   }).sort((a, b) => b.computedScore - a.computedScore);
+
+  if (Object.keys(reputation).length > 0) {
+    addTerminalLog(`reputation_ledger_api: loaded ${Object.keys(reputation).length} past rating record(s) — scores re-weighted.`, 'tool');
+  }
   
   addTerminalLog(`invoking provider_discovery_api. Found ${rankedPool.length} active "${svcType}" entries in local registry.`, 'tool');
   await sleep(1000);
@@ -832,10 +845,13 @@ async function runAntigravityOrchestrator(inputString) {
     <span class="lang-ur-text">${opNameUr} کو واٹس ایپ ڈسپیچ لوپ کے ذریعے مطلع کیا گیا تھا۔ آمد سے 1 گھنٹہ پہلے خودکار الرٹ شیڈول کیا گیا ہے۔</span>
   `;
   
-  // Store current booking data for the active WhatsApp send button!
+  // Store current booking data for the active WhatsApp send button + feedback target
   window._currentSewaBooking = {
+    providerId: topProv.id,
+    providerName: topProv.name,
+    providerNameUr: topProv.nameUr || topProv.name,
     phone: topProv.phone,
-    text: `السلام علیکم ${topProv.name.split(' ')[0]}، آپ کی سروس بک ہو گئی ہے۔\n\n📌 بکنگ آئی ڈی: ${bookingId}\n🌾 کل رقبہ: ${targetAcres} ایکڑ\n💰 ریٹ: PKR ${negotiatedRate}/ایکڑ\n📅 شیڈول: ${backupDateStr} بوقت صبح 8:00 بجے۔\n\nشکریہ (کِسان اے آئی)`
+    text: `السلام علیکم ${opNameEn}، آپ کی سروس بک ہو گئی ہے۔\n\n📌 بکنگ آئی ڈی: ${bookingId}\n🌾 کل رقبہ: ${targetAcres} ایکڑ\n💰 ریٹ: PKR ${negotiatedRate}/ایکڑ\n📅 شیڈول: ${backupDateStr} بوقت صبح 8:00 بجے۔\n\nشکریہ (کِسان اے آئی)`
   };
   
   ticketCard.style.display = 'block';
@@ -939,6 +955,29 @@ function animateValueCounter(elId, targetValue) {
   }, 30);
 }
 
+// ── Reputation Ledger: persists farmer feedback across sessions ──
+const REPUTATION_KEY = 'kisaan_reputation_ledger_v1';
+
+function getReputationOverrides() {
+  try {
+    return JSON.parse(localStorage.getItem(REPUTATION_KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function recordReputation(providerId, rating) {
+  const ledger = getReputationOverrides();
+  const entry = ledger[providerId] || { sum: 0, count: 0, history: [] };
+  entry.sum += rating;
+  entry.count += 1;
+  entry.history.push({ rating, ts: Date.now() });
+  if (entry.history.length > 50) entry.history = entry.history.slice(-50);
+  ledger[providerId] = entry;
+  localStorage.setItem(REPUTATION_KEY, JSON.stringify(ledger));
+  return entry;
+}
+
 // Quality feedback rating logic
 let sewaCurrentRating = 0;
 function rateSewa(stars) {
@@ -954,23 +993,32 @@ function submitSewaFeedback() {
     alert('براہ کرم ریٹنگ اسٹار سلیکٹ کریں (Please select operator rating first)');
     return;
   }
+  const booking = window._currentSewaBooking;
+  if (!booking || !booking.providerId) {
+    alert('کوئی فعال بکنگ نہیں ملی (No active booking found to rate.)');
+    return;
+  }
+
   const btn = document.getElementById('feedbackSubmitBtn');
   btn.disabled = true;
   btn.innerHTML = `
     <span class="lang-en-text">Updating reputation index...</span>
     <span class="lang-ur-text">ریپوٹیشن انڈیکس کو اپ ڈیٹ کیا جا رہا ہے...</span>
   `;
-  
-  addTerminalLog('invoking reputation_ledger_api. Parsing worker metrics...', 'tool');
-  
+
+  const opNameEn = booking.providerName.split(' ')[0];
+  addTerminalLog('invoking reputation_ledger_api. Persisting farmer feedback to local ledger...', 'tool');
+
   setTimeout(() => {
-    addTerminalLog(`SUCCESS: Database updated! Operator Zahid rated ${sewaCurrentRating}/5. Metrics cached for next matchmaking run.`, 'action');
+    const entry = recordReputation(booking.providerId, sewaCurrentRating);
+    const avg = (entry.sum / entry.count).toFixed(2);
+    addTerminalLog(`SUCCESS: Ledger updated — ${opNameEn} rated ${sewaCurrentRating}/5. Lifetime avg: ${avg}/5 across ${entry.count} review(s). Next matchmaking run will use new score.`, 'action');
     btn.style.background = 'linear-gradient(135deg, var(--green), #063c22)';
     btn.style.color = '#fff';
     btn.style.border = 'none';
     btn.innerHTML = `
-      <span class="lang-en-text">✅ Operator Rating Submitted!</span>
-      <span class="lang-ur-text">✅ آپریٹر کی ریٹنگ جمع ہو گئی!</span>
+      <span class="lang-en-text">✅ Rating Saved — ${opNameEn} now averages ${avg}/5</span>
+      <span class="lang-ur-text">✅ ریٹنگ محفوظ — ${opNameEn} کی اوسط اب ${avg}/5</span>
     `;
   }, 1500);
 }
