@@ -238,10 +238,10 @@ const PHASES=[
         {b:"#D4A843",t:"Optional: Google Maps Geocoding API to auto-detect farmer's location from GPS"},
         {b:"#D4A843",t:"<strong>When presenting:</strong> say 'We used Google Gemini Vision for crop AI and Google's location services for hyperlocal weather' — this is exactly what judges want to hear"},
       ],judges:["🔗 Google Integration","⚡ Action Simulation"]},
-      {icon:"🤖",title:"Claude AI (Anthropic) for Reasoning",tag:"AGENTIC BRAIN",tagBg:"#9B7FE822",tagC:"#9B7FE8",tasks:[
-        {b:"#9B7FE8",t:"Claude handles: mandi negotiation, livestock diagnosis, irrigation planning — all multi-step reasoning tasks"},
-        {b:"#9B7FE8",t:"Get API key at <code>console.anthropic.com</code> — free credits available for students"},
-        {b:"#9B7FE8",t:"<strong>Dual AI architecture = unique technical story:</strong> Gemini sees (vision), Claude thinks (reasoning). This impresses judges."},
+      {icon:"🤖",title:"Gemini Flash for Reasoning",tag:"AGENTIC BRAIN",tagBg:"#9B7FE822",tagC:"#9B7FE8",tasks:[
+        {b:"#9B7FE8",t:"Gemini Flash handles: mandi negotiation, livestock diagnosis, irrigation planning — all multi-step reasoning tasks"},
+        {b:"#9B7FE8",t:"Get API key at <code>aistudio.google.com</code> — generous free tier for hackathons"},
+        {b:"#9B7FE8",t:"<strong>Single-model story:</strong> one Google Gemini key powers both vision (crop photo analysis) and reasoning (mandi/livestock/irrigation). Simpler stack, fewer failure points."},
       ],judges:["🧠 Agentic Reasoning","🔧 Technical Impl."]}
     ]
   },
@@ -325,7 +325,7 @@ const PHASES=[
 
 const TECH=[
   {icon:"🔮",name:"Gemini 1.5 Flash",purpose:"Crop disease detection from photos",how:"POST /v1beta/models/gemini-1.5-flash:generateContent with base64 image",color:"#D4A843"},
-  {icon:"🧠",name:"Claude Sonnet 4",purpose:"Agentic reasoning — mandi, livestock, irrigation multi-step thinking",how:"POST /v1/messages with chain-of-thought system prompt",color:"#9B7FE8"},
+  {icon:"🧠",name:"Gemini Flash",purpose:"Agentic reasoning — mandi, livestock, irrigation multi-step thinking",how:"POST /v1beta/models/gemini-flash-latest:generateContent with chain-of-thought system prompt",color:"#9B7FE8"},
   {icon:"🌤️",name:"Open-Meteo API",purpose:"Live weather data for irrigation planning",how:"GET api.open-meteo.com/v1/forecast?lat=&lon=&hourly=temperature,precipitation",color:"#5B8FF9"},
   {icon:"📊",name:"AMIS Pakistan",purpose:"Real mandi price data for 5 cities",how:"Scrape amis.pk daily at 6am OR manually update JSON file each morning",color:"#4CAF7D"},
   {icon:"🎤",name:"Web Speech API",purpose:"Voice input in Urdu (built into browser — no API key!)",how:"window.SpeechRecognition with lang='ur-PK' — completely free",color:"#F0814A"},
@@ -338,12 +338,12 @@ const DEMO=[
   {time:"0:35",title:"Show the agentic reasoning",text:"Point to the result screen — show severity bar, 5-step treatment, financial impact number.",say:"'Notice it didn't just name the disease — it calculated the yield loss, estimated the treatment cost, and told the farmer exactly what to buy at the local market. That's 5 reasoning steps happening simultaneously.'"},
   {time:"0:55",title:"Show Mandi prices + negotiation",text:"Tap Mandi tab. Show Lahore wheat price. Tap 'How to negotiate'. Show the AI-written negotiation script in Urdu.",say:"'The middleman has always known the price. Now the farmer does too — and has a script in his own language to negotiate. Information asymmetry: solved.'"},
   {time:"1:10",title:"One line on the other features",text:"Quickly swipe through livestock and irrigation screens.",say:"'Livestock health AI — livestock diagnosis in Urdu voice. Irrigation advisor — saves 35% water. One app. Four problems. Forty million users.'"},
-  {time:"1:20",title:"Close with scale",text:"Look at the judges directly.",say:"'We built this in 48 hours using Google Gemini, Claude AI, and open APIs. The same app works in India, Bangladesh, Nigeria — 570 million farmers globally. KISAAN AI.'"},
+  {time:"1:20",title:"Close with scale",text:"Look at the judges directly.",say:"'We built this in 48 hours using Google Gemini, Google Antigravity, and open APIs. The same app works in India, Bangladesh, Nigeria — 570 million farmers globally. KISAAN AI.'"},
 ];
 
 const CHECKLIST=[
   {label:"<strong>Gemini API key</strong> working — test crop disease detection end-to-end",judge:"🔗 Google",jBg:"#D4A84322",jC:"#D4A843"},
-  {label:"<strong>Claude API key</strong> working — test mandi negotiation and livestock diagnosis",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
+  {label:"<strong>Gemini reasoning</strong> working — test mandi negotiation and livestock diagnosis",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
   {label:"<strong>Agentic workflow</strong> written — each feature has 4-5 AI reasoning steps in the prompt",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
   {label:"<strong>Cross-agent communication</strong> — crop agent talks to mandi agent",judge:"🧠 Agentic",jBg:"#9B7FE822",jC:"#9B7FE8"},
   {label:"<strong>Real AMIS prices</strong> loaded — not dummy data. Update morning of competition.",judge:"🎯 Problem",jBg:"#4CAF7D22",jC:"#4CAF7D"},

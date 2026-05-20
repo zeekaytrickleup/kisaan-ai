@@ -6,3 +6,8 @@ js/secrets.js
 # Local development logs that may contain secrets
 antigravity_logs/
 *.log
+
+# IDE / agent tooling artifacts — not part of the submission
+.claude/
+.vscode/
+.idea/

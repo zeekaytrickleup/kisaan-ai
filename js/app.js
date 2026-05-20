@@ -603,7 +603,7 @@ function initMandiModule() {
 
     const crop = cropSel.value;
     const city = citySel.value;
-    const result = await runClaudeAgent('mandi', { crop, city, prices: MANDI_DATA[crop].prices });
+    const result = await runGeminiReasoningAgent('mandi', { crop, city, prices: MANDI_DATA[crop].prices });
     STATE.mandiResult = result;
     hideLoading();
 
@@ -672,7 +672,7 @@ async function runLivestockDiag() {
     'علامات کا مطالعہ...', 'بیماریوں سے موازنہ...', 'امکان کا اندازہ...', 'علاج تلاش کر رہے ہیں...'
   ]);
 
-  const result = await runClaudeAgent('livestock', { animal: STATE.selectedAnimal, symptoms });
+  const result = await runGeminiReasoningAgent('livestock', { animal: STATE.selectedAnimal, symptoms });
   STATE.livestockResult = result;
   hideLoading();
   renderLivestockResult(result);
@@ -765,7 +765,7 @@ async function runIrrigationPlan() {
   const soil = document.getElementById('irrSoil').value;
 
   const weatherStr = STATE.weather ? STATE.weather.precipitation_probability_max.slice(0, 7).join('%, ') + '%' : '';
-  const result = await runClaudeAgent('irrigation', { crop, stage, lat: STATE.location.lat, lon: STATE.location.lon, soilType: soil, weatherInfo: weatherStr });
+  const result = await runGeminiReasoningAgent('irrigation', { crop, stage, lat: STATE.location.lat, lon: STATE.location.lon, soilType: soil, weatherInfo: weatherStr });
   STATE.irrigationResult = result;
   hideLoading();
   renderIrrigationResult(result);

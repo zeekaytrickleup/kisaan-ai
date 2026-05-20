@@ -1,18 +1,15 @@
 // =============================================
-// KISAAN AI — Configuration  (Phase 3 Update)
+// KISAAN AI — Configuration
 // =============================================
 // Gemini: https://ai.google.dev
-// Claude: https://console.anthropic.com
 
 // Keys come from js/secrets.js (gitignored). If that file is missing, falls back to placeholders.
 const _S = typeof SECRETS !== 'undefined' ? SECRETS : {};
 
 const CONFIG = {
   GEMINI_API_KEY: _S.GEMINI_API_KEY || 'YOUR_GEMINI_API_KEY_HERE',
-  CLAUDE_API_KEY: _S.CLAUDE_API_KEY || 'YOUR_CLAUDE_API_KEY_HERE',
 
   GEMINI_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
-  CLAUDE_URL: 'https://api.anthropic.com/v1/messages',
 
   // Open-Meteo (free, no key needed)
   WEATHER_URL: 'https://api.open-meteo.com/v1/forecast',
@@ -20,7 +17,7 @@ const CONFIG = {
   // App version
   VERSION: '1.0.0',
 
-  // Demo mode: false = uses real Gemini API. Claude still uses demo until key is added.
+  // Demo mode: false = uses real Gemini API
   DEMO_MODE: false,
 };
 

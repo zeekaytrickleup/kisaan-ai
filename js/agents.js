@@ -1,6 +1,6 @@
 // =============================================
 // KISAAN AI — AI Agents
-// Gemini (Vision) + Claude (Reasoning)
+// Gemini (Vision + Reasoning)
 // =============================================
 
 // ─── DEMO CACHE (offline fallback) ───────────────────────────────
@@ -263,9 +263,9 @@ Respond ONLY with a single valid JSON object, no markdown fences, no explanation
 }
 
 
-// ─── GEMINI REASONING AGENT (replaces Claude — free!) ────────────
-// Uses Gemini 1.5 Flash for mandi, livestock & irrigation reasoning
-async function runClaudeAgent(agentType, context) {
+// ─── GEMINI REASONING AGENT ──────────────────────────────────────
+// Uses Gemini Flash for mandi, livestock & irrigation reasoning
+async function runGeminiReasoningAgent(agentType, context) {
   const hasGeminiKey = CONFIG.GEMINI_API_KEY && CONFIG.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY_HERE';
   if (!hasGeminiKey) {
     await sleep(2000);
